@@ -24,6 +24,7 @@ button:hover{border-color:#ff4aa9}button.primary,.tab.active{background:var(--pi
 .bingo-board{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:14px}.ball{aspect-ratio:1;border:1px solid var(--line);border-radius:8px;background:#19161d;display:grid;place-items:center;font-weight:900}.ball.called{background:var(--pink);color:#16000d}.ball.latest{outline:3px solid var(--gold)}
 .callbox{border:1px solid var(--line);border-radius:20px;padding:16px;text-align:center;background:#0d0b10}.callbox .big{margin:0}.calltext{font-size:22px;color:#ffb5d9;font-weight:900}
 .ticket{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;max-width:720px;margin:14px auto}.ticket span{aspect-ratio:1.2;border-radius:7px;border:1px solid var(--line);display:grid;place-items:center;background:#19161d;font-weight:900}.ticket span.hit{background:var(--pink);color:#16000d}.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.leader-card{margin-top:16px;border:1px solid var(--line);border-radius:18px;padding:15px;background:#0d0b10}.leader-row{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:11px 8px;border-bottom:1px solid #28232b}.leader-row:last-child{border-bottom:0}.leader-rank{font-size:24px;font-weight:1000}.leader-name{font-weight:900}.leader-points{font-weight:1000;color:var(--pink)}.me{background:#21101c;border-radius:10px}.winner{border:1px solid var(--gold);box-shadow:0 0 18px rgba(255,209,102,.12)}
 .chatbox{height:260px;overflow:auto;background:#08070a;border:1px solid var(--line);border-radius:14px;padding:10px}.msg{padding:9px 11px;background:#19161d;border-radius:10px;margin-bottom:6px}.msg b{color:#ff64b6}.chatrow{display:flex;gap:8px;margin-top:8px}.chatrow input{flex:1}
 input{background:#0d0b10;border:1px solid var(--line);color:white;border-radius:12px;padding:13px}
 @media(max-width:760px){main{padding:10px}.grid{grid-template-columns:1fr}.answers{grid-template-columns:1fr}.photo{height:240px}.bingo-board{gap:2px}.ball{font-size:12px}nav{gap:5px}nav button{padding:11px 5px;font-size:13px}.hero{padding:18px}}
@@ -43,8 +44,16 @@ input{background:#0d0b10;border:1px solid var(--line);color:white;border-radius:
 </nav>
 
 <section id="home" class="panel page">
-<h2>💗 Welcome to Wishlist Unleashed</h2><p class="sub">Choose a game and have a go. Everything below works in this browser build — no payment or prize system is connected.</p>
-<div class="scoreline"><span class="pill">🏆 Best Score: <b id="bestScore">0</b></span><span class="pill">🎮 Games Played: <b id="played">0</b></span></div>
+<h2>💗 Welcome to Wishlist Unleashed</h2>
+<p class="sub">Play throughout the day, build your score and climb the leaderboard. Payment and prizes are not connected yet — this is the competition-testing build.</p>
+<div class="chatrow"><input id="nameInput" placeholder="Your display name"><button class="primary" onclick="saveName()">SAVE NAME</button></div>
+<div class="scoreline"><span class="pill">🏆 My Daily Score: <b id="bestScore">0</b></span><span class="pill">🎮 Games Played: <b id="played">0</b></span><span class="pill">📅 Daily Challenge: <b id="dayLabel"></b></span></div>
+<div class="leader-card">
+<h3>🏆 TODAY'S LEADERBOARD</h3>
+<p class="small">Scores reset for a new competition day. Your name is used when you join.</p>
+<div id="leaderboard"></div>
+<div class="notice" style="margin-top:12px"><b>🏁 Daily winner</b><br><span class="small">For now this leaderboard is stored in this browser so we can test the scoring system. A shared online leaderboard will be connected before real prizes or entries are added.</span></div>
+</div>
 </section>
 
 <section id="games" class="panel page hidden">
@@ -71,7 +80,7 @@ input{background:#0d0b10;border:1px solid var(--line);color:white;border-radius:
 
 <section id="where" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🌍 Where Am I?</h2><div class="scoreline"><span class="pill">ROUND <b id="whereRound">1</b>/5</span><span class="pill">CLUE <b id="whereClue">1</b>/6</span></div><img id="wherePhoto" class="photo" alt="Travel location"><div class="clues" id="whereClues"></div><div class="answers" id="whereAnswers"></div><div class="status" id="whereStatus"></div></section>
 
-<section id="bingo" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🎱 90-Ball Bingo</h2><div class="callbox"><div id="bingoNumber" class="big">—</div><div id="bingoCall" class="calltext">Ready?</div><div class="timer" id="bingoTimer">AUTO CALL OFF</div></div><div class="controls"><button class="primary" onclick="bingoStart()">▶ START</button><button onclick="bingoPause()">⏸ PAUSE</button><button onclick="bingoNext()">NEXT NUMBER</button><button onclick="bingoReset()">↻ NEW GAME</button></div><div class="controls"><button onclick="setBingoSpeed(3000)">⚡ Fast</button><button onclick="setBingoSpeed(6000)">🐢 Normal</button><button onclick="setBingoSpeed(10000)">⏳ Slow</button></div><h3>Called Numbers</h3><div id="bingoBoard" class="bingo-board"></div><h3>Your Ticket</h3><div id="ticket" class="ticket"></div></section>
+<section id="bingo" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🎱 90-Ball Bingo</h2><p class="sub">Automatic caller • no repeats • traditional UK calls</p><div class="callbox"><div id="bingoNumber" class="big">—</div><div id="bingoCall" class="calltext">Ready?</div><div class="timer" id="bingoTimer">AUTO CALL OFF</div></div><div class="controls"><button class="primary" onclick="bingoStart()">▶ START</button><button onclick="bingoPause()">⏸ PAUSE</button><button onclick="bingoNext()">NEXT NUMBER</button><button onclick="bingoReset()">↻ NEW GAME</button></div><div class="controls"><button onclick="setBingoSpeed(1800)">⚡ FAST</button><button onclick="setBingoSpeed(3000)">▶ NORMAL</button><button onclick="setBingoSpeed(5000)">🐢 SLOW</button></div><h3>Called Numbers</h3><div id="bingoBoard" class="bingo-board"></div><h3>Your Ticket</h3><div id="ticket" class="ticket"></div></section>
 
 <section id="who" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🕵️ Who Am I?</h2><div class="scoreline"><span class="pill">CLUE <b id="whoClue">1</b>/6</span></div><div class="clues" id="whoClues"></div><div class="answers" id="whoAnswers"></div><div class="status" id="whoStatus"></div><button onclick="whoReveal()">REVEAL NEXT CLUE</button></section>
 
@@ -94,13 +103,28 @@ function showPage(id){pages.forEach(p=>p.classList.toggle('hidden',p.id!==id));d
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 function openGame(id){pages.forEach(p=>p.classList.add('hidden'));document.querySelectorAll('.game').forEach(g=>g.classList.remove('on'));$(id).classList.add('on');if(id==='code')codeNew();if(id==='where')whereNew();if(id==='bingo')bingoNew();if(id==='who')whoNew();if(id==='quiz')quizNew();if(id==='box')boxNew();if(id==='diff')diffNew();if(id==='high')highNew();if(id==='sixty')sixtyReset()}
 function backGames(){document.querySelectorAll('.game').forEach(g=>g.classList.remove('on'));showPage('games')}
-function played(){let n=+localStorage.played||0;localStorage.played=++n;$('played').textContent=n}
-$('played').textContent=localStorage.played||0;$('bestScore').textContent=localStorage.bestScore||0;
-function score(n){let b=+localStorage.bestScore||0;if(n>b){localStorage.bestScore=n;$('bestScore').textContent=n}}
+const DAY_KEY=()=>{const d=new Date();return d.toLocaleDateString('en-GB',{year:'numeric',month:'2-digit',day:'2-digit'}).split('/').reverse().join('-')};
+let daily=JSON.parse(localStorage.wuDaily||'{}');
+if(daily.date!==DAY_KEY()){daily={date:DAY_KEY(),players:{}};localStorage.wuDaily=JSON.stringify(daily)}
+let playerName=localStorage.wuName||'Guest';
+function ensurePlayer(){if(!daily.players[playerName])daily.players[playerName]={points:0,played:0};}
+function saveDaily(){localStorage.wuDaily=JSON.stringify(daily);renderLeaderboard()}
+function addPoints(n){ensurePlayer();daily.players[playerName].points+=n;daily.players[playerName].played++;saveDaily();$('bestScore').textContent=daily.players[playerName].points;$('played').textContent=daily.players[playerName].played}
+function played(){ensurePlayer();daily.players[playerName].played++;saveDaily();$('played').textContent=daily.players[playerName].played}
+function score(n){addPoints(n)}
+function setPlayerName(n){playerName=(n||'Guest').trim()||'Guest';localStorage.wuName=playerName;ensurePlayer();saveDaily();$('bestScore').textContent=daily.players[playerName].points;$('played').textContent=daily.players[playerName].played}
+function renderLeaderboard(){
+ if(!$('leaderboard'))return;
+ const entries=Object.entries(daily.players).sort((a,b)=>b[1].points-a[1].points||a[0].localeCompare(b[0]));
+ $('leaderboard').innerHTML=entries.length?entries.map((e,i)=>`<div class="leader-row ${e[0]===playerName?'me':''} ${i===0?'winner':''}"><div class="leader-rank">${['🥇','🥈','🥉'][i]||i+1}</div><div class="leader-name">${htmlEscape(e[0])}${e[0]===playerName?' <span class="small">(YOU)</span>':''}</div><div class="leader-points">${e[1].points} pts</div></div>`).join(''):'<p class="small">No scores yet. Be the first to play!</p>';
+}
+function htmlEscape(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('played').textContent=0;$('bestScore').textContent=0;$('dayLabel').textContent=DAY_KEY();$('nameInput').value=playerName;ensurePlayer();renderLeaderboard();
+function saveName(){setPlayerName($('nameInput').value);$('nameInput').value=playerName;renderLeaderboard()}
 
-const codeAnswers=['7314','5826','1947','6403'];let codeTarget,codeAttempts;
+const codeAnswers=['1824','3714','9312','5712'];let codeTarget,codeAttempts;
 function codeNew(){codeTarget=codeAnswers[Math.floor(Math.random()*codeAnswers.length)];codeAttempts=0;$('codeInput').value='';$('codeStatus').textContent='';$('codeClues').innerHTML=['The first digit is odd.','The second digit is between 0 and 9.','The code contains no repeated digits.','The digits add up to 15.','The third digit is smaller than the second.','The last digit is even.'].map((x,i)=>`<div class="clue">${i+1}. ${x}</div>`).join('')}
-function checkCode(){let v=$('codeInput').value.trim();if(!/^\d{4}$/.test(v)){$('codeStatus').textContent='Enter exactly 4 digits.';return}codeAttempts++;if(v===codeTarget){$('codeStatus').textContent='🎉 CODE CRACKED!';played();score(100);return}let hits=v.split('').filter((x,i)=>x===codeTarget[i]).length;$('codeStatus').textContent=`Not quite. ${hits} digit${hits===1?' is':'s are'} in the correct position.`;if(codeAttempts>=5){$('codeStatus').textContent+=` The code was ${codeTarget}.`;played()}}
+function checkCode(){let v=$('codeInput').value.trim();if(!/^\d{4}$/.test(v)){$('codeStatus').textContent='Enter exactly 4 digits.';return}codeAttempts++;if(v===codeTarget){$('codeStatus').textContent='🎉 CODE CRACKED!';played();score(100);return}let hits=v.split('').filter((x,i)=>x===codeTarget[i]).length;$('codeStatus').textContent=`Not quite. ${hits} digit${hits===1?' is':'s are'} in the correct position.`;if(codeAttempts>=5){$('codeStatus').textContent+=` The code was ${codeTarget}.`;addPoints(50)}}
 
 const whereData=[
 {city:'Paris',photo:'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=85',clues:['I am home to the Eiffel Tower and the River Seine.','My country is famous for croissants.','I have a famous avenue called the Champs-Élysées.','The Louvre is here.','I am known as the City of Light.','My name starts with P.'],a:['Paris','Rome','Madrid','Vienna']},
@@ -114,11 +138,11 @@ function whereRender(){let d=whereData[wi];$('whereRound').textContent=wi+1;$('w
 function whereGuess(x){let d=whereData[wi];if(x===d.city){$('whereStatus').textContent='🎉 Correct!';if(wi<whereData.length-1){wi++;wc=0;setTimeout(whereRender,700)}else{$('whereStatus').textContent='🏆 YOU COMPLETED ALL 5 LOCATIONS!';played();score(100)}}else if(wc<5){wc++;whereRender();$('whereStatus').textContent='❌ Not that one — another clue is unlocked.'}else $('whereStatus').textContent='❌ Try again.'}
 $('whereClue').onclick=()=>{if(wc<5){wc++;whereRender()}};
 
-let balls=[],called=[],timer=null,bingoDelay=6000,ticket=[];
+let balls=[],called=[],timer=null,bingoDelay=3000,ticket=[];
 function bingoNew(){clearInterval(timer);balls=[...Array(90)].map((_,i)=>i+1);called=[];ticket=[];for(let r=0;r<3;r++){let row=[];while(row.length<5){let n=Math.floor(Math.random()*90)+1;if(!row.includes(n))row.push(n)}row.sort((a,b)=>a-b);ticket.push(row)}$('bingoNumber').textContent='—';$('bingoCall').textContent='Ready?';$('bingoTimer').textContent='AUTO CALL OFF';bingoBoardRender();ticketRender()}
 function bingoBoardRender(){ $('bingoBoard').innerHTML=Array.from({length:90},(_,i)=>{let n=i+1;return`<div id="b${n}" class="ball ${called.includes(n)?'called':''} ${called.at(-1)===n?'latest':''}">${n}</div>`}).join('')}
 const bingoCalls={1:'Kelly’s eye',2:'Two little ducks',3:'Cup of tea',4:'Knock at the door',5:'Man alive',6:'Half a dozen',7:'Lucky seven',8:'Garden gate',9:'Doctor’s orders',10:'Number ten',11:'Legs eleven',12:'One dozen',13:'Unlucky for some',14:'Valentine’s Day',15:'Young and keen',16:'Sweet sixteen',17:'Dancing queen',18:'Coming of age',19:'Goodbye teens',20:'One score',22:'Two little ducks',33:'Dirty knees',44:'Droopy drawers',55:'Snakes alive',66:'Clickety click',77:'Sunset strip',88:'Two fat ladies',90:'Top of the shop'};
-function bingoNext(){if(!balls.length){$('bingoCall').textContent='🏆 FULL HOUSE — ALL NUMBERS CALLED!';clearInterval(timer);return}let idx=Math.floor(Math.random()*balls.length),n=balls.splice(idx,1)[0];called.push(n);$('bingoNumber').textContent=n;$('bingoCall').textContent=bingoCalls[n]||`Number ${n}`;$('bingoTimer').textContent='AUTO CALL ON';bingoBoardRender();ticketMark(n)}
+function bingoNext(){if(!balls.length){$('bingoCall').textContent='🏆 FULL HOUSE — ALL NUMBERS CALLED!';clearInterval(timer);addPoints(100);return}let idx=Math.floor(Math.random()*balls.length),n=balls.splice(idx,1)[0];called.push(n);$('bingoNumber').textContent=n;$('bingoCall').textContent=bingoCalls[n]||`Number ${n}`;$('bingoTimer').textContent='AUTO CALL ON';bingoBoardRender();ticketMark(n)}
 function bingoStart(){clearInterval(timer);bingoNext();timer=setInterval(bingoNext,bingoDelay)}
 function bingoPause(){clearInterval(timer);$('bingoTimer').textContent='PAUSED'}
 function setBingoSpeed(ms){bingoDelay=ms;if(timer)bingoStart()}
@@ -129,12 +153,24 @@ function ticketMark(n){let e=$('t'+n);if(e)e.classList.add('hit')}
 const whoData=[
 {name:'Sherlock Holmes',clues:['I am a fictional detective.','I live at 221B Baker Street.','My friend is Dr Watson.','I was created by Arthur Conan Doyle.','I am famous for observation and deduction.','My surname is Holmes.'],a:['Sherlock Holmes','James Bond','Indiana Jones','Hercule Poirot']},
 {name:'Taylor Swift',clues:['I am a singer-songwriter.','I am known for storytelling in my songs.','I have released multiple album eras.','I have won major music awards.','My fans are called Swifties.','My first name is Taylor.'],a:['Adele','Taylor Swift','Beyoncé','Pink']},
-{name:'Harry Potter',clues:['I am a fictional wizard.','I have a lightning-shaped scar.','I attended Hogwarts.','My best friends include Ron and Hermione.','My enemy is Voldemort.','My surname is Potter.'],a:['Harry Potter','Frodo Baggins','Peter Parker','Percy Jackson']}
-];let whoI,whoC;
-function whoNew(){whoI=Math.floor(Math.random()*whoData.length);whoC=0;whoRender()}
+{name:'Harry Potter',clues:['I am a fictional wizard.','I have a lightning-shaped scar.','I attended Hogwarts.','My best friends include Ron and Hermione.','My enemy is Voldemort.','My surname is Potter.'],a:['Harry Potter','Frodo Baggins','Peter Parker','Percy Jackson']},
+{name:'James Bond',clues:['I am a fictional secret agent.','My code number is 007.','I work for MI6.','I am associated with Aston Martin cars.','My creator was Ian Fleming.','My surname is Bond.'],a:['James Bond','Sherlock Holmes','Jason Bourne','Indiana Jones']},
+{name:'Cinderella',clues:['I am a fairy-tale character.','I lose a glass slipper.','I attend a royal ball.','A fairy godmother helps me.','My coach is transformed from a pumpkin.','My name begins with C.'],a:['Cinderella','Snow White','Rapunzel','Belle']},
+{name:'Albert Einstein',clues:['I was a famous physicist.','I developed the theory of relativity.','I was born in Germany.','I won the Nobel Prize in Physics.','My surname starts with E.','I am often pictured with wild hair.'],a:['Albert Einstein','Isaac Newton','Nikola Tesla','Stephen Hawking']},
+{name:'Cleopatra',clues:['I was a famous ruler of ancient Egypt.','I was associated with Alexandria.','I belonged to the Ptolemaic dynasty.','Julius Caesar was one of my famous allies.','Mark Antony was another.','My name begins with C.'],a:['Cleopatra','Boudica','Nefertiti','Joan of Arc']},
+{name:'Willy Wonka',clues:['I am a fictional chocolatier.','I own a mysterious chocolate factory.','Visitors find golden tickets.','I wear a colourful eccentric outfit.','Roald Dahl created my story.','My surname is Wonka.'],a:['Willy Wonka','Peter Pan','Paddington','Charlie Bucket']},
+{name:'David Attenborough',clues:['I am famous for nature documentaries.','I have narrated wildlife programmes.','I am British.','I have travelled around the world filming animals.','My surname begins with A.','My first name is David.'],a:['David Attenborough','Bear Grylls','Chris Packham','Steve Irwin']},
+{name:'Mary Poppins',clues:['I am a fictional nanny.','I arrive with an umbrella.','I look after the Banks children.','I can be practically perfect.','I appear in a famous musical film.','My surname is Poppins.'],a:['Mary Poppins','Annie','Dorothy Gale','Matilda']},
+{name:'Indiana Jones',clues:['I am a fictional archaeologist.','I wear a famous fedora.','I carry a whip.','I search for ancient artefacts.','My adventures include temples and tombs.','My surname is Jones.'],a:['Indiana Jones','James Bond','Lara Croft','Jack Sparrow']},
+{name:'Sherlock Holmes',clues:['I am a fictional detective.','My brother is Mycroft.','I play the violin.','I use deduction to solve mysteries.','Dr Watson records my adventures.','My first name is Sherlock.'],a:['Sherlock Holmes','Poirot','Batman','Miss Marple']}
+];let whoI,whoC,whoDeck=[];
+function whoNew(){
+if(!whoDeck.length){whoDeck=[...Array(whoData.length).keys()].sort(()=>Math.random()-.5)}
+whoI=whoDeck.pop();whoC=0;whoRender()
+}
 function whoRender(){let d=whoData[whoI];$('whoClue').textContent=whoC+1;$('whoClues').innerHTML=d.clues.map((x,i)=>`<div class="clue ${i>whoC?'locked':''}">${i<=whoC?x:'Clue locked'}</div>`).join('');$('whoAnswers').innerHTML=d.a.map(x=>`<button onclick="whoGuess('${x.replace(/'/g,"\\'")}')">${x}</button>`).join('');$('whoStatus').textContent=''}
 function whoReveal(){if(whoC<5){whoC++;whoRender()}}
-function whoGuess(x){let d=whoData[whoI];if(x===d.name){$('whoStatus').textContent='🎉 Correct!';played();setTimeout(whoNew,900)}else{$('whoStatus').textContent='❌ Nope — reveal another clue!';whoReveal()}}
+function whoGuess(x){let d=whoData[whoI];if(x===d.name){$('whoStatus').textContent='🎉 Correct!';addPoints(100);setTimeout(whoNew,900)}else{$('whoStatus').textContent='❌ Nope — reveal another clue!';whoReveal()}}
 
 const quizData=[
 ['Which planet is known as the Red Planet?',['Mars','Venus','Jupiter','Mercury'],0],
@@ -147,14 +183,14 @@ const quizData=[
 ['How many colours are in a rainbow traditionally?',['5','6','7','8'],2],
 ['Which country is famous for the Great Pyramid of Giza?',['Egypt','Greece','Mexico','Peru'],0],
 ['What is the largest mammal?',['Elephant','Blue whale','Giraffe','Hippo'],1]
-];let qi,qs,qt;
-function quizNew(){qi=0;qs=0;clearInterval(qt);quizRender()}
-function quizRender(){if(qi>=quizData.length){$('quizQuestion').textContent='🏆 QUIZ COMPLETE!';$('quizAnswers').innerHTML='';$('quizStatus').textContent=`Final score: ${qs}/${quizData.length}`;played();score(qs*10);return}let q=quizData[qi];$('quizQ').textContent=qi+1;$('quizScore').textContent=qs;$('quizQuestion').textContent=q[0];$('quizAnswers').innerHTML=q[1].map((x,i)=>`<button onclick="quizGuess(${i})">${x}</button>`).join('');let left=15;clearInterval(qt);$('quizTimer').textContent=left;qt=setInterval(()=>{left--;$('quizTimer').textContent=left;if(left<=0){clearInterval(qt);quizGuess(-1)}},1000)}
-function quizGuess(i){clearInterval(qt);let q=quizData[qi];if(i===q[2]){qs++;$('quizStatus').textContent='✅ Correct!'}else $('quizStatus').textContent='❌ Not quite!';qi++;setTimeout(quizRender,500)}
+];let qi,qs,qt,quizDeck=[];
+function quizNew(){qi=0;qs=0;quizDeck=[...Array(quizData.length).keys()].sort(()=>Math.random()-.5);clearInterval(qt);quizRender()}
+function quizRender(){if(qi>=quizData.length){$('quizQuestion').textContent='🏆 QUIZ COMPLETE!';$('quizAnswers').innerHTML='';$('quizStatus').textContent=`Final score: ${qs}/${quizData.length}`;played();score(qs*10);return}let q=quizData[quizDeck[qi]];$('quizQ').textContent=qi+1;$('quizScore').textContent=qs;$('quizQuestion').textContent=q[0];$('quizAnswers').innerHTML=q[1].map((x,i)=>`<button onclick="quizGuess(${i})">${x}</button>`).join('');let left=15;clearInterval(qt);$('quizTimer').textContent=left;qt=setInterval(()=>{left--;$('quizTimer').textContent=left;if(left<=0){clearInterval(qt);quizGuess(-1)}},1000)}
+function quizGuess(i){clearInterval(qt);let q=quizData[quizDeck[qi]];if(i===q[2]){qs++;$('quizStatus').textContent='✅ Correct!'}else $('quizStatus').textContent='❌ Not quite!';qi++;setTimeout(quizRender,500)}
 
 let boxPrize;
 function boxNew(){boxPrize=Math.floor(Math.random()*3);$('boxAgain').classList.add('hidden');$('boxStatus').textContent='';$('boxes').innerHTML=[0,1,2].map(i=>`<button class="game-card" onclick="boxPick(${i})"><div class="icon">🎁</div><h3>BOX ${i+1}</h3><p>What’s inside?</p></button>`).join('')}
-function boxPick(i){[0,1,2].forEach(x=>{let b=$('boxes').children[x];b.disabled=true;b.innerHTML=`<div class="icon">${x===boxPrize?'🏆':'❌'}</div><h3>BOX ${x+1}</h3><p>${x===boxPrize?'YOU FOUND IT!':'Empty!'}</p>`});$('boxStatus').textContent=i===boxPrize?'🎉 JACKPOT BOX!':'❌ Better luck next time!';$('boxAgain').classList.remove('hidden');played()}
+function boxPick(i){[0,1,2].forEach(x=>{let b=$('boxes').children[x];b.disabled=true;b.innerHTML=`<div class="icon">${x===boxPrize?'🏆':'❌'}</div><h3>BOX ${x+1}</h3><p>${x===boxPrize?'YOU FOUND IT!':'Empty!'}</p>`});$('boxStatus').textContent=i===boxPrize?'🎉 JACKPOT BOX!':'❌ Better luck next time!';$('boxAgain').classList.remove('hidden');addPoints(50)}
 
 let diffFound,diffTimer;
 function diffNew(){diffFound=0;$('diffFound').textContent=0;$('diffStatus').textContent='';clearInterval(diffTimer);let left=45;$('diffTimer').textContent=left;diffTimer=setInterval(()=>{left--;$('diffTimer').textContent=left;if(left<=0){clearInterval(diffTimer);$('diffStatus').textContent='⏰ Time!'}} ,1000);$('diffPicture').onclick=e=>{if(diffFound<5){diffFound++;$('diffFound').textContent=diffFound;if(diffFound===5){clearInterval(diffTimer);$('diffStatus').textContent='🏆 ALL 5 FOUND!';played();score(50)}}}}
@@ -167,8 +203,8 @@ function spinWheel(){let i=Math.floor(Math.random()*cats.length);$('wheelIcon').
 const rapid=[['Which is the largest continent?',['Asia','Africa','Europe'],0],['How many days are in a leap year?',['365','366','364'],1],['What colour is made by mixing blue and yellow?',['Green','Purple','Orange'],0],['Which month comes after September?',['October','November','August'],0],['How many legs does a spider have?',['6','8','10'],1],['What is the opposite of hot?',['Warm','Cold','Dry'],1],['Which shape has three sides?',['Square','Triangle','Circle'],1]];
 let si,ss,st;
 function sixtyReset(){clearInterval(st);si=0;ss=0;$('sixtyTimer').textContent=60;$('sixtyScore').textContent=0;$('sixtyQuestion').textContent='Press START';$('sixtyAnswers').innerHTML='';$('sixtyStatus').textContent=''}
-function sixtyStart(){clearInterval(st);si=0;ss=0;let left=60;$('sixtyTimer').textContent=left;rapidRender();st=setInterval(()=>{left--;$('sixtyTimer').textContent=left;if(left<=0){clearInterval(st);$('sixtyQuestion').textContent='🏆 TIME!';$('sixtyAnswers').innerHTML='';$('sixtyStatus').textContent=`Final score: ${ss}`;played();score(ss)}},1000)}
-function rapidRender(){let q=rapid[si%rapid.length];$('sixtyQuestion').textContent=q[0];$('sixtyAnswers').innerHTML=q[1].map((x,i)=>`<button onclick="rapidGuess(${i},${q[2]})">${x}</button>`).join('')}
+function sixtyStart(){clearInterval(st);si=0;ss=0;siDeck=[...Array(rapid.length).keys()].sort(()=>Math.random()-.5);let left=60;$('sixtyTimer').textContent=left;rapidRender();st=setInterval(()=>{left--;$('sixtyTimer').textContent=left;if(left<=0){clearInterval(st);$('sixtyQuestion').textContent='🏆 TIME!';$('sixtyAnswers').innerHTML='';$('sixtyStatus').textContent=`Final score: ${ss}`;played();score(ss)}},1000)}
+function rapidRender(){if(si>=siDeck.length){$('sixtyQuestion').textContent='🏆 ALL QUESTIONS CLEARED!';$('sixtyAnswers').innerHTML='';clearInterval(st);$('sixtyStatus').textContent=`Final score: ${ss}`;return}let q=rapid[siDeck[si]];$('sixtyQuestion').textContent=q[0];$('sixtyAnswers').innerHTML=q[1].map((x,i)=>`<button onclick="rapidGuess(${i},${q[2]})">${x}</button>`).join('')}
 function rapidGuess(i,ans){if(i===ans){ss++;$('sixtyScore').textContent=ss}si++;rapidRender()}
 function sendChat(){let i=$('chatInput'),v=i.value.trim();if(!v)return;let d=document.createElement('div');d.className='msg';d.innerHTML='<b>You:</b> '+v.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));$('chatbox').appendChild(d);i.value='';$('chatbox').scrollTop=99999}
 </script>
