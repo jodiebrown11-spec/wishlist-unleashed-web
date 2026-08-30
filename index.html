@@ -38,7 +38,7 @@ textarea{min-height:100px;resize:vertical}
 .called{padding:6px 2px;text-align:center;background:#19161d;border-radius:6px;font-size:12px}.called.on{background:var(--pink);color:#16000d}
 .wheel{width:min(270px,70vw);height:min(270px,70vw);border-radius:50%;margin:14px auto;background:conic-gradient(#ff1591 0 45deg,#241b27 45deg 90deg,#ff1591 90deg 135deg,#241b27 135deg 180deg,#ff1591 180deg 225deg,#241b27 225deg 270deg,#ff1591 270deg 315deg,#241b27 315deg 360deg);display:grid;place-items:center;border:8px solid #302a34;box-shadow:0 0 0 5px #09080c,0 10px 40px #000}
 .wheel span{width:120px;height:120px;border-radius:50%;background:#121016;display:grid;place-items:center;font-size:28px;font-weight:900}
-.center{text-align:center}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
+.center{text-align:center}.location-image{width:100%;max-width:620px;height:210px;margin:14px auto;border:1px solid #39323c;border-radius:18px;overflow:hidden;background:#0b0a0f}.location-image svg{width:100%;height:100%;display:block}.clue-title{font-size:22px;font-weight:900;margin:8px 0}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
 @media(max-width:650px){main{padding:9px}.grid{grid-template-columns:1fr}.bingo-card{gap:3px}.bingo-cell{min-height:40px;font-size:13px}.called-grid{grid-template-columns:repeat(9,1fr)}nav{gap:5px}nav button{padding:12px 5px;font-size:13px}}
 </style>
 </head>
@@ -193,40 +193,121 @@ else $('codeResult').textContent=exact+' digit(s) in the correct position. '+tri
 }
 function whereGame(a){
 const rounds=[
-{city:'London',country:'United Kingdom',clues:[['BIG BEN','A famous clock tower beside the River Thames.','🕰️'],['RED BUS','A double-decker bus is one of my best-known sights.','🚌'],['ROYAL PALACE','A famous royal residence has a changing of the guard.','👑']]},
-{city:'Paris',country:'France',clues:[['EIFFEL TOWER','An iron landmark rises above the city.','🗼'],['RIVER SEINE','A famous river flows through my heart.','🌉'],['FRENCH CAPITAL','I am the capital city of France.','🥐']]},
-{city:'Rome',country:'Italy',clues:[['COLOSSEUM','An ancient amphitheatre is one of my biggest attractions.','🏛️'],['ROMAN EMPIRE','My streets are filled with reminders of ancient Rome.','🛡️'],['ITALIAN CAPITAL','I am the capital city of Italy.','🍕']]},
-{city:'New York',country:'USA',clues:[['STATUE OF LIBERTY','A giant statue welcomes visitors across my harbour.','🗽'],['YELLOW CABS','My streets are famous for yellow taxis.','🚕'],['MANHATTAN','A famous island forms the centre of my skyline.','🌆']]},
-{city:'Sydney',country:'Australia',clues:[['OPERA HOUSE','My harbour has a world-famous sail-like building.','🎭'],['HARBOUR BRIDGE','A huge steel bridge crosses my harbour.','🌉'],['AUSTRALIA','I am one of Australia’s best-known cities.','🇦🇺']]},
-{city:'Dubai',country:'United Arab Emirates',clues:[['BURJ KHALIFA','The world-famous skyscraper towers above my skyline.','🏙️'],['DESERT','Golden desert landscapes surround the city.','🐪'],['UAE','I am a major city in the United Arab Emirates.','🇦🇪']]},
-{city:'Tokyo',country:'Japan',clues:[['SHIBUYA','A famous crossing fills with pedestrians.','🚦'],['MOUNT FUJI','Japan’s iconic mountain can be seen from the region.','🗻'],['JAPAN','I am the capital city of Japan.','🇯🇵']]},
-{city:'Barcelona',country:'Spain',clues:[['SAGRADA FAMILIA','A spectacular basilica dominates my skyline.','⛪'],['GAUDI','My architecture is strongly associated with Antoni Gaudí.','🎨'],['SPAIN','I am a major city in Spain.','🇪🇸']]},
-{city:'Cairo',country:'Egypt',clues:[['PYRAMIDS','Ancient pyramids stand close to my city.','🔺'],['NILE','The River Nile runs through me.','🌊'],['EGYPT','I am the capital city of Egypt.','🇪🇬']]},
-{city:'Athens',country:'Greece',clues:[['ACROPOLIS','A famous ancient hilltop site overlooks me.','🏛️'],['PARTHENON','A celebrated ancient temple stands above my city.','🏺'],['GREECE','I am the capital city of Greece.','🇬🇷']]}
+ {city:'London',country:'United Kingdom',theme:'London skyline',clues:[
+  ['BIG BEN','A famous clock tower stands beside the River Thames.','clock'],
+  ['RED BUS','Double-decker buses are one of my most recognisable sights.','bus'],
+  ['ROYAL PALACE','A famous royal residence has a changing of the guard.','crown']
+ ]},
+ {city:'Paris',country:'France',theme:'Paris landmarks',clues:[
+  ['EIFFEL TOWER','An iron landmark rises high above my city.','tower'],
+  ['RIVER SEINE','A famous river winds through my heart.','river'],
+  ['FRENCH CAPITAL','I am the capital city of France.','flag-fr']
+ ]},
+ {city:'Rome',country:'Italy',theme:'Ancient Rome',clues:[
+  ['COLOSSEUM','An enormous ancient amphitheatre is one of my biggest attractions.','colosseum'],
+  ['ROMAN EMPIRE','Ancient Roman history is everywhere around me.','shield'],
+  ['ITALIAN CAPITAL','I am the capital city of Italy.','flag-it']
+ ]},
+ {city:'New York',country:'USA',theme:'New York City',clues:[
+  ['STATUE OF LIBERTY','A giant statue welcomes visitors across my harbour.','liberty'],
+  ['YELLOW CABS','My streets are famous for yellow taxis.','taxi'],
+  ['MANHATTAN','A famous island forms the centre of my skyline.','skyline']
+ ]},
+ {city:'Sydney',country:'Australia',theme:'Sydney Harbour',clues:[
+  ['OPERA HOUSE','My harbour has a world-famous sail-like building.','opera'],
+  ['HARBOUR BRIDGE','A huge steel bridge crosses my harbour.','bridge'],
+  ['AUSTRALIA','I am one of Australia’s best-known cities.','flag-au']
+ ]},
+ {city:'Dubai',country:'United Arab Emirates',theme:'Dubai skyline',clues:[
+  ['BURJ KHALIFA','A world-famous skyscraper towers above my skyline.','burj'],
+  ['DESERT','Golden desert landscapes surround my city.','desert'],
+  ['UAE','I am a major city in the United Arab Emirates.','flag-ae']
+ ]},
+ {city:'Tokyo',country:'Japan',theme:'Tokyo',clues:[
+  ['SHIBUYA','A famous crossing fills with pedestrians and bright signs.','crossing'],
+  ['MOUNT FUJI','Japan’s iconic mountain can be seen from the region.','fuji'],
+  ['JAPAN','I am the capital city of Japan.','flag-jp']
+ ]},
+ {city:'Barcelona',country:'Spain',theme:'Barcelona',clues:[
+  ['SAGRADA FAMILIA','A spectacular basilica dominates my skyline.','church'],
+  ['GAUDI','My architecture is strongly associated with Antoni Gaudí.','mosaic'],
+  ['SPAIN','I am a major city in Spain.','flag-es']
+ ]},
+ {city:'Cairo',country:'Egypt',theme:'Cairo and the Nile',clues:[
+  ['PYRAMIDS','Ancient pyramids stand close to my city.','pyramid'],
+  ['NILE','The River Nile runs through me.','nile'],
+  ['EGYPT','I am the capital city of Egypt.','flag-eg']
+ ]},
+ {city:'Athens',country:'Greece',theme:'Ancient Athens',clues:[
+  ['ACROPOLIS','A famous ancient hilltop site overlooks me.','acropolis'],
+  ['PARTHENON','A celebrated ancient temple stands above my city.','temple'],
+  ['GREECE','I am the capital city of Greece.','flag-gr']
+ ]}
 ];
+
+function visual(type){
+const bg='#15121a', pink='#ff1591', white='#fff', gold='#ffd166', blue='#4aa3ff', green='#4bd37b', red='#ef476f';
+const common=`<rect width="620" height="210" rx="18" fill="${bg}"/><circle cx="520" cy="45" r="28" fill="#241b27"/><circle cx="520" cy="45" r="12" fill="${gold}"/>`;
+const map={
+clock:`<rect x="0" y="166" width="620" height="44" fill="#211c25"/><rect x="260" y="48" width="70" height="118" rx="5" fill="#d8c9a8"/><polygon points="252,48 338,48 325,30 265,30" fill="#d8c9a8"/><circle cx="295" cy="72" r="20" fill="#fff"/><line x1="295" y1="72" x2="295" y2="60" stroke="#222" stroke-width="4"/><line x1="295" y1="72" x2="306" y2="78" stroke="#222" stroke-width="4"/><text x="295" y="194" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">BIG BEN</text>`,
+bus:`<rect x="170" y="64" width="280" height="92" rx="16" fill="#d71920"/><rect x="190" y="80" width="240" height="36" rx="6" fill="#bfe6ff"/><rect x="205" y="84" width="45" height="28" fill="#1d2530"/><rect x="260" y="84" width="45" height="28" fill="#1d2530"/><rect x="315" y="84" width="45" height="28" fill="#1d2530"/><rect x="370" y="84" width="45" height="28" fill="#1d2530"/><circle cx="225" cy="160" r="18" fill="#222"/><circle cx="395" cy="160" r="18" fill="#222"/><text x="310" y="49" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">LONDON BUS</text>`,
+crown:`<path d="M205 65 L235 105 L270 55 L310 105 L350 55 L385 105 L415 65 L400 145 L220 145 Z" fill="${gold}"/><circle cx="235" cy="105" r="7" fill="${pink}"/><circle cx="310" cy="105" r="7" fill="${pink}"/><circle cx="385" cy="105" r="7" fill="${pink}"/><text x="310" y="184" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">ROYAL LONDON</text>`,
+tower:`<polygon points="300,25 345,25 380,175 265,175" fill="#b9c2cc"/><line x1="322" y1="35" x2="300" y2="175" stroke="#555" stroke-width="5"/><line x1="330" y1="35" x2="350" y2="175" stroke="#555" stroke-width="5"/><rect x="285" y="170" width="75" height="18" fill="#8c96a1"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">PARIS</text>`,
+river:`<path d="M0 150 C120 95 190 185 310 125 S500 100 620 150 L620 210 L0 210 Z" fill="${blue}"/><path d="M0 154 C120 99 190 189 310 129 S500 104 620 154" fill="none" stroke="#a8ddff" stroke-width="5"/><rect x="240" y="105" width="150" height="12" rx="6" fill="#888"/><rect x="265" y="85" width="12" height="32" fill="#888"/><rect x="350" y="85" width="12" height="32" fill="#888"/><text x="310" y="52" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">RIVER SEINE</text>`,
+'flag-fr':`<rect x="220" y="50" width="60" height="110" fill="#1f4eaa"/><rect x="280" y="50" width="60" height="110" fill="#fff"/><rect x="340" y="50" width="60" height="110" fill="#ed2939"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">FRANCE</text>`,
+colosseum:`<ellipse cx="310" cy="118" rx="150" ry="62" fill="#b58c65"/><ellipse cx="310" cy="118" rx="105" ry="37" fill="${bg}"/><path d="M165 118 Q310 180 455 118" fill="none" stroke="#806043" stroke-width="12"/><g fill="${bg}"><circle cx="205" cy="110" r="13"/><circle cx="250" cy="125" r="13"/><circle cx="295" cy="130" r="13"/><circle cx="340" cy="130" r="13"/><circle cx="385" cy="125" r="13"/></g><text x="310" y="192" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">COLOSSEUM</text>`,
+shield:`<path d="M310 35 L405 65 L390 125 Q365 170 310 185 Q255 170 230 125 L215 65 Z" fill="#b58c65"/><path d="M310 55 L385 78 L372 120 Q350 151 310 165 Q270 151 248 120 L235 78 Z" fill="#7d5a3a"/><text x="310" y="115" text-anchor="middle" fill="${gold}" font-size="55" font-weight="900">SPQR</text>`,
+'flag-it':`<rect x="220" y="50" width="60" height="110" fill="#159447"/><rect x="280" y="50" width="60" height="110" fill="#fff"/><rect x="340" y="50" width="60" height="110" fill="#ce2b37"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">ITALY</text>`,
+liberty:`<rect x="290" y="95" width="40" height="78" fill="#79a89a"/><path d="M275 95 L345 95 L330 45 L310 28 L290 45 Z" fill="#79a89a"/><circle cx="310" cy="25" r="8" fill="${gold}"/><line x1="345" y1="48" x2="385" y2="25" stroke="#79a89a" stroke-width="7"/><text x="310" y="198" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">NEW YORK HARBOUR</text>`,
+taxi:`<path d="M200 125 L220 82 L400 82 L430 125 Z" fill="${gold}"/><rect x="185" y="118" width="270" height="38" rx="10" fill="${gold}"/><rect x="245" y="90" width="55" height="28" fill="#1d2530"/><rect x="310" y="90" width="55" height="28" fill="#1d2530"/><circle cx="235" cy="158" r="18" fill="#222"/><circle cx="405" cy="158" r="18" fill="#222"/><text x="310" y="52" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">YELLOW CAB</text>`,
+skyline:`<rect x="150" y="100" width="70" height="80" fill="#3b3150"/><rect x="230" y="70" width="75" height="110" fill="#513b68"/><rect x="315" y="35" width="55" height="145" fill="#6a4a86"/><rect x="380" y="90" width="90" height="90" fill="#44365b"/><path d="M0 180 L620 180" stroke="${pink}" stroke-width="5"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">MANHATTAN SKYLINE</text>`,
+opera:`<path d="M160 155 Q210 60 260 155 Q310 50 360 155 Q410 70 460 155 Z" fill="#f0eee8"/><path d="M150 155 Q210 175 270 155 Q330 175 390 155 Q450 175 470 155" fill="none" stroke="#bbb" stroke-width="6"/><text x="310" y="48" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">SYDNEY OPERA HOUSE</text>`,
+bridge:`<path d="M90 155 Q310 35 530 155" fill="none" stroke="#bfc5cc" stroke-width="12"/><path d="M120 155 L120 90 M500 155 L500 90" stroke="#bfc5cc" stroke-width="12"/><line x1="120" y1="105" x2="500" y2="105" stroke="#bfc5cc" stroke-width="7"/><text x="310" y="195" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">HARBOUR BRIDGE</text>`,
+'flag-au':`<rect x="220" y="50" width="180" height="110" rx="8" fill="#123f9b"/><polygon points="310,58 318,78 340,78 323,91 330,112 310,99 290,112 297,91 280,78 302,78" fill="#fff"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">AUSTRALIA</text>`,
+burj:`<path d="M290 180 L300 65 L310 25 L320 65 L340 180 Z" fill="#a7d5e8"/><path d="M305 65 L305 180 M315 55 L315 180" stroke="#fff" stroke-width="3"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">BURJ KHALIFA</text>`,
+desert:`<path d="M0 170 Q120 100 240 170 T480 170 T620 170 L620 210 L0 210 Z" fill="#c98c4a"/><path d="M0 155 Q130 85 250 155 T500 155 T620 155" fill="none" stroke="${gold}" stroke-width="8"/><path d="M325 125 Q345 100 365 125 L355 160 L335 160 Z" fill="#7c5a35"/><text x="310" y="48" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">DUBAI DESERT</text>`,
+'flag-ae':`<rect x="220" y="50" width="35" height="110" fill="#ef3340"/><rect x="255" y="50" width="145" height="37" fill="#159447"/><rect x="255" y="87" width="145" height="36" fill="#fff"/><rect x="255" y="123" width="145" height="37" fill="#111"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">UAE</text>`,
+crossing:`<rect y="125" width="620" height="85" fill="#151515"/><g fill="#fff">${Array.from({length:9},(_,i)=>`<rect x="${85+i*55}" y="135" width="28" height="70"/>`).join('')}</g><circle cx="310" cy="70" r="25" fill="${pink}"/><text x="310" y="76" text-anchor="middle" fill="#fff" font-size="20" font-weight="900">TOKYO</text>`,
+fuji:`<polygon points="170,175 310,35 450,175" fill="#55707d"/><polygon points="265,80 310,35 355,80 310,70" fill="#fff"/><rect y="175" width="620" height="35" fill="#173d2c"/><text x="310" y="200" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">MOUNT FUJI</text>`,
+'flag-jp':`<rect x="220" y="50" width="180" height="110" fill="#fff"/><circle cx="310" cy="105" r="34" fill="#bc002d"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">JAPAN</text>`,
+church:`<path d="M220 175 L220 95 L270 95 L310 50 L350 95 L400 95 L400 175 Z" fill="#d8c7b2"/><polygon points="310,35 290,62 330,62" fill="${pink}"/><circle cx="310" cy="110" r="18" fill="#7b5b91"/><text x="310" y="202" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">SAGRADA FAMILIA</text>`,
+mosaic:`<rect x="215" y="45" width="190" height="130" rx="25" fill="#4a3158"/><circle cx="250" cy="80" r="22" fill="#f1b24a"/><circle cx="300" cy="70" r="18" fill="#55b7a5"/><circle cx="355" cy="95" r="26" fill="${pink}"/><circle cx="270" cy="130" r="24" fill="#4aa3ff"/><circle cx="340" cy="140" r="20" fill="#7bdc63"/><text x="310" y="200" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">GAUDÍ STYLE</text>`,
+'flag-es':`<rect x="210" y="55" width="200" height="100" fill="#aa151b"/><rect x="210" y="82" width="200" height="46" fill="#f1bf00"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">SPAIN</text>`,
+pyramid:`<polygon points="310,35 170,175 450,175" fill="#d9b27a"/><polygon points="310,35 310,175 450,175" fill="#a77b4f"/><path d="M220 175 L400 175" stroke="#806043" stroke-width="8"/><text x="310" y="202" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">PYRAMIDS</text>`,
+nile:`<path d="M0 155 C100 105 200 190 310 135 S500 95 620 150 L620 210 L0 210 Z" fill="${blue}"/><path d="M0 165 C110 115 205 200 310 145 S500 105 620 160" fill="none" stroke="#bfe8ff" stroke-width="5"/><path d="M120 150 Q135 115 150 150 M470 150 Q485 115 500 150" stroke="${green}" stroke-width="10" fill="none"/><text x="310" y="52" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">RIVER NILE</text>`,
+'flag-eg':`<rect x="210" y="55" width="200" height="34" fill="#ce1126"/><rect x="210" y="89" width="200" height="32" fill="#fff"/><rect x="210" y="121" width="200" height="34" fill="#000"/><circle cx="310" cy="105" r="12" fill="${gold}"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">EGYPT</text>`,
+acropolis:`<rect x="200" y="155" width="220" height="20" fill="#b58c65"/><rect x="220" y="95" width="180" height="60" fill="#d4b48b"/><g fill="#8e6b4b">${[235,270,305,340,375].map(x=>`<rect x="${x}" y="95" width="12" height="60"/>`).join('')}</g><polygon points="205,95 310,55 415,95" fill="#d8c7a2"/><text x="310" y="200" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">ACROPOLIS</text>`,
+temple:`<polygon points="210,80 310,45 410,80" fill="#d8c7a2"/><g fill="#b58c65">${[230,270,310,350,390].map(x=>`<rect x="${x}" y="80" width="14" height="90"/>`).join('')}</g><rect x="205" y="170" width="210" height="12" fill="#d8c7a2"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">PARTHENON</text>`,
+'flag-gr':`<rect x="210" y="55" width="200" height="100" fill="#0d5eaf"/><g stroke="#fff" stroke-width="10">${[70,90,110,130,150].map(y=>`<line x1="210" y1="${y}" x2="410" y2="${y}"/>`).join('')}</g><rect x="210" y="55" width="80" height="50" fill="#0d5eaf"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">GREECE</text>`
+};
+return `<div class="location-image"><svg viewBox="0 0 620 210" role="img" aria-label="Visual clue">${common}${map[type]||`<text x="310" y="110" text-anchor="middle" fill="${white}" font-size="28">VISUAL CLUE</text>`}</svg></div>`;
+}
+
 let round=rounds[Math.floor(Math.random()*rounds.length)],clue=0,score=0,finished=false;
 
 function render(){
 const c=round.clues[clue];
 const options=rounds.filter(x=>x!==round).sort(()=>Math.random()-.5).slice(0,3).concat([round]).sort(()=>Math.random()-.5);
-a.innerHTML='<div class="box center"><h2>🌍 Where Am I?</h2><span class="badge">Location challenge • Clue '+(clue+1)+' of 3</span>'+
-'<div style="font-size:82px;margin:12px 0;background:#19161d;border-radius:18px;padding:12px">'+c[2]+'</div>'+
-'<h3>'+c[0]+'</h3><p>'+c[1]+'</p><div class="status">Study the visual clue and description, then choose the location.</div>'+
-'<div class="grid">'+options.map(x=>'<button class="answer" data-city="'+x.city+'">'+x.city+'<br><span class="small">'+x.country+'</span></button>').join('')+'</div>'+
-'<div id="whereResult" class="status"></div></div>';
+a.innerHTML='<div class="box center"><h2>🌍 Where Am I?</h2><span class="badge">'+round.theme+' • Clue '+(clue+1)+' of 3</span>'+
+visual(c[2])+'<div class="clue-title">'+c[0]+'</div><p>'+c[1]+'</p>'+
+'<div class="status">Look at the visual clue, then choose the city.</div><div class="grid">'+
+options.map(x=>'<button class="answer" data-city="'+x.city+'">'+x.city+'<br><span class="small">'+x.country+'</span></button>').join('')+
+'</div><div id="whereResult" class="status"></div></div>';
+
 a.querySelectorAll('[data-city]').forEach(btn=>btn.onclick=()=>{
 if(finished)return;
 a.querySelectorAll('[data-city]').forEach(x=>x.disabled=true);
-if(btn.dataset.city===round.city){score++;$('whereResult').textContent='🎉 Correct! You found '+round.city+'!'}
-else $('whereResult').textContent='❌ Not this time. The answer is '+round.city+'.';
-setTimeout(()=>{clue++;clue<3?render():finish()},900)
+if(btn.dataset.city===round.city){score++;$('whereResult').textContent='🎉 Correct! That clue points to '+round.city+'.'}
+else $('whereResult').textContent='❌ Not quite. The answer is '+round.city+'.';
+setTimeout(()=>{clue++;clue<3?render():finish()},850)
 })
 }
+
 function finish(){
 finished=true;gamePlayed();
 const earned=score===3?3:score>=2?1:0;
 if(earned)addPoint(earned);
-a.innerHTML='<div class="box center"><h2>🌍 Journey complete!</h2><div class="num pink">'+score+'/3</div><p>You identified '+round.city+', '+round.country+'.</p><p>You earned '+earned+' point(s).</p><button class="primary" id="whereAgain">NEW LOCATION</button></div>';
+a.innerHTML='<div class="box center"><h2>🌍 Journey complete!</h2><div class="num pink">'+score+'/3</div><p>You completed all 3 visual clues for <b>'+round.city+'</b>.</p><p>You earned '+earned+' point(s).</p><button class="primary" id="whereAgain">NEW LOCATION</button></div>';
 $('whereAgain').onclick=()=>whereGame(a)
 }
 render()
