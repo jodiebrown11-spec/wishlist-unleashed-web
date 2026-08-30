@@ -5,268 +5,172 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Wishlist Unleashed • Community Games</title>
 <style>
-*{box-sizing:border-box}
-:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff;--muted:#bcb6bf;--good:#55e08b;--bad:#ff647c}
-body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 38%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:1080px;margin:auto;padding:18px}
-.box{background:rgba(18,16,22,.96);border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:16px}
-.hero{padding:28px 24px}
-.eyebrow{color:#ffb5dc;letter-spacing:5px;font-size:12px;font-weight:900}
-h1{font-size:clamp(34px,6vw,58px);margin:8px 0}.pink{color:var(--pink)}h2{margin:0 0 10px;font-size:30px}h3{margin:0 0 8px}
-.sub{font-size:18px;color:#ddd}.small{color:var(--muted);font-size:14px}
-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0;position:sticky;top:0;z-index:5}
-button{border:1px solid var(--line);background:#17151b;color:#fff;border-radius:13px;padding:13px 16px;font-weight:800;font-size:15px;cursor:pointer}
-button.primary,button.active{background:var(--pink);border-color:var(--pink);color:#16000d}
-button:disabled{opacity:.45}
-input{width:100%;background:#09080c;border:1px solid var(--line);border-radius:12px;color:#fff;padding:14px;font-size:16px;outline:none}
-input:focus{border-color:var(--pink)}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.gamepick{min-height:94px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px}
-.gamepick span{font-size:28px}.gamepick b{font-size:15px}
-.choicegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.choice{min-height:54px}
-.choice.correct{background:var(--good);color:#06140c;border-color:var(--good)}
-.choice.wrong{background:var(--bad);border-color:var(--bad)}
-.feedback{margin-top:12px;font-weight:800}
-.game{display:none}.game.show{display:block}
-.imageclue{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#08070a;margin:14px 0}
-.imageclue svg{display:block;width:100%;height:auto}
-.questioncount{color:var(--pink);font-weight:900}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.bingo-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.called{font-size:58px;font-weight:950;color:var(--pink);min-width:130px;text-align:center}
-.ball{display:inline-flex;width:42px;height:42px;border-radius:50%;align-items:center;justify-content:center;border:1px solid var(--line);margin:4px;font-weight:900}
-.ball.called{background:var(--pink);color:#16000d}
-.board{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:430px;margin-top:16px}
-.cell{aspect-ratio:1;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;background:#17151b;font-weight:900}
-.cell.free{background:#30262f;color:#ffb5dc}.cell.marked{background:var(--pink);color:#16000d}
-.chatlog{height:260px;overflow:auto;background:#08070a;border:1px solid var(--line);border-radius:14px;padding:10px}
-.msg{padding:9px 11px;background:#19171e;border-radius:10px;margin-bottom:7px}.msg b{color:var(--pink)}
-.notice{padding:13px;border:1px solid var(--line);border-radius:13px;margin-top:12px}
-@media(max-width:700px){main{padding:10px}.grid{grid-template-columns:repeat(2,1fr)}nav{grid-template-columns:repeat(2,1fr)}.choicegrid{grid-template-columns:1fr}h1{font-size:38px}}
+:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff;--muted:#bdb6c0;--good:#39e58c;--bad:#ff557d;--gold:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 38%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+main{max-width:1120px;margin:auto;padding:18px}
+.hero,.panel,.game-card{background:rgba(18,16,22,.97);border:1px solid var(--line);border-radius:22px}
+.hero{padding:26px;margin-bottom:14px}.eyebrow{color:#ffb5d9;letter-spacing:5px;font-size:12px;font-weight:900}.hero h1{font-size:clamp(34px,7vw,62px);margin:6px 0}.hero .tag{color:var(--pink);font-weight:900;font-size:24px}.hero p{margin:3px 0;color:#ddd}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;position:sticky;top:0;z-index:4;margin-bottom:14px}
+button{font:inherit;font-weight:800;border:1px solid var(--line);border-radius:13px;padding:13px 16px;background:#17141b;color:#fff;cursor:pointer}
+button:hover{border-color:#ff4aa9}button.primary,.tab.active{background:var(--pink);border-color:var(--pink);color:#16000d}button.good{background:#143d2a;border-color:#2d9c67}.hidden{display:none!important}
+.panel{padding:22px;margin-bottom:14px}.panel h2{margin:0 0 8px;font-size:30px}.sub{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.game-card{padding:18px;text-align:left;min-height:190px}.game-card h3{font-size:21px;margin:5px 0}.game-card p{color:var(--muted);line-height:1.4}.game-card .icon{font-size:35px}.game-card button{margin-top:8px}
+.game{display:none}.game.on{display:block}.back{margin-bottom:12px}
+.big{font-size:clamp(64px,16vw,130px);font-weight:1000;text-align:center;line-height:1;margin:10px}.status{text-align:center;font-size:20px;font-weight:800;min-height:28px}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.answers button{text-align:left}
+.clues{display:grid;gap:8px;margin:15px 0}.clue{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d0b10}.clue.locked{filter:blur(4px);opacity:.5}
+.photo{width:100%;height:360px;object-fit:cover;border-radius:17px;border:1px solid var(--line);display:block;background:#0d0b10}
+.timer{font-size:30px;font-weight:1000;text-align:center;color:var(--gold)}.scoreline{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}.pill{border:1px solid var(--line);border-radius:99px;padding:7px 12px;background:#17141b}
+.code-input{font-size:32px;text-align:center;letter-spacing:10px;max-width:300px;display:block;margin:12px auto;padding:13px;background:#0d0b10;border:1px solid var(--line);color:white;border-radius:13px}
+.bingo-board{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:14px}.ball{aspect-ratio:1;border:1px solid var(--line);border-radius:8px;background:#19161d;display:grid;place-items:center;font-weight:900}.ball.called{background:var(--pink);color:#16000d}.ball.latest{outline:3px solid var(--gold)}
+.callbox{border:1px solid var(--line);border-radius:20px;padding:16px;text-align:center;background:#0d0b10}.callbox .big{margin:0}.calltext{font-size:22px;color:#ffb5d9;font-weight:900}
+.ticket{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;max-width:720px;margin:14px auto}.ticket span{aspect-ratio:1.2;border-radius:7px;border:1px solid var(--line);display:grid;place-items:center;background:#19161d;font-weight:900}.ticket span.hit{background:var(--pink);color:#16000d}.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.chatbox{height:260px;overflow:auto;background:#08070a;border:1px solid var(--line);border-radius:14px;padding:10px}.msg{padding:9px 11px;background:#19161d;border-radius:10px;margin-bottom:6px}.msg b{color:#ff64b6}.chatrow{display:flex;gap:8px;margin-top:8px}.chatrow input{flex:1}
+input{background:#0d0b10;border:1px solid var(--line);color:white;border-radius:12px;padding:13px}
+@media(max-width:760px){main{padding:10px}.grid{grid-template-columns:1fr}.answers{grid-template-columns:1fr}.photo{height:240px}.bingo-board{gap:2px}.ball{font-size:12px}nav{gap:5px}nav button{padding:11px 5px;font-size:13px}.hero{padding:18px}}
 </style>
 </head>
 <body>
 <main>
-<section class="box hero">
-<div class="eyebrow">WISHLIST UNLEASHED</div>
-<h1>COMMUNITY <span class="pink">GAMES</span></h1>
-<div class="pink" style="font-size:24px;font-weight:900">We Play. We Slay. We Stay.</div>
-<div class="sub">DIFFERENT MINDS • DIFFERENT HEARTS • ONE FAMILY</div>
+<section class="hero">
+<div class="eyebrow">WISHLIST UNLEASHED</div><h1>COMMUNITY GAMES</h1>
+<div class="tag">We Play. We Slay. We Stay.</div><p>DIFFERENT MINDS • DIFFERENT HEARTS • ONE FAMILY</p>
 </section>
-
 <nav>
-<button class="active" data-tab="home">🏠 Home</button>
-<button data-tab="games">🎮 Games</button>
-<button data-tab="pot">💗 Pot</button>
-<button data-tab="chat">💬 Chat</button>
+<button class="tab active" data-page="home">🏠 Home</button>
+<button class="tab" data-page="games">🎮 Games</button>
+<button class="tab" data-page="pot">💗 Pot</button>
+<button class="tab" data-page="chat">💬 Chat</button>
 </nav>
 
-<section id="home" class="tab">
-<div class="box">
-<h2>💗 Live Player Room</h2>
-<p class="small">Enter your display name to join.</p>
-<div class="row"><input id="playerName" placeholder="Your display name"><button class="primary" id="joinBtn">JOIN</button></div>
-<div id="joined" class="notice" style="display:none"></div>
-</div>
-<div class="box">
-<h2>🔥 Today's Games</h2>
-<p>Pick a game below. Everything is playable directly in this link.</p>
+<section id="home" class="panel page">
+<h2>💗 Welcome to Wishlist Unleashed</h2><p class="sub">Choose a game and have a go. Everything below works in this browser build — no payment or prize system is connected.</p>
+<div class="scoreline"><span class="pill">🏆 Best Score: <b id="bestScore">0</b></span><span class="pill">🎮 Games Played: <b id="played">0</b></span></div>
+</section>
+
+<section id="games" class="panel page hidden">
+<h2>🎮 Game Arcade</h2><p class="sub">Pick your challenge.</p>
 <div class="grid">
-<button class="gamepick" data-game="code"><span>🔐</span><b>Crack the Code</b></button>
-<button class="gamepick" data-game="where"><span>🌍</span><b>Where Am I?</b></button>
-<button class="gamepick" data-game="bingo"><span>🎱</span><b>Auto Bingo</b></button>
-<button class="gamepick" data-game="bigwish"><span>🎁</span><b>Big Wish</b></button>
-</div>
-</div>
-</section>
-
-<section id="games" class="tab" style="display:none">
-<div class="box">
-<h2>🎮 Game Lobby</h2>
-<div class="grid">
-<button class="gamepick" data-game="code"><span>🔐</span><b>Crack the Code</b></button>
-<button class="gamepick" data-game="where"><span>🌍</span><b>Where Am I?</b></button>
-<button class="gamepick" data-game="bingo"><span>🎱</span><b>Auto Bingo</b></button>
-<button class="gamepick" data-game="bigwish"><span>🎁</span><b>Big Wish</b></button>
-</div>
-</div>
-
-<div id="code" class="box game show">
-<h2>🔐 Crack the Code</h2><p>Guess the secret 3-digit code. <b>5 attempts maximum.</b></p>
-<input id="codeInput" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits">
-<button class="primary" id="codeCheck" style="margin-top:10px">CHECK</button>
-<div id="codeFeedback" class="feedback"></div>
-</div>
-
-<div id="where" class="box game">
-<h2>🌍 Where Am I?</h2>
-<div class="questioncount" id="whereCount"></div>
-<div id="whereImage" class="imageclue"></div>
-<h3 id="whereClue"></h3>
-<div id="whereChoices" class="choicegrid"></div>
-<div id="whereFeedback" class="feedback"></div>
-<button id="whereNext" class="primary" style="margin-top:12px;display:none">NEXT CLUE</button>
-</div>
-
-<div id="bingo" class="box game">
-<h2>🎱 Free Bingo — Auto Caller</h2>
-<p>The caller automatically announces a new number every <b>5 seconds</b>. You can also call the next number manually.</p>
-<div class="bingo-controls">
-<div class="called" id="calledNumber">—</div>
-<div><button class="primary" id="startBingo">START AUTO CALLER</button><button id="nextBingo">NEXT NUMBER</button><button id="stopBingo">STOP</button></div>
-</div>
-<div class="small" id="bingoStatus">Ready to play.</div>
-<div id="calledBalls" style="margin-top:10px"></div>
-<div class="board" id="bingoBoard"></div>
-</div>
-
-<div id="bigwish" class="box game">
-<h2>🎁 Big Wish</h2>
-<p>Submit a wish for the Community Pot. Keep it within the group's rules and agreed prize limit.</p>
-<input id="wishName" placeholder="Your name">
-<input id="wishText" placeholder="What is your Big Wish?" style="margin-top:10px">
-<button class="primary" id="wishSubmit" style="margin-top:10px">SUBMIT WISH</button>
-<div id="wishFeedback" class="feedback"></div>
-<div class="notice"><b>Community Pot</b><br><span class="small">Monthly Big Wish • one wish up to £100, subject to group rules and available funds.</span></div>
+<div class="game-card"><div class="icon">🔐</div><h3>Crack the Code</h3><p>Work through clues and crack the secret 4-digit code.</p><button class="primary" onclick="openGame('code')">PLAY</button></div>
+<div class="game-card"><div class="icon">🌍</div><h3>Where Am I?</h3><p>Real travel photographs, six clues and multiple locations.</p><button class="primary" onclick="openGame('where')">PLAY</button></div>
+<div class="game-card"><div class="icon">🎱</div><h3>90-Ball Bingo</h3><p>Automatic UK caller with proper calls, board and ticket.</p><button class="primary" onclick="openGame('bingo')">PLAY</button></div>
+<div class="game-card"><div class="icon">🕵️</div><h3>Who Am I?</h3><p>Reveal clues one by one and identify the mystery person.</p><button class="primary" onclick="openGame('who')">PLAY</button></div>
+<div class="game-card"><div class="icon">🧠</div><h3>Brain Buster</h3><p>10 timed questions with increasing difficulty.</p><button class="primary" onclick="openGame('quiz')">PLAY</button></div>
+<div class="game-card"><div class="icon">🎁</div><h3>What's in the Box?</h3><p>Choose your box and see whether you've found the prize.</p><button class="primary" onclick="openGame('box')">PLAY</button></div>
+<div class="game-card"><div class="icon">🔎</div><h3>Spot the Difference</h3><p>Find the differences before time runs out.</p><button class="primary" onclick="openGame('diff')">PLAY</button></div>
+<div class="game-card"><div class="icon">💷</div><h3>Higher or Lower</h3><p>Predict whether the next value is higher or lower.</p><button class="primary" onclick="openGame('high')">PLAY</button></div>
+<div class="game-card"><div class="icon">🎡</div><h3>Mystery Wheel</h3><p>Spin into a category, then take the challenge.</p><button class="primary" onclick="openGame('wheel')">PLAY</button></div>
+<div class="game-card"><div class="icon">⚡</div><h3>60-Second Challenge</h3><p>Answer as many rapid-fire questions as you can.</p><button class="primary" onclick="openGame('sixty')">PLAY</button></div>
 </div>
 </section>
 
-<section id="pot" class="tab" style="display:none">
-<div class="box"><h2>💗 Community Pot</h2><p>The community pot gives back through bigger wishes and community prizes.</p>
-<div class="notice"><h3>Monthly Big Wish</h3>Target: one wish up to <b>£100</b>, subject to the group's rules and available funds.</div>
-<div class="notice">Paid games and payment processing are <b>not</b> active in this prototype.</div></div>
-</section>
+<section id="pot" class="panel page hidden"><h2>💗 Community Pot</h2><p class="sub">Prize/payment features are deliberately not connected yet. This is the game-testing build.</p><div class="game-card"><h3>🎁 Big Wish</h3><p>Prize and entry rules can be added after the games are fully tested.</p></div></section>
 
-<section id="chat" class="tab" style="display:none">
-<div class="box"><h2>💬 Community Chat</h2>
-<div id="chatlog" class="chatlog"></div>
-<div class="row" style="margin-top:10px"><input id="chatInput" placeholder="Write a message..."><button class="primary" id="chatSend">SEND</button></div>
-<p class="small">Chat is saved in this browser so it remains after a refresh.</p>
-</div>
-</section>
+<section id="chat" class="panel page hidden"><h2>💬 Community Chat</h2><div class="chatbox" id="chatbox"><div class="msg"><b>Wishlist Unleashed:</b> Welcome! 💗</div></div><div class="chatrow"><input id="chatInput" placeholder="Write a message..."><button class="primary" onclick="sendChat()">SEND</button></div></section>
+
+<section id="code" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🔐 Crack the Code</h2><p class="sub">Six clues. Crack the 4-digit code.</p><div class="clues" id="codeClues"></div><input id="codeInput" class="code-input" inputmode="numeric" maxlength="4" placeholder="••••"><button class="primary" onclick="checkCode()">CHECK CODE</button><div class="status" id="codeStatus"></div></section>
+
+<section id="where" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🌍 Where Am I?</h2><div class="scoreline"><span class="pill">ROUND <b id="whereRound">1</b>/5</span><span class="pill">CLUE <b id="whereClue">1</b>/6</span></div><img id="wherePhoto" class="photo" alt="Travel location"><div class="clues" id="whereClues"></div><div class="answers" id="whereAnswers"></div><div class="status" id="whereStatus"></div></section>
+
+<section id="bingo" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🎱 90-Ball Bingo</h2><div class="callbox"><div id="bingoNumber" class="big">—</div><div id="bingoCall" class="calltext">Ready?</div><div class="timer" id="bingoTimer">AUTO CALL OFF</div></div><div class="controls"><button class="primary" onclick="bingoStart()">▶ START</button><button onclick="bingoPause()">⏸ PAUSE</button><button onclick="bingoNext()">NEXT NUMBER</button><button onclick="bingoReset()">↻ NEW GAME</button></div><div class="controls"><button onclick="setBingoSpeed(3000)">⚡ Fast</button><button onclick="setBingoSpeed(6000)">🐢 Normal</button><button onclick="setBingoSpeed(10000)">⏳ Slow</button></div><h3>Called Numbers</h3><div id="bingoBoard" class="bingo-board"></div><h3>Your Ticket</h3><div id="ticket" class="ticket"></div></section>
+
+<section id="who" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🕵️ Who Am I?</h2><div class="scoreline"><span class="pill">CLUE <b id="whoClue">1</b>/6</span></div><div class="clues" id="whoClues"></div><div class="answers" id="whoAnswers"></div><div class="status" id="whoStatus"></div><button onclick="whoReveal()">REVEAL NEXT CLUE</button></section>
+
+<section id="quiz" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🧠 Brain Buster</h2><div class="scoreline"><span class="pill">QUESTION <b id="quizQ">1</b>/10</span><span class="pill">SCORE <b id="quizScore">0</b></span></div><div class="timer" id="quizTimer">15</div><h3 id="quizQuestion"></h3><div class="answers" id="quizAnswers"></div><div class="status" id="quizStatus"></div></section>
+
+<section id="box" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🎁 What's in the Box?</h2><p class="sub">Three boxes. One winner. Pick carefully.</p><div class="grid" id="boxes"></div><div class="status" id="boxStatus"></div><button class="primary hidden" id="boxAgain" onclick="boxNew()">PLAY AGAIN</button></section>
+
+<section id="diff" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🔎 Spot the Difference</h2><div class="timer" id="diffTimer">45</div><div class="game-card"><h3>Find 5 differences</h3><p>In this first working build, click the five marked areas on the picture.</p><div id="diffPicture" style="height:280px;border-radius:16px;background:linear-gradient(135deg,#ff1591 0 20%,#19161d 20% 40%,#ffb5d9 40% 60%,#0d0b10 60% 80%,#ffd166 80%);position:relative"></div></div><div class="scoreline"><span class="pill">FOUND <b id="diffFound">0</b>/5</span></div><div class="status" id="diffStatus"></div></section>
+
+<section id="high" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>💷 Higher or Lower</h2><div class="callbox"><div class="sub">CURRENT VALUE</div><div id="highCurrent" class="big">50</div><div class="sub">Will the next value be higher or lower?</div></div><div class="answers"><button onclick="highGuess('higher')">⬆️ HIGHER</button><button onclick="highGuess('lower')">⬇️ LOWER</button></div><div class="status" id="highStatus"></div><div class="scoreline"><span class="pill">STREAK <b id="highStreak">0</b></span></div></section>
+
+<section id="wheel" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>🎡 Mystery Wheel</h2><div class="callbox"><div id="wheelIcon" class="big">🎡</div><div id="wheelResult" class="calltext">Spin!</div></div><div class="controls"><button class="primary" onclick="spinWheel()">SPIN THE WHEEL</button></div><div class="status" id="wheelStatus"></div></section>
+
+<section id="sixty" class="game panel"><button class="back" onclick="backGames()">← Games</button><h2>⚡ 60-Second Challenge</h2><div class="timer" id="sixtyTimer">60</div><div class="scoreline"><span class="pill">SCORE <b id="sixtyScore">0</b></span></div><h3 id="sixtyQuestion">Press START</h3><div class="answers" id="sixtyAnswers"></div><div class="controls"><button class="primary" onclick="sixtyStart()">START</button></div><div class="status" id="sixtyStatus"></div></section>
 </main>
 
 <script>
-const $=id=>document.getElementById(id);
-document.querySelectorAll('nav button').forEach(btn=>btn.onclick=()=>{
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
- btn.classList.add('active');
- document.querySelectorAll('.tab').forEach(t=>t.style.display='none');
- $(btn.dataset.tab).style.display='block';
-});
-document.querySelectorAll('[data-game]').forEach(btn=>btn.onclick=()=>{
- document.querySelectorAll('.game').forEach(g=>g.classList.remove('show'));
- $(btn.dataset.game).classList.add('show');
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
- document.querySelector('[data-tab="games"]').classList.add('active');
- document.querySelectorAll('.tab').forEach(t=>t.style.display='none');
- $('games').style.display='block';
- window.scrollTo({top:0,behavior:'smooth'});
-});
+const $=id=>document.getElementById(id), pages=[...document.querySelectorAll('.page')];
+function showPage(id){pages.forEach(p=>p.classList.toggle('hidden',p.id!==id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+function openGame(id){pages.forEach(p=>p.classList.add('hidden'));document.querySelectorAll('.game').forEach(g=>g.classList.remove('on'));$(id).classList.add('on');if(id==='code')codeNew();if(id==='where')whereNew();if(id==='bingo')bingoNew();if(id==='who')whoNew();if(id==='quiz')quizNew();if(id==='box')boxNew();if(id==='diff')diffNew();if(id==='high')highNew();if(id==='sixty')sixtyReset()}
+function backGames(){document.querySelectorAll('.game').forEach(g=>g.classList.remove('on'));showPage('games')}
+function played(){let n=+localStorage.played||0;localStorage.played=++n;$('played').textContent=n}
+$('played').textContent=localStorage.played||0;$('bestScore').textContent=localStorage.bestScore||0;
+function score(n){let b=+localStorage.bestScore||0;if(n>b){localStorage.bestScore=n;$('bestScore').textContent=n}}
 
-let player=localStorage.getItem('wu_player')||'';
-$('joinBtn').onclick=()=>{
- const n=$('playerName').value.trim();
- if(!n)return;
- player=n;localStorage.setItem('wu_player',n);
- $('joined').style.display='block';$('joined').textContent='✅ Joined as '+n;
-};
-if(player){$('playerName').value=player;$('joined').style.display='block';$('joined').textContent='✅ Joined as '+player}
+const codeAnswers=['7314','5826','1947','6403'];let codeTarget,codeAttempts;
+function codeNew(){codeTarget=codeAnswers[Math.floor(Math.random()*codeAnswers.length)];codeAttempts=0;$('codeInput').value='';$('codeStatus').textContent='';$('codeClues').innerHTML=['The first digit is odd.','The second digit is between 0 and 9.','The code contains no repeated digits.','The digits add up to 15.','The third digit is smaller than the second.','The last digit is even.'].map((x,i)=>`<div class="clue">${i+1}. ${x}</div>`).join('')}
+function checkCode(){let v=$('codeInput').value.trim();if(!/^\d{4}$/.test(v)){$('codeStatus').textContent='Enter exactly 4 digits.';return}codeAttempts++;if(v===codeTarget){$('codeStatus').textContent='🎉 CODE CRACKED!';played();score(100);return}let hits=v.split('').filter((x,i)=>x===codeTarget[i]).length;$('codeStatus').textContent=`Not quite. ${hits} digit${hits===1?' is':'s are'} in the correct position.`;if(codeAttempts>=5){$('codeStatus').textContent+=` The code was ${codeTarget}.`;played()}}
 
-/* Crack the Code — fixed attempts, never negative */
-const secret='427'; let attempts=0; let codeOver=false;
-$('codeCheck').onclick=()=>{
- if(codeOver)return;
- const guess=$('codeInput').value.replace(/\D/g,'').slice(0,3);
- if(guess.length!==3){$('codeFeedback').textContent='Enter exactly 3 digits.';return}
- attempts++;
- if(guess===secret){
-  $('codeFeedback').textContent='🎉 CORRECT! You cracked the code!';
-  codeOver=true;$('codeCheck').disabled=true;$('codeInput').disabled=true;return;
- }
- const left=5-attempts;
- if(left<=0){$('codeFeedback').textContent='❌ No attempts left. The code was '+secret+'.';codeOver=true;$('codeCheck').disabled=true;$('codeInput').disabled=true}
- else $('codeFeedback').textContent='❌ Try again. Attempts left: '+left;
-};
+const whereData=[
+{city:'Paris',photo:'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=85',clues:['I am home to the Eiffel Tower and the River Seine.','My country is famous for croissants.','I have a famous avenue called the Champs-Élysées.','The Louvre is here.','I am known as the City of Light.','My name starts with P.'],a:['Paris','Rome','Madrid','Vienna']},
+{city:'New York',photo:'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1200&q=85',clues:['I have a famous skyline.','The Statue of Liberty is here.','Central Park sits in my heart.','I am in the United States.','Broadway is one of my famous attractions.','My nickname is the Big Apple.'],a:['Chicago','New York','Boston','Toronto']},
+{city:'Sydney',photo:'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d5?auto=format&fit=crop&w=1200&q=85',clues:['I am famous for an unusual sail-shaped building.','I sit beside a huge natural harbour.','Bondi Beach is nearby.','I am in Australia.','The Harbour Bridge is here.','My city begins with S.'],a:['Sydney','Auckland','Perth','Melbourne']},
+{city:'Rome',photo:'https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=85',clues:['I have an ancient amphitheatre called the Colosseum.','Vatican City is within my city area.','I am the capital of Italy.','Trevi Fountain is here.','I have been central to Roman history.','My name has four letters.'],a:['Athens','Rome','Naples','Milan']},
+{city:'Dubai',photo:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=85',clues:['I am famous for a very tall skyscraper.','I am in the United Arab Emirates.','I have huge modern shopping malls.','The desert is close by.','My skyline is very modern.','My name begins with D.'],a:['Doha','Dubai','Riyadh','Muscat']}
+];let wi,wc;
+function whereNew(){wi=0;wc=0;whereRender()}
+function whereRender(){let d=whereData[wi];$('whereRound').textContent=wi+1;$('whereClue').textContent=wc+1;$('wherePhoto').src=d.photo;$('whereClues').innerHTML=d.clues.map((x,i)=>`<div class="clue ${i>wc?'locked':''}">${i+1}. ${i<=wc?x:'Clue locked — reveal it'}</div>`).join('');$('whereAnswers').innerHTML=d.a.map(x=>`<button onclick="whereGuess('${x.replace(/'/g,"\\'")}')">${x}</button>`).join('');$('whereStatus').textContent=''}
+function whereGuess(x){let d=whereData[wi];if(x===d.city){$('whereStatus').textContent='🎉 Correct!';if(wi<whereData.length-1){wi++;wc=0;setTimeout(whereRender,700)}else{$('whereStatus').textContent='🏆 YOU COMPLETED ALL 5 LOCATIONS!';played();score(100)}}else if(wc<5){wc++;whereRender();$('whereStatus').textContent='❌ Not that one — another clue is unlocked.'}else $('whereStatus').textContent='❌ Try again.'}
+$('whereClue').onclick=()=>{if(wc<5){wc++;whereRender()}};
 
-/* Where Am I — 6 questions, each with an illustrated image clue */
-const whereQs=[
- {city:'London',clue:'I am famous for Big Ben and the River Thames.',answers:['London','Paris','Rome','New York'],art:'london'},
- {city:'Paris',clue:'I am home to the Eiffel Tower and the River Seine.',answers:['Madrid','Paris','Dublin','Vienna'],art:'paris'},
- {city:'Rome',clue:'I have the Colosseum and ancient Roman ruins.',answers:['Rome','Athens','Lisbon','Berlin'],art:'rome'},
- {city:'New York',clue:'I have Times Square and the Statue of Liberty nearby.',answers:['Toronto','Chicago','New York','Boston'],art:'ny'},
- {city:'Sydney',clue:'My harbour is famous for a giant sail-shaped Opera House.',answers:['Sydney','Auckland','Perth','Melbourne'],art:'sydney'},
- {city:'Dubai',clue:"I am known for the Burj Khalifa, the world's tallest building.",answers:['Doha','Dubai','Cairo','Abu Dhabi'],art:'dubai'}
-];
-let wi=0;
-function svgArt(type){
- const common=`<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#171225"/><stop offset="1" stop-color="#3b0b2d"/></linearGradient></defs><rect width="900" height="360" fill="url(#g)"/><circle cx="740" cy="75" r="48" fill="#ffd86b" opacity=".9"/><path d="M0 285 Q150 245 300 285 T600 280 T900 285 V360 H0Z" fill="#08070a"/>`;
- const arts={
- london:`<g fill="none" stroke="#ff1591" stroke-width="10"><path d="M150 285V135h105v150M145 135l58-50 58 50M205 85V45M203 45h45"/><path d="M610 285V100h18v185M603 100h32M612 80h14M600 65h38"/></g><text x="45" y="55" fill="white" font-size="30" font-weight="800">BIG BEN • LONDON</text>`,
- paris:`<path d="M390 285 L450 70 L510 285 M415 190h70 M425 150h50 M440 110h20" fill="none" stroke="#ff1591" stroke-width="12"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">EIFFEL TOWER • PARIS</text>`,
- rome:`<ellipse cx="450" cy="220" rx="220" ry="90" fill="none" stroke="#ff1591" stroke-width="18"/><path d="M250 220v65M320 190v95M390 185v100M460 185v100M530 190v95M600 220v65" stroke="#ff1591" stroke-width="12"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">COLOSSEUM • ROME</text>`,
- ny:`<g stroke="#ff1591" stroke-width="12"><path d="M180 285V120h65v165M275 285V80h75v205M370 285V145h55v140M445 285V105h80v180"/></g><path d="M650 285v-80l-35-35h70l-35 35M650 170v-45M630 125h40" stroke="#ff1591" stroke-width="10" fill="none"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">NEW YORK CITY</text>`,
- sydney:`<path d="M180 285h540" stroke="#ff1591" stroke-width="12"/><path d="M300 280 Q350 100 410 280 Q470 95 530 280 Q580 135 630 280" fill="none" stroke="#ff1591" stroke-width="14"/><path d="M260 285v-35M640 285v-35" stroke="#ff1591" stroke-width="10"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">SYDNEY OPERA HOUSE</text>`,
- dubai:`<path d="M450 285V55h30l28 230M478 75h22M450 105h35M450 140h50M450 180h65M450 220h80" stroke="#ff1591" stroke-width="10" fill="none"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">BURJ KHALIFA • DUBAI</text>`
- };
- return common+arts[type]+'</svg>';
-}
-function renderWhere(){
- const q=whereQs[wi];$('whereCount').textContent=`CLUE ${wi+1} OF ${whereQs.length}`;
- $('whereImage').innerHTML=svgArt(q.art);$('whereClue').textContent=q.clue;
- $('whereFeedback').textContent='';$('whereNext').style.display='none';
- $('whereChoices').innerHTML='';
- q.answers.forEach(a=>{const b=document.createElement('button');b.className='choice';b.textContent=a;b.onclick=()=>{
-   document.querySelectorAll('#whereChoices button').forEach(x=>x.disabled=true);
-   if(a===q.city){b.classList.add('correct');$('whereFeedback').textContent='🎉 Correct!';}
-   else {b.classList.add('wrong');$('whereFeedback').textContent='❌ Not quite — it was '+q.city+'.';}
-   if(wi<whereQs.length-1)$('whereNext').style.display='inline-block';else $('whereFeedback').textContent+=' 🏆 You completed all 6 clues!';
- };$('whereChoices').appendChild(b)});
-}
-$('whereNext').onclick=()=>{wi++;renderWhere()};renderWhere();
+let balls=[],called=[],timer=null,bingoDelay=6000,ticket=[];
+function bingoNew(){clearInterval(timer);balls=[...Array(90)].map((_,i)=>i+1);called=[];ticket=[];for(let r=0;r<3;r++){let row=[];while(row.length<5){let n=Math.floor(Math.random()*90)+1;if(!row.includes(n))row.push(n)}row.sort((a,b)=>a-b);ticket.push(row)}$('bingoNumber').textContent='—';$('bingoCall').textContent='Ready?';$('bingoTimer').textContent='AUTO CALL OFF';bingoBoardRender();ticketRender()}
+function bingoBoardRender(){ $('bingoBoard').innerHTML=Array.from({length:90},(_,i)=>{let n=i+1;return`<div id="b${n}" class="ball ${called.includes(n)?'called':''} ${called.at(-1)===n?'latest':''}">${n}</div>`}).join('')}
+const bingoCalls={1:'Kelly’s eye',2:'Two little ducks',3:'Cup of tea',4:'Knock at the door',5:'Man alive',6:'Half a dozen',7:'Lucky seven',8:'Garden gate',9:'Doctor’s orders',10:'Number ten',11:'Legs eleven',12:'One dozen',13:'Unlucky for some',14:'Valentine’s Day',15:'Young and keen',16:'Sweet sixteen',17:'Dancing queen',18:'Coming of age',19:'Goodbye teens',20:'One score',22:'Two little ducks',33:'Dirty knees',44:'Droopy drawers',55:'Snakes alive',66:'Clickety click',77:'Sunset strip',88:'Two fat ladies',90:'Top of the shop'};
+function bingoNext(){if(!balls.length){$('bingoCall').textContent='🏆 FULL HOUSE — ALL NUMBERS CALLED!';clearInterval(timer);return}let idx=Math.floor(Math.random()*balls.length),n=balls.splice(idx,1)[0];called.push(n);$('bingoNumber').textContent=n;$('bingoCall').textContent=bingoCalls[n]||`Number ${n}`;$('bingoTimer').textContent='AUTO CALL ON';bingoBoardRender();ticketMark(n)}
+function bingoStart(){clearInterval(timer);bingoNext();timer=setInterval(bingoNext,bingoDelay)}
+function bingoPause(){clearInterval(timer);$('bingoTimer').textContent='PAUSED'}
+function setBingoSpeed(ms){bingoDelay=ms;if(timer)bingoStart()}
+function bingoReset(){bingoNew()}
+function ticketRender(){$('ticket').innerHTML=ticket.flatMap(row=>row).map(n=>`<span id="t${n}">${n}</span>`).join('')}
+function ticketMark(n){let e=$('t'+n);if(e)e.classList.add('hit')}
 
-/* Auto Bingo — 1 to 90, no repeats, 5-second automatic caller */
-let called=[],timer=null;
-const nums=Array.from({length:90},(_,i)=>i+1);
-function renderBingo(){
- $('calledBalls').innerHTML=called.map(n=>`<span class="ball called">${n}</span>`).join('');
- $('bingoStatus').textContent=called.length?`${called.length} of 90 numbers called.`:'Ready to play.';
-}
-function nextNumber(){
- if(called.length>=90){clearInterval(timer);timer=null;$('bingoStatus').textContent='🎉 All 90 numbers have been called!';return}
- const remaining=nums.filter(n=>!called.includes(n));
- const n=remaining[Math.floor(Math.random()*remaining.length)];
- called.push(n);$('calledNumber').textContent=n;renderBingo();
-}
-$('nextBingo').onclick=nextNumber;
-$('startBingo').onclick=()=>{
- if(timer)return;
- nextNumber();
- timer=setInterval(nextNumber,5000);
- $('bingoStatus').textContent='🔔 AUTO CALLER RUNNING — next number in 5 seconds.';
-};
-$('stopBingo').onclick=()=>{clearInterval(timer);timer=null;$('bingoStatus').textContent='⏸️ Auto caller stopped.'};
-const bingoBoard=Array.from({length:25},(_,i)=>i===12?'FREE':Math.floor(Math.random()*90)+1);
-$('bingoBoard').innerHTML=bingoBoard.map((n,i)=>`<div class="cell ${n==='FREE'?'free':''}" data-i="${i}">${n}</div>`).join('');
-document.querySelectorAll('.cell').forEach(c=>c.onclick=()=>c.classList.toggle('marked'));
-renderBingo();
+const whoData=[
+{name:'Sherlock Holmes',clues:['I am a fictional detective.','I live at 221B Baker Street.','My friend is Dr Watson.','I was created by Arthur Conan Doyle.','I am famous for observation and deduction.','My surname is Holmes.'],a:['Sherlock Holmes','James Bond','Indiana Jones','Hercule Poirot']},
+{name:'Taylor Swift',clues:['I am a singer-songwriter.','I am known for storytelling in my songs.','I have released multiple album eras.','I have won major music awards.','My fans are called Swifties.','My first name is Taylor.'],a:['Adele','Taylor Swift','Beyoncé','Pink']},
+{name:'Harry Potter',clues:['I am a fictional wizard.','I have a lightning-shaped scar.','I attended Hogwarts.','My best friends include Ron and Hermione.','My enemy is Voldemort.','My surname is Potter.'],a:['Harry Potter','Frodo Baggins','Peter Parker','Percy Jackson']}
+];let whoI,whoC;
+function whoNew(){whoI=Math.floor(Math.random()*whoData.length);whoC=0;whoRender()}
+function whoRender(){let d=whoData[whoI];$('whoClue').textContent=whoC+1;$('whoClues').innerHTML=d.clues.map((x,i)=>`<div class="clue ${i>whoC?'locked':''}">${i<=whoC?x:'Clue locked'}</div>`).join('');$('whoAnswers').innerHTML=d.a.map(x=>`<button onclick="whoGuess('${x.replace(/'/g,"\\'")}')">${x}</button>`).join('');$('whoStatus').textContent=''}
+function whoReveal(){if(whoC<5){whoC++;whoRender()}}
+function whoGuess(x){let d=whoData[whoI];if(x===d.name){$('whoStatus').textContent='🎉 Correct!';played();setTimeout(whoNew,900)}else{$('whoStatus').textContent='❌ Nope — reveal another clue!';whoReveal()}}
 
-/* Big Wish */
-$('wishSubmit').onclick=()=>{
- const n=$('wishName').value.trim(),w=$('wishText').value.trim();
- if(!n||!w){$('wishFeedback').textContent='Please enter your name and wish.';return}
- $('wishFeedback').textContent='🎁 Wish submitted for review. Good luck!';
- $('wishName').value='';$('wishText').value='';
-};
+const quizData=[
+['Which planet is known as the Red Planet?',['Mars','Venus','Jupiter','Mercury'],0],
+['What is the capital of France?',['Paris','Madrid','Rome','Berlin'],0],
+['How many sides does a hexagon have?',['5','6','7','8'],1],
+['Which ocean is the largest?',['Atlantic','Indian','Pacific','Arctic'],2],
+['Who wrote Romeo and Juliet?',['Dickens','Shakespeare','Austen','Tolkien'],1],
+['What is H2O commonly called?',['Salt','Water','Oxygen','Hydrogen'],1],
+['Which animal is the fastest on land?',['Lion','Cheetah','Horse','Tiger'],1],
+['How many colours are in a rainbow traditionally?',['5','6','7','8'],2],
+['Which country is famous for the Great Pyramid of Giza?',['Egypt','Greece','Mexico','Peru'],0],
+['What is the largest mammal?',['Elephant','Blue whale','Giraffe','Hippo'],1]
+];let qi,qs,qt;
+function quizNew(){qi=0;qs=0;clearInterval(qt);quizRender()}
+function quizRender(){if(qi>=quizData.length){$('quizQuestion').textContent='🏆 QUIZ COMPLETE!';$('quizAnswers').innerHTML='';$('quizStatus').textContent=`Final score: ${qs}/${quizData.length}`;played();score(qs*10);return}let q=quizData[qi];$('quizQ').textContent=qi+1;$('quizScore').textContent=qs;$('quizQuestion').textContent=q[0];$('quizAnswers').innerHTML=q[1].map((x,i)=>`<button onclick="quizGuess(${i})">${x}</button>`).join('');let left=15;clearInterval(qt);$('quizTimer').textContent=left;qt=setInterval(()=>{left--;$('quizTimer').textContent=left;if(left<=0){clearInterval(qt);quizGuess(-1)}},1000)}
+function quizGuess(i){clearInterval(qt);let q=quizData[qi];if(i===q[2]){qs++;$('quizStatus').textContent='✅ Correct!'}else $('quizStatus').textContent='❌ Not quite!';qi++;setTimeout(quizRender,500)}
 
-/* Chat */
-const chatKey='wu_chat';
-let chats=JSON.parse(localStorage.getItem(chatKey)||'null')||[{name:'Wishlist Unleashed',text:'Welcome! 💗'}];
-function renderChat(){$('chatlog').innerHTML=chats.map(m=>`<div class="msg"><b>${escapeHtml(m.name)}:</b> ${escapeHtml(m.text)}</div>`).join('');$('chatlog').scrollTop=$('chatlog').scrollHeight}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function sendChat(){const text=$('chatInput').value.trim();if(!text)return;chats.push({name:player||'Guest',text});localStorage.setItem(chatKey,JSON.stringify(chats));$('chatInput').value='';renderChat()}
-$('chatSend').onclick=sendChat;$('chatInput').onkeydown=e=>{if(e.key==='Enter')sendChat()};renderChat();
+let boxPrize;
+function boxNew(){boxPrize=Math.floor(Math.random()*3);$('boxAgain').classList.add('hidden');$('boxStatus').textContent='';$('boxes').innerHTML=[0,1,2].map(i=>`<button class="game-card" onclick="boxPick(${i})"><div class="icon">🎁</div><h3>BOX ${i+1}</h3><p>What’s inside?</p></button>`).join('')}
+function boxPick(i){[0,1,2].forEach(x=>{let b=$('boxes').children[x];b.disabled=true;b.innerHTML=`<div class="icon">${x===boxPrize?'🏆':'❌'}</div><h3>BOX ${x+1}</h3><p>${x===boxPrize?'YOU FOUND IT!':'Empty!'}</p>`});$('boxStatus').textContent=i===boxPrize?'🎉 JACKPOT BOX!':'❌ Better luck next time!';$('boxAgain').classList.remove('hidden');played()}
+
+let diffFound,diffTimer;
+function diffNew(){diffFound=0;$('diffFound').textContent=0;$('diffStatus').textContent='';clearInterval(diffTimer);let left=45;$('diffTimer').textContent=left;diffTimer=setInterval(()=>{left--;$('diffTimer').textContent=left;if(left<=0){clearInterval(diffTimer);$('diffStatus').textContent='⏰ Time!'}} ,1000);$('diffPicture').onclick=e=>{if(diffFound<5){diffFound++;$('diffFound').textContent=diffFound;if(diffFound===5){clearInterval(diffTimer);$('diffStatus').textContent='🏆 ALL 5 FOUND!';played();score(50)}}}}
+let highCurrent,highStreak;
+function highNew(){highCurrent=Math.floor(Math.random()*90)+10;highStreak=0;$('highCurrent').textContent=highCurrent;$('highStreak').textContent=0;$('highStatus').textContent=''}
+function highGuess(g){let next=Math.floor(Math.random()*100)+1,ok=(g==='higher'&&next>highCurrent)||(g==='lower'&&next<highCurrent);if(ok){highStreak++;$('highStatus').textContent=`✅ ${next} — correct!`;highCurrent=next}else{$('highStatus').textContent=`❌ ${next} — streak ended at ${highStreak}.`;highStreak=0;highCurrent=next}$('highCurrent').textContent=highCurrent;$('highStreak').textContent=highStreak}
+
+const cats=[['🧠','TRIVIA'],['🌍','GEOGRAPHY'],['🎬','MOVIES'],['🎵','MUSIC'],['😂','RANDOM'],['🔥','HARD MODE']];
+function spinWheel(){let i=Math.floor(Math.random()*cats.length);$('wheelIcon').textContent='🎡';$('wheelResult').textContent='Spinning…';let t=0;let a=setInterval(()=>{let c=cats[Math.floor(Math.random()*cats.length)];$('wheelIcon').textContent=c[0];$('wheelResult').textContent=c[1];if(++t>=12){clearInterval(a);$('wheelStatus').textContent=`🎯 Category: ${cats[i][1]}`}},100)}
+const rapid=[['Which is the largest continent?',['Asia','Africa','Europe'],0],['How many days are in a leap year?',['365','366','364'],1],['What colour is made by mixing blue and yellow?',['Green','Purple','Orange'],0],['Which month comes after September?',['October','November','August'],0],['How many legs does a spider have?',['6','8','10'],1],['What is the opposite of hot?',['Warm','Cold','Dry'],1],['Which shape has three sides?',['Square','Triangle','Circle'],1]];
+let si,ss,st;
+function sixtyReset(){clearInterval(st);si=0;ss=0;$('sixtyTimer').textContent=60;$('sixtyScore').textContent=0;$('sixtyQuestion').textContent='Press START';$('sixtyAnswers').innerHTML='';$('sixtyStatus').textContent=''}
+function sixtyStart(){clearInterval(st);si=0;ss=0;let left=60;$('sixtyTimer').textContent=left;rapidRender();st=setInterval(()=>{left--;$('sixtyTimer').textContent=left;if(left<=0){clearInterval(st);$('sixtyQuestion').textContent='🏆 TIME!';$('sixtyAnswers').innerHTML='';$('sixtyStatus').textContent=`Final score: ${ss}`;played();score(ss)}},1000)}
+function rapidRender(){let q=rapid[si%rapid.length];$('sixtyQuestion').textContent=q[0];$('sixtyAnswers').innerHTML=q[1].map((x,i)=>`<button onclick="rapidGuess(${i},${q[2]})">${x}</button>`).join('')}
+function rapidGuess(i,ans){if(i===ans){ss++;$('sixtyScore').textContent=ss}si++;rapidRender()}
+function sendChat(){let i=$('chatInput'),v=i.value.trim();if(!v)return;let d=document.createElement('div');d.className='msg';d.innerHTML='<b>You:</b> '+v.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));$('chatbox').appendChild(d);i.value='';$('chatbox').scrollTop=99999}
 </script>
 </body>
 </html>
