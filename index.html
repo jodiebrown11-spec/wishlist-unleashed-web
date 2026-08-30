@@ -82,10 +82,10 @@ textarea{min-height:100px;resize:vertical}
 <h2>🎮 Game Lobby</h2>
 <p class="small">Choose a game. Your points stay on this device while you play.</p>
 <div class="grid">
-<button class="game" data-game="code">🔐<br><strong>Crack the Code</strong><br><span class="small">Logic puzzle • 5 attempts</span></button>
-<button class="game" data-game="where">🌍<br><strong>Where Am I?</strong><br><span class="small">Three clues • choose the place</span></button>
-<button class="game" data-game="bingo">🎱<br><strong>Free Bingo</strong><br><span class="small">90-ball card • call your numbers</span></button>
-<button class="game" data-game="wish">🎁<br><strong>Big Wish</strong><br><span class="small">Submit and vote on wishes</span></button>
+<button class="game" data-game="code">🔐<br><strong>Crack the Code</strong><br><span class="small">Daily code • 5 attempts • streak</span></button>
+<button class="game" data-game="where">🌍<br><strong>Where Am I?</strong><br><span class="small">Clues get harder • 3 rounds</span></button>
+<button class="game" data-game="bingo">🎱<br><strong>Free Bingo</strong><br><span class="small">90-ball caller • 3 ways to win</span></button>
+<button class="game" data-game="wish">🎁<br><strong>Big Wish</strong><br><span class="small">Submit • vote • leaderboard</span></button>
 </div>
 <div id="gameArea"></div>
 </div>
@@ -159,45 +159,27 @@ render()
 }
 
 function code(a){
- let answer=String(Math.floor(100+Math.random()*900)),tries=5,finished=false;
- a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>Find the secret 3-digit code. You get <b>five attempts</b>.</p><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits"><div class="row"><button class="primary" id="checkCode">CHECK CODE</button><button id="newCode">NEW CODE</button></div><div id="codeResult" class="status">Attempts left: 5</div><p class="small">You’ll be told how many digits are in the correct position.</p></div>';
- $('checkCode').onclick=()=>{
-   if(finished)return;
-   let v=$('guess').value.trim();
-   if(!/^\d{3}$/.test(v)){$('codeResult').textContent='Enter exactly 3 digits.';return}
-   tries--;
-   let exact=[0,1,2].filter(i=>v[i]===answer[i]).length;
-   let present=[...v].filter((d,i)=>answer.includes(d) && answer.indexOf(d)!==i).length;
-   if(v===answer){finished=true;gamePlayed();addPoint(2);$('codeResult').textContent='🎉 CRACKED! The code was '+answer+' — +2 points';$('checkCode').disabled=true;$('guess').disabled=true}
-   else if(tries===0){finished=true;gamePlayed();$('codeResult').textContent='❌ Out of attempts. The code was '+answer+'.';$('checkCode').disabled=true;$('guess').disabled=true}
-   else $('codeResult').textContent=exact+' digit(s) in the correct position'+(present?' • '+present+' other digit(s) are in the code':'')+'. '+tries+' attempt(s) left.';
- };
- $('newCode').onclick=()=>code(a);
+ let key='wuCodeDaily', today=new Date().toISOString().slice(0,10), saved=JSON.parse(localStorage.getItem(key)||'{}');
+ if(saved.date!==today){saved={date:today,answer:String(Math.floor(100+Math.random()*900)),tries:0,won:false};localStorage.setItem(key,JSON.stringify(saved))}
+ let state=saved, tries=Number(state.tries||0), answer=state.answer;
+ const history=JSON.parse(localStorage.wuCodeHistory||'[]');
+ function render(msg=''){a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>One secret 3-digit code for today. You have <b>5 attempts</b>.</p><div class="status"><b>Daily challenge</b> • '+today+'<br>Attempts used: '+tries+'/5</div><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits" '+(state.won||tries>=5?'disabled':'')+'><button class="primary" id="checkCode" '+(state.won||tries>=5?'disabled':'')+'>CHECK CODE</button><div id="codeResult" class="status">'+(msg||(state.won?'🎉 You already cracked today’s code!':tries>=5?'❌ No attempts left today.':'Hint: you’ll be told how many digits are in the correct position.'))+'</div><p class="small">Correct position = right digit in the right place. Come back tomorrow for a fresh code.</p></div>'}
+ render(); $('checkCode').onclick=()=>{let v=$('guess').value.trim();if(!/^\d{3}$/.test(v)){render('Enter exactly 3 digits.');return}if(state.won||tries>=5)return;tries++;state.tries=tries;if(v===answer){state.won=true;localStorage.setItem(key,JSON.stringify(state));addPoint(2);gamePlayed();render('🎉 CODE CRACKED! +2 points');}else{let exact=[0,1,2].filter(i=>v[i]===answer[i]).length;localStorage.setItem(key,JSON.stringify(state));if(tries>=5){gamePlayed();render('❌ No attempts left today. The code was '+answer+'.')}else render(exact+' digit(s) in the correct position. '+(5-tries)+' attempt(s) left.')}}
 }
-
 function whereGame(a){
  const rounds=[
  {city:'London',clues:['I am famous for Big Ben.','The River Thames runs through me.','I am the capital of England.'],opts:['London','Paris','Dublin']},
  {city:'Paris',clues:['I have the Eiffel Tower.','I am the capital of France.','The River Seine runs through me.'],opts:['Rome','Paris','London']},
  {city:'Rome',clues:['I am famous for the Colosseum.','I am the capital of Italy.','Ancient Roman ruins are everywhere.'],opts:['Rome','Madrid','Athens']},
- {city:'Sydney',clues:['I am famous for a sail-shaped opera house.','I am on Australia’s east coast.','The Harbour Bridge is here.'],opts:['Sydney','Auckland','Perth']},
- {city:'New York',clues:['The Statue of Liberty is here.','I am known as the Big Apple.','I am one of the world’s biggest cities.'],opts:['Chicago','New York','Boston']},
- {city:'Tokyo',clues:['I am the capital of Japan.','Mount Fuji is nearby.','I am famous for Shibuya Crossing.'],opts:['Seoul','Tokyo','Beijing']}
+ {city:'Sydney',clues:['I have a sail-shaped opera house.','I am on Australia’s east coast.','The Harbour Bridge is here.'],opts:['Sydney','Auckland','Perth']},
+ {city:'New York',clues:['A huge green statue welcomes visitors.','I am known as the Big Apple.','Times Square is here.'],opts:['Chicago','New York','Boston']},
+ {city:'Edinburgh',clues:['I have a famous castle on a volcanic rock.','I am Scotland’s capital.','My annual Fringe festival is world famous.'],opts:['Edinburgh','Glasgow','Aberdeen']}
  ];
- let order=[...rounds].sort(()=>Math.random()-.5),i=0,score=0;
- function render(){
-  const r=order[i];
-  a.innerHTML='<div class="box"><h2>🌍 Where Am I?</h2><span class="badge">Round '+(i+1)+' of '+order.length+'</span>'+r.clues.map((c,j)=>'<div class="clue"><b>Clue '+(j+1)+'</b><br>'+c+'</div>').join('')+'<p><b>Choose your answer:</b></p>'+r.opts.map(x=>'<button class="answer" data-answer="'+x+'">'+x+'</button>').join('')+'<div id="whereResult" class="status"></div></div>';
-  a.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{
-   a.querySelectorAll('[data-answer]').forEach(x=>x.disabled=true);gamePlayed();
-   if(b.dataset.answer===r.city){score++;addPoint();$('whereResult').textContent='🎉 Correct! '+r.city+' — +1 point'}else $('whereResult').textContent='❌ Not quite. The answer was '+r.city+'.';
-   setTimeout(()=>{i++;i<order.length?render():finish()},700);
-  });
- }
- function finish(){a.innerHTML='<div class="box center"><h2>🌍 Where Am I? Complete!</h2><div class="num pink">'+score+'/'+order.length+'</div><p>You scored '+score+' point(s).</p><button class="primary" id="whereAgain">PLAY AGAIN</button></div>';$('whereAgain').onclick=()=>whereGame(a)}
- render();
+ let order=rounds.sort(()=>Math.random()-.5).slice(0,3),rno=0,score=0;
+ function render(){let r=order[rno];a.innerHTML='<div class="box"><h2>🌍 Where Am I?</h2><span class="badge">Round '+(rno+1)+' of 3</span><div class="quiz-progress"><i style="width:'+(rno/3*100)+'%"></i></div>'+r.clues.map((c,i)=>'<div class="clue"><b>Clue '+(i+1)+'</b><br>'+c+'</div>').join('')+'<p><b>Where am I?</b></p>'+r.opts.map(x=>'<button class="answer" data-answer="'+x+'">'+x+'</button>').join('')+'<div id="whereResult" class="status"></div></div>';a.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{a.querySelectorAll('[data-answer]').forEach(x=>x.disabled=true);if(b.dataset.answer===r.city){score++;addPoint();$('whereResult').textContent='🎉 Correct! +1 point'}else $('whereResult').textContent='❌ The answer was '+r.city+'.';setTimeout(()=>{rno++;rno<3?render():finish()},700)})}
+ function finish(){gamePlayed();a.innerHTML='<div class="box center"><h2>🌍 Journey complete!</h2><div class="num pink">'+score+'/3</div><p>You earned '+score+' point(s).</p><button class="primary" id="againWhere">PLAY AGAIN</button></div>';$('againWhere').onclick=()=>whereGame(a)}
+ render()
 }
-
 function makeBingoCard(){
 const card=Array.from({length:3},()=>Array(9).fill(null));
 for(let row=0;row<3;row++){let cols=[0,1,2,3,4,5,6,7,8].sort(()=>Math.random()-.5).slice(0,5).sort((a,b)=>a-b);cols.forEach(col=>{let min=col*10+1,max=col===8?90:(col+1)*10;card[row][col]=Math.floor(Math.random()*(max-min+1))+min})}
@@ -205,23 +187,17 @@ for(let c=0;c<9;c++){let vals=[];for(let r=0;r<3;r++)if(card[r][c])vals.push(car
 return card
 }
 function bingo(a){
-let remaining=Array.from({length:90},(_,i)=>i+1),called=new Set(),card=makeBingoCard(),won=false;
-a.innerHTML='<div class="box center"><h2>🎱 Free 90-Ball Bingo</h2><p>Tap the button to call the next number. Marked numbers light up on your card.</p><div class="num pink" id="bingoCall">—</div><button class="primary" id="callNext">CALL NEXT BALL</button><div class="bingo-card">'+card.flat().map((n,i)=>n?'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>':'<div class="bingo-cell empty"></div>').join('')+'</div><div id="bingoMsg" class="status">Good luck! 🍀</div><p class="small">Called numbers</p><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div></div>';
-$('callNext').onclick=()=>{if(!remaining.length)return;let n=remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];called.add(n);$('bingoCall').textContent=n;$('called'+n).classList.add('on');a.querySelectorAll('[data-card="'+n+'"]').forEach(x=>x.classList.add('mark'));$('bingoMsg').textContent='Number '+n+' called! Mark it if it is on your card.';if(!won&&card.flat().filter(Boolean).every(x=>called.has(x))){won=true;gamePlayed();addPoint(3);$('bingoMsg').textContent='🎉 BINGO! Full card! +3 points';$('callNext').disabled=true}}
+ let remaining=Array.from({length:90},(_,i)=>i+1),called=new Set(),card=makeBingoCard(),won=false,lines=0;
+ a.innerHTML='<div class="box center"><h2>🎱 Free 90-Ball Bingo</h2><p>Call numbers and mark your card. Win a line, two lines or a full house.</p><div class="num pink" id="bingoCall">—</div><button class="primary" id="callNext">CALL NEXT BALL</button><div class="bingo-card">'+card.flat().map(n=>n?'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>':'<div class="bingo-cell empty"></div>').join('')+'</div><div id="bingoMsg" class="status">Good luck! 🍀</div><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div></div>';
+ function check(){let rowWins=card.filter(row=>row.filter(Boolean).every(x=>called.has(x))).length;let colWins=0;for(let c=0;c<9;c++){let vals=card.map(r=>r[c]).filter(Boolean);if(vals.length&&vals.every(x=>called.has(x)))colWins++}return rowWins+colWins}
+ $('callNext').onclick=()=>{if(!remaining.length||won)return;let n=remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];called.add(n);$('bingoCall').textContent=n;$('called'+n).classList.add('on');a.querySelectorAll('[data-card="'+n+'"]').forEach(x=>x.classList.add('mark'));let w=check();if(w>=1&&lines<1){lines=1;$('bingoMsg').textContent='🎉 ONE LINE! Keep going!'}if(w>=2&&lines<2){lines=2;$('bingoMsg').textContent='🎉 TWO LINES! Keep going!'}if(card.flat().filter(Boolean).every(x=>called.has(x))){won=true;gamePlayed();addPoint(3);$('bingoMsg').textContent='🏆 FULL HOUSE! +3 points';$('callNext').disabled=true}}
 }
-
 function wish(a){
- let wishes=JSON.parse(localStorage.wuWishes||'[]');
- if(!wishes.length)wishes=['A family day out','A surprise wishlist gift','A cinema night','A garden makeover','A special meal'].map((text,i)=>({text,votes:0,id:i}));
- let voted=new Set(JSON.parse(localStorage.wuVoted||'[]'));
- function save(){localStorage.wuWishes=JSON.stringify(wishes);localStorage.wuVoted=JSON.stringify([...voted])}
- function render(message=''){a.innerHTML='<div class="box"><h2>🎁 Big Wish</h2><p>Add a wish, then let the community vote for their favourite.</p><textarea id="wishText" maxlength="120" placeholder="What would be your BIG wish?"></textarea><button class="primary" id="addWish">ADD WISH</button><div id="wishList">'+wishes.slice().sort((x,y)=>y.votes-x.votes).map((w,i)=>'<div class="wish-item"><span><b>'+esc(w.text)+'</b><br><span class="small">'+w.votes+' vote(s)</span></span><button data-wish="'+w.id+'" '+(voted.has(String(w.id))?'disabled':'')+'>'+(voted.has(String(w.id))?'VOTED ✓':'VOTE 💗')+'</button></div>').join('')+'</div><div id="wishResult" class="status">'+(message||'Votes are stored on this device in prototype mode.')+'</div></div>';
-  $('addWish').onclick=()=>{let t=$('wishText').value.trim();if(!t)return;$('wishText').focus();wishes.push({text:t,votes:0,id:'w'+Date.now()});save();render('Wish added! 💗')};
-  a.querySelectorAll('[data-wish]').forEach(b=>b.onclick=()=>{let w=wishes.find(x=>String(x.id)===String(b.dataset.wish));if(!w||voted.has(String(w.id)))return;w.votes++;voted.add(String(w.id));save();gamePlayed();render('💗 Vote recorded!')});
- }
- render();
+ let wishes=JSON.parse(localStorage.wuWishes||'[]');if(!wishes.length)wishes=['A family day out','A surprise wishlist gift','A cinema night','A garden makeover','A special meal'].map((text,i)=>({text,votes:0,id:i}));
+ function save(){localStorage.wuWishes=JSON.stringify(wishes)}
+ function render(){wishes.sort((x,y)=>y.votes-x.votes);a.innerHTML='<div class="box"><h2>🎁 Big Wish</h2><p>Submit a wish and let the community choose their favourites.</p><textarea id="wishText" maxlength="120" placeholder="What would be your BIG wish?"></textarea><button class="primary" id="addWish">ADD WISH</button><div id="wishList">'+wishes.map((w,i)=>'<div class="wish-item"><span><b>#'+(i+1)+' '+esc(w.text)+'</b><br><span class="small">'+w.votes+' vote(s)</span></span><button data-wish="'+w.id+'">VOTE 💗</button></div>').join('')+'</div><div id="wishResult" class="status">Top wishes rise to the top.</div></div>';a.querySelector('#addWish').onclick=()=>{let t=$('wishText').value.trim();if(!t)return;wishes.push({text:t,votes:0,id:Date.now()});save();render()};a.querySelectorAll('[data-wish]').forEach(b=>b.onclick=()=>{let w=wishes.find(x=>String(x.id)===b.dataset.wish);let voted=JSON.parse(localStorage.wuVoted||'[]');if(voted.includes(w.id)){b.disabled=true;return}w.votes++;voted.push(w.id);localStorage.wuVoted=JSON.stringify(voted);save();gamePlayed();render()})}
+ render()
 }
-
 async function loadChat(){
 try{const r=await sb.from('chat_messages').select('player_id,message,created_at').order('created_at',{ascending:true}).limit(50);$('chatLog').innerHTML=(r.data||[]).map(m=>'<div class="msg">'+esc(m.message)+'</div>').join('');$('chatLog').scrollTop=$('chatLog').scrollHeight}catch(e){}
 }
