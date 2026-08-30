@@ -147,38 +147,89 @@ function openGame(g){const a=$('gameArea');a.innerHTML='';if(g==='code')return c
 
 function challenge(a){
 const qs=[
-['Which month has Halloween?',['October','June','March'],0],
-['What is the capital of England?',['London','Cardiff','Edinburgh'],0],
-['How many days are in a week?',['5','7','10'],1],
-['Which animal is known as a Frenchie?',['French Bulldog','Tiger','Penguin'],0],
-['What colour is the main Wishlist Unleashed theme?',['Pink','Green','Orange'],0]
-];let i=0,score=0;
-function render(){let q=qs[i];a.innerHTML='<div class="box"><h2>🔥 Wishlist Challenge #1</h2><span class="badge">Question '+(i+1)+' of '+qs.length+'</span><div class="quiz-progress"><i style="width:'+((i)/qs.length*100)+'%"></i></div><h3>'+q[0]+'</h3>'+q[1].map((x,j)=>'<button class="answer" data-q="'+j+'">'+x+'</button>').join('')+'<div id="quizMsg" class="status"></div></div>';a.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{a.querySelectorAll('[data-q]').forEach(x=>x.disabled=true);if(Number(b.dataset.q)===q[2]){score++;$('quizMsg').textContent='🎉 Correct!'}else $('quizMsg').textContent='Not quite!';setTimeout(()=>{i++;i<qs.length?render():finish()},650)})}
-function finish(){gamePlayed();if(score>=3)addPoint(score>=5?3:1);a.innerHTML='<div class="box center"><h2>🏆 Challenge complete!</h2><div class="num pink">'+score+'/5</div><p>You earned '+(score>=5?3:score>=3?1:0)+' point(s).</p><button class="primary" id="again">PLAY AGAIN</button></div>';$('again').onclick=()=>challenge(a)}
+['Which planet is known as the Red Planet?',['Mars','Venus','Jupiter','Mercury'],0],
+['How many sides does a hexagon have?',['Six','Five','Seven','Eight'],0],
+['Which ocean is the largest?',['Pacific Ocean','Atlantic Ocean','Indian Ocean','Arctic Ocean'],0],
+['What is the capital of Scotland?',['Edinburgh','Glasgow','Aberdeen','Dundee'],0],
+['Which gas do plants mainly absorb from the air for photosynthesis?',['Carbon dioxide','Oxygen','Nitrogen','Hydrogen'],0],
+['How many minutes are in two hours?',['120','100','90','150'],0],
+['Which animal is the largest living land animal?',['African elephant','Giraffe','Hippopotamus','Rhinoceros'],0],
+['What is 9 × 7?',['63','56','72','49'],0],
+['Which season comes after spring in the UK?',['Summer','Autumn','Winter','Spring'],0],
+['Which colour is made by mixing blue and yellow paint?',['Green','Purple','Orange','Pink'],0]
+];
+let i=0,score=0;
+function render(){
+let q=qs[i];
+a.innerHTML='<div class="box"><h2>🔥 Wishlist Challenge #1</h2><span class="badge">Question '+(i+1)+' of '+qs.length+'</span><div class="quiz-progress"><i style="width:'+((i)/qs.length*100)+'%"></i></div><h3>'+q[0]+'</h3>'+q[1].map((x,j)=>'<button class="answer" data-q="'+j+'">'+x+'</button>').join('')+'<div id="quizMsg" class="status"></div></div>';
+a.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{
+a.querySelectorAll('[data-q]').forEach(x=>x.disabled=true);
+if(Number(b.dataset.q)===q[2]){score++;$('quizMsg').textContent='🎉 Correct!'}else $('quizMsg').textContent='Not quite!';
+setTimeout(()=>{i++;i<qs.length?render():finish()},650)
+})
+}
+function finish(){
+gamePlayed();
+const earned=score>=9?5:score>=7?3:score>=5?1:0;
+if(earned)addPoint(earned);
+a.innerHTML='<div class="box center"><h2>🏆 Challenge complete!</h2><div class="num pink">'+score+'/10</div><p>You earned '+earned+' point(s).</p><button class="primary" id="again">PLAY AGAIN</button></div>';
+$('again').onclick=()=>challenge(a)
+}
 render()
 }
-
 function code(a){
- let key='wuCodeDaily', today=new Date().toISOString().slice(0,10), saved=JSON.parse(localStorage.getItem(key)||'{}');
- if(saved.date!==today){saved={date:today,answer:String(Math.floor(100+Math.random()*900)),tries:0,won:false};localStorage.setItem(key,JSON.stringify(saved))}
- let state=saved, tries=Number(state.tries||0), answer=state.answer;
- const history=JSON.parse(localStorage.wuCodeHistory||'[]');
- function render(msg=''){a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>One secret 3-digit code for today. You have <b>5 attempts</b>.</p><div class="status"><b>Daily challenge</b> • '+today+'<br>Attempts used: '+tries+'/5</div><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits" '+(state.won||tries>=5?'disabled':'')+'><button class="primary" id="checkCode" '+(state.won||tries>=5?'disabled':'')+'>CHECK CODE</button><div id="codeResult" class="status">'+(msg||(state.won?'🎉 You already cracked today’s code!':tries>=5?'❌ No attempts left today.':'Hint: you’ll be told how many digits are in the correct position.'))+'</div><p class="small">Correct position = right digit in the right place. Come back tomorrow for a fresh code.</p></div>'}
- render(); $('checkCode').onclick=()=>{let v=$('guess').value.trim();if(!/^\d{3}$/.test(v)){render('Enter exactly 3 digits.');return}if(state.won||tries>=5)return;tries++;state.tries=tries;if(v===answer){state.won=true;localStorage.setItem(key,JSON.stringify(state));addPoint(2);gamePlayed();render('🎉 CODE CRACKED! +2 points');}else{let exact=[0,1,2].filter(i=>v[i]===answer[i]).length;localStorage.setItem(key,JSON.stringify(state));if(tries>=5){gamePlayed();render('❌ No attempts left today. The code was '+answer+'.')}else render(exact+' digit(s) in the correct position. '+(5-tries)+' attempt(s) left.')}}
+let answer=String(Math.floor(100+Math.random()*900)),tries=5,finished=false;
+a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>Find the secret 3-digit code. You get five attempts.</p><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits"><button class="primary" id="checkCode">CHECK CODE</button><div id="codeResult" class="status">Attempts left: 5</div></div>';
+$('checkCode').onclick=()=>{
+if(finished)return;
+let v=$('guess').value.trim();
+if(!/^\d{3}$/.test(v)){$('codeResult').textContent='Enter exactly 3 digits.';return}
+tries=Math.max(0,tries-1);
+let exact=[0,1,2].filter(i=>v[i]===answer[i]).length;
+if(v===answer){finished=true;gamePlayed();addPoint(2);$('codeResult').textContent='🎉 CRACKED! +2 points';$('checkCode').disabled=true;$('guess').disabled=true}
+else if(tries===0){finished=true;gamePlayed();$('codeResult').textContent='❌ Out of attempts. The code was '+answer+'.';$('checkCode').disabled=true;$('guess').disabled=true}
+else $('codeResult').textContent=exact+' digit(s) in the correct position. '+tries+' attempt(s) left.'
+}
 }
 function whereGame(a){
- const rounds=[
- {city:'London',clues:['I am famous for Big Ben.','The River Thames runs through me.','I am the capital of England.'],opts:['London','Paris','Dublin']},
- {city:'Paris',clues:['I have the Eiffel Tower.','I am the capital of France.','The River Seine runs through me.'],opts:['Rome','Paris','London']},
- {city:'Rome',clues:['I am famous for the Colosseum.','I am the capital of Italy.','Ancient Roman ruins are everywhere.'],opts:['Rome','Madrid','Athens']},
- {city:'Sydney',clues:['I have a sail-shaped opera house.','I am on Australia’s east coast.','The Harbour Bridge is here.'],opts:['Sydney','Auckland','Perth']},
- {city:'New York',clues:['A huge green statue welcomes visitors.','I am known as the Big Apple.','Times Square is here.'],opts:['Chicago','New York','Boston']},
- {city:'Edinburgh',clues:['I have a famous castle on a volcanic rock.','I am Scotland’s capital.','My annual Fringe festival is world famous.'],opts:['Edinburgh','Glasgow','Aberdeen']}
- ];
- let order=rounds.sort(()=>Math.random()-.5).slice(0,3),rno=0,score=0;
- function render(){let r=order[rno];a.innerHTML='<div class="box"><h2>🌍 Where Am I?</h2><span class="badge">Round '+(rno+1)+' of 3</span><div class="quiz-progress"><i style="width:'+(rno/3*100)+'%"></i></div>'+r.clues.map((c,i)=>'<div class="clue"><b>Clue '+(i+1)+'</b><br>'+c+'</div>').join('')+'<p><b>Where am I?</b></p>'+r.opts.map(x=>'<button class="answer" data-answer="'+x+'">'+x+'</button>').join('')+'<div id="whereResult" class="status"></div></div>';a.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{a.querySelectorAll('[data-answer]').forEach(x=>x.disabled=true);if(b.dataset.answer===r.city){score++;addPoint();$('whereResult').textContent='🎉 Correct! +1 point'}else $('whereResult').textContent='❌ The answer was '+r.city+'.';setTimeout(()=>{rno++;rno<3?render():finish()},700)})}
- function finish(){gamePlayed();a.innerHTML='<div class="box center"><h2>🌍 Journey complete!</h2><div class="num pink">'+score+'/3</div><p>You earned '+score+' point(s).</p><button class="primary" id="againWhere">PLAY AGAIN</button></div>';$('againWhere').onclick=()=>whereGame(a)}
- render()
+const rounds=[
+{city:'London',country:'United Kingdom',clues:[['BIG BEN','A famous clock tower beside the River Thames.','🕰️'],['RED BUS','A double-decker bus is one of my best-known sights.','🚌'],['ROYAL PALACE','A famous royal residence has a changing of the guard.','👑']]},
+{city:'Paris',country:'France',clues:[['EIFFEL TOWER','An iron landmark rises above the city.','🗼'],['RIVER SEINE','A famous river flows through my heart.','🌉'],['FRENCH CAPITAL','I am the capital city of France.','🥐']]},
+{city:'Rome',country:'Italy',clues:[['COLOSSEUM','An ancient amphitheatre is one of my biggest attractions.','🏛️'],['ROMAN EMPIRE','My streets are filled with reminders of ancient Rome.','🛡️'],['ITALIAN CAPITAL','I am the capital city of Italy.','🍕']]},
+{city:'New York',country:'USA',clues:[['STATUE OF LIBERTY','A giant statue welcomes visitors across my harbour.','🗽'],['YELLOW CABS','My streets are famous for yellow taxis.','🚕'],['MANHATTAN','A famous island forms the centre of my skyline.','🌆']]},
+{city:'Sydney',country:'Australia',clues:[['OPERA HOUSE','My harbour has a world-famous sail-like building.','🎭'],['HARBOUR BRIDGE','A huge steel bridge crosses my harbour.','🌉'],['AUSTRALIA','I am one of Australia’s best-known cities.','🇦🇺']]},
+{city:'Dubai',country:'United Arab Emirates',clues:[['BURJ KHALIFA','The world-famous skyscraper towers above my skyline.','🏙️'],['DESERT','Golden desert landscapes surround the city.','🐪'],['UAE','I am a major city in the United Arab Emirates.','🇦🇪']]},
+{city:'Tokyo',country:'Japan',clues:[['SHIBUYA','A famous crossing fills with pedestrians.','🚦'],['MOUNT FUJI','Japan’s iconic mountain can be seen from the region.','🗻'],['JAPAN','I am the capital city of Japan.','🇯🇵']]},
+{city:'Barcelona',country:'Spain',clues:[['SAGRADA FAMILIA','A spectacular basilica dominates my skyline.','⛪'],['GAUDI','My architecture is strongly associated with Antoni Gaudí.','🎨'],['SPAIN','I am a major city in Spain.','🇪🇸']]},
+{city:'Cairo',country:'Egypt',clues:[['PYRAMIDS','Ancient pyramids stand close to my city.','🔺'],['NILE','The River Nile runs through me.','🌊'],['EGYPT','I am the capital city of Egypt.','🇪🇬']]},
+{city:'Athens',country:'Greece',clues:[['ACROPOLIS','A famous ancient hilltop site overlooks me.','🏛️'],['PARTHENON','A celebrated ancient temple stands above my city.','🏺'],['GREECE','I am the capital city of Greece.','🇬🇷']]}
+];
+let round=rounds[Math.floor(Math.random()*rounds.length)],clue=0,score=0,finished=false;
+
+function render(){
+const c=round.clues[clue];
+const options=rounds.filter(x=>x!==round).sort(()=>Math.random()-.5).slice(0,3).concat([round]).sort(()=>Math.random()-.5);
+a.innerHTML='<div class="box center"><h2>🌍 Where Am I?</h2><span class="badge">Location challenge • Clue '+(clue+1)+' of 3</span>'+
+'<div style="font-size:82px;margin:12px 0;background:#19161d;border-radius:18px;padding:12px">'+c[2]+'</div>'+
+'<h3>'+c[0]+'</h3><p>'+c[1]+'</p><div class="status">Study the visual clue and description, then choose the location.</div>'+
+'<div class="grid">'+options.map(x=>'<button class="answer" data-city="'+x.city+'">'+x.city+'<br><span class="small">'+x.country+'</span></button>').join('')+'</div>'+
+'<div id="whereResult" class="status"></div></div>';
+a.querySelectorAll('[data-city]').forEach(btn=>btn.onclick=()=>{
+if(finished)return;
+a.querySelectorAll('[data-city]').forEach(x=>x.disabled=true);
+if(btn.dataset.city===round.city){score++;$('whereResult').textContent='🎉 Correct! You found '+round.city+'!'}
+else $('whereResult').textContent='❌ Not this time. The answer is '+round.city+'.';
+setTimeout(()=>{clue++;clue<3?render():finish()},900)
+})
+}
+function finish(){
+finished=true;gamePlayed();
+const earned=score===3?3:score>=2?1:0;
+if(earned)addPoint(earned);
+a.innerHTML='<div class="box center"><h2>🌍 Journey complete!</h2><div class="num pink">'+score+'/3</div><p>You identified '+round.city+', '+round.country+'.</p><p>You earned '+earned+' point(s).</p><button class="primary" id="whereAgain">NEW LOCATION</button></div>';
+$('whereAgain').onclick=()=>whereGame(a)
+}
+render()
 }
 function makeBingoCard(){
 const card=Array.from({length:3},()=>Array(9).fill(null));
@@ -187,10 +238,20 @@ for(let c=0;c<9;c++){let vals=[];for(let r=0;r<3;r++)if(card[r][c])vals.push(car
 return card
 }
 function bingo(a){
- let remaining=Array.from({length:90},(_,i)=>i+1),called=new Set(),card=makeBingoCard(),won=false,lines=0;
- a.innerHTML='<div class="box center"><h2>🎱 Free 90-Ball Bingo</h2><p>Call numbers and mark your card. Win a line, two lines or a full house.</p><div class="num pink" id="bingoCall">—</div><button class="primary" id="callNext">CALL NEXT BALL</button><div class="bingo-card">'+card.flat().map(n=>n?'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>':'<div class="bingo-cell empty"></div>').join('')+'</div><div id="bingoMsg" class="status">Good luck! 🍀</div><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div></div>';
- function check(){let rowWins=card.filter(row=>row.filter(Boolean).every(x=>called.has(x))).length;let colWins=0;for(let c=0;c<9;c++){let vals=card.map(r=>r[c]).filter(Boolean);if(vals.length&&vals.every(x=>called.has(x)))colWins++}return rowWins+colWins}
- $('callNext').onclick=()=>{if(!remaining.length||won)return;let n=remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];called.add(n);$('bingoCall').textContent=n;$('called'+n).classList.add('on');a.querySelectorAll('[data-card="'+n+'"]').forEach(x=>x.classList.add('mark'));let w=check();if(w>=1&&lines<1){lines=1;$('bingoMsg').textContent='🎉 ONE LINE! Keep going!'}if(w>=2&&lines<2){lines=2;$('bingoMsg').textContent='🎉 TWO LINES! Keep going!'}if(card.flat().filter(Boolean).every(x=>called.has(x))){won=true;gamePlayed();addPoint(3);$('bingoMsg').textContent='🏆 FULL HOUSE! +3 points';$('callNext').disabled=true}}
+let remaining=Array.from({length:90},(_,i)=>i+1),called=new Set(),card=makeBingoCard(),won=false,timer=null,started=false;
+a.innerHTML='<div class="box center"><h2>🎱 Free 90-Ball Bingo</h2><p>Start the caller and numbers will be called automatically every 3 seconds.</p><div class="num pink" id="bingoCall">—</div><div class="row"><button class="primary" id="startBingo">START BINGO</button><button id="pauseBingo" disabled>PAUSE</button></div><div class="bingo-card">'+card.flat().map(n=>n?'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>':'<div class="bingo-cell empty"></div>').join('')+'</div><div id="bingoMsg" class="status">Ready to play. 🍀</div><p class="small">Called numbers</p><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div></div>';
+function stop(){if(timer){clearInterval(timer);timer=null}}
+function callBall(){
+if(won||!remaining.length){stop();return}
+const n=remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];
+called.add(n);$('bingoCall').textContent=n;$('called'+n).classList.add('on');
+a.querySelectorAll('[data-card="'+n+'"]').forEach(x=>x.classList.add('mark'));
+$('bingoMsg').textContent='Number '+n+' called — check your card!';
+if(card.flat().filter(Boolean).every(x=>called.has(x))){won=true;gamePlayed();addPoint(3);stop();$('bingoMsg').textContent='🎉 BINGO! Full card! +3 points'}
+}
+function start(){if(won||!remaining.length)return;started=true;$('startBingo').disabled=true;$('pauseBingo').disabled=false;callBall();if(!won)timer=setInterval(callBall,3000)}
+function pause(){if(!started||won)return;stop();started=false;$('startBingo').disabled=false;$('pauseBingo').disabled=true;$('bingoMsg').textContent='Paused — press START BINGO to continue.'}
+$('startBingo').onclick=start;$('pauseBingo').onclick=pause;
 }
 function wish(a){
  let wishes=JSON.parse(localStorage.wuWishes||'[]');if(!wishes.length)wishes=['A family day out','A surprise wishlist gift','A cinema night','A garden makeover','A special meal'].map((text,i)=>({text,votes:0,id:i}));
