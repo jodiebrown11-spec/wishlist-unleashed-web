@@ -2,109 +2,110 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Wishlist Unleashed • Community Games</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#08070a;color:#fff;font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:850px;margin:auto;padding:16px}
-.box{background:#121016;border:1px solid #302a34;border-radius:20px;padding:18px;margin:10px 0}
-.hero{background:linear-gradient(135deg,#121016,#171019);padding:22px}
+:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff}
+body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 35%);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+main{max-width:1050px;margin:auto;padding:14px}
+.box{background:rgba(18,16,22,.96);border:1px solid #302a34;border-radius:20px;padding:18px;margin:10px 0;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+.hero{padding:25px;background:linear-gradient(135deg,#121016,#171019)}
 .eyebrow{color:#ff5bb5;letter-spacing:4px;font-size:12px;font-weight:900}
-h1{margin:6px 0;font-size:38px}.pink{color:#ff1591}
-.tag{font-size:20px;font-weight:900}
-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}
-button{background:#17141b;color:#fff;border:1px solid #39323c;border-radius:12px;padding:13px;font-weight:800;cursor:pointer}
-button.primary,.tab.active{background:#ff1591;border-color:#ff1591;color:#16000d}
-button:active{transform:scale(.98)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.game{min-height:105px;text-align:left;font-size:16px}
-.game strong{font-size:18px}
-.hidden{display:none!important}
-input,textarea{width:100%;box-sizing:border-box;background:#09080c;color:#fff;border:1px solid #39323c;border-radius:10px;padding:12px;margin:8px 0;font:inherit}
-.status{margin-top:10px;padding:10px;border-radius:10px;background:#1a151d}
-.num{font-size:48px;font-weight:900;text-align:center}
-.chat{height:240px;overflow:auto;background:#09080c;border-radius:10px;padding:10px}
-.msg{padding:8px;margin:5px 0;background:#17141b;border-radius:9px}
-.small{font-size:13px;opacity:.75}
-.answer{margin:4px 0}
-.bingo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:12px}
-.bingo-cell{padding:12px 5px;text-align:center;background:#19161d;border-radius:8px;font-weight:900}
-.bingo-cell.mark{background:#ff1591;color:#16000d}
+h1{margin:6px 0;font-size:clamp(31px,6vw,52px)}h2{margin-top:0}.pink{color:var(--pink)}.tag{font-size:clamp(18px,3vw,25px);font-weight:900}
+.small{font-size:13px;opacity:.72}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;position:sticky;top:0;z-index:5;padding:5px 0;background:#08070a}
+button{background:#17141b;color:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-weight:850;cursor:pointer;touch-action:manipulation}
+button.primary,.tab.active{background:var(--pink);border-color:var(--pink);color:#16000d}
+button:active{transform:scale(.98)}button:disabled{opacity:.5;cursor:not-allowed}
+input,textarea,select{width:100%;background:#09080c;color:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0;font:inherit}
+textarea{min-height:100px;resize:vertical}
+.status{margin-top:10px;padding:11px;border-radius:10px;background:var(--panel2);border:1px solid #2b2630}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.game{min-height:120px;text-align:left}.game strong{font-size:18px}
+.hidden{display:none!important}.num{font-size:48px;font-weight:900;text-align:center}
+.chat{height:280px;overflow:auto;background:#09080c;border-radius:10px;padding:10px}
+.msg{padding:9px;margin:5px 0;background:#17141b;border-radius:9px;word-break:break-word}
+.answer{margin:4px 4px 4px 0}
+.clue{padding:11px;border-left:3px solid var(--pink);background:var(--panel2);border-radius:8px;margin:8px 0}
+.wish-item{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--panel2);border-radius:10px;padding:11px;margin:7px 0}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#321027;color:#ff7ac2;font-size:12px;font-weight:800}
+.quiz-progress{height:8px;background:#242027;border-radius:99px;overflow:hidden;margin:12px 0}.quiz-progress>i{display:block;height:100%;background:var(--pink);width:0}
+.bingo-card{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-top:12px}
+.bingo-cell{min-height:48px;padding:9px 2px;text-align:center;background:#19161d;border-radius:7px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.bingo-cell.empty{opacity:.15}.bingo-cell.mark{background:var(--pink);color:#16000d}
 .called-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:10px}
-.called{padding:6px 2px;text-align:center;background:#19161d;border-radius:6px;font-size:12px}
-.called.on{background:#ff1591;color:#16000d}
-.clue{padding:10px;border-left:3px solid #ff1591;background:#19161d;border-radius:8px;margin:8px 0}
-.wish-item{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#19161d;border-radius:10px;padding:11px;margin:7px 0}
-@media(max-width:600px){main{padding:10px}.grid{grid-template-columns:1fr}nav{grid-template-columns:repeat(4,1fr)}.bingo-grid{gap:4px}.bingo-cell{padding:10px 3px}.called-grid{grid-template-columns:repeat(9,1fr)}h1{font-size:31px}}
+.called{padding:6px 2px;text-align:center;background:#19161d;border-radius:6px;font-size:12px}.called.on{background:var(--pink);color:#16000d}
+.wheel{width:min(270px,70vw);height:min(270px,70vw);border-radius:50%;margin:14px auto;background:conic-gradient(#ff1591 0 45deg,#241b27 45deg 90deg,#ff1591 90deg 135deg,#241b27 135deg 180deg,#ff1591 180deg 225deg,#241b27 225deg 270deg,#ff1591 270deg 315deg,#241b27 315deg 360deg);display:grid;place-items:center;border:8px solid #302a34;box-shadow:0 0 0 5px #09080c,0 10px 40px #000}
+.wheel span{width:120px;height:120px;border-radius:50%;background:#121016;display:grid;place-items:center;font-size:28px;font-weight:900}
+.center{text-align:center}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
+@media(max-width:650px){main{padding:9px}.grid{grid-template-columns:1fr}.bingo-card{gap:3px}.bingo-cell{min-height:40px;font-size:13px}.called-grid{grid-template-columns:repeat(9,1fr)}nav{gap:5px}nav button{padding:12px 5px;font-size:13px}}
 </style>
 </head>
 <body>
 <main>
 <header class="box hero">
-  <div class="eyebrow">WISHLIST UNLEASHED</div>
-  <h1>COMMUNITY GAMES</h1>
-  <div class="tag pink">We Play. We Slay. We Stay.</div>
-  <div class="small">DIFFERENT MINDS • DIFFERENT HEARTS • ONE FAMILY</div>
+<div class="eyebrow">WISHLIST UNLEASHED</div>
+<h1>COMMUNITY GAMES</h1>
+<div class="tag pink">We Play. We Slay. We Stay.</div>
+<div class="small">DIFFERENT MINDS • DIFFERENT HEARTS • ONE FAMILY</div>
 </header>
 
 <nav>
-  <button class="tab active" data-p="home">🏠 Home</button>
-  <button class="tab" data-p="games">🎮 Games</button>
-  <button class="tab" data-p="pot">💗 Pot</button>
-  <button class="tab" data-p="chat">💬 Chat</button>
+<button class="tab active" data-p="home">🏠 Home</button>
+<button class="tab" data-p="games">🎮 Games</button>
+<button class="tab" data-p="pot">💗 Pot</button>
+<button class="tab" data-p="chat">💬 Chat</button>
 </nav>
 
 <section id="home">
-  <div class="box">
-    <h2>💗 Live Player Room</h2>
-    <p id="authStatus">Connecting…</p>
-    <input id="playerName" maxlength="40" placeholder="Your display name">
-    <button class="primary" id="join">JOIN</button>
-    <div id="welcome"></div>
-  </div>
-
-  <div class="box">
-    <h2>🔥 Wishlist Challenge #1</h2>
-    <p>Quick warm-up challenge.</p>
-    <button class="primary" id="start">PLAY</button>
-  </div>
-
-  <div class="grid">
-    <div class="box"><div class="num pink" id="points">0</div><div class="small">POINTS</div></div>
-    <div class="box"><div class="num" id="played">0</div><div class="small">GAMES</div></div>
-  </div>
+<div class="box">
+<h2>💗 Live Player Room</h2>
+<p id="authStatus">Connecting…</p>
+<input id="playerName" maxlength="40" placeholder="Your display name">
+<button class="primary" id="join">JOIN</button>
+<div id="welcome"></div>
+</div>
+<div class="box">
+<h2>🔥 Wishlist Challenge #1</h2>
+<p>Five quick questions. Get them right and build your score.</p>
+<button class="primary" id="start">PLAY</button>
+</div>
+<div class="grid">
+<div class="box"><div class="num pink" id="points">0</div><div class="small">POINTS</div></div>
+<div class="box"><div class="num" id="played">0</div><div class="small">GAMES COMPLETED</div></div>
+</div>
 </section>
 
 <section id="games" class="hidden">
-  <div class="box">
-    <h2>🎮 Game Lobby</h2>
-    <p class="small">Tap a game below — all four are playable.</p>
-    <div class="grid">
-      <button class="game" data-game="code">🔐<br><strong>Crack the Code</strong><br><span class="small">Three-digit puzzle</span></button>
-      <button class="game" data-game="where">🌍<br><strong>Where Am I?</strong><br><span class="small">Clue challenge</span></button>
-      <button class="game" data-game="bingo">🎱<br><strong>Free Bingo</strong><br><span class="small">90-ball bingo</span></button>
-      <button class="game" data-game="wish">🎁<br><strong>Big Wish</strong><br><span class="small">Community wish board</span></button>
-    </div>
-    <div id="gameArea"></div>
-  </div>
+<div class="box">
+<h2>🎮 Game Lobby</h2>
+<p class="small">Choose a game. Your points stay on this device while you play.</p>
+<div class="grid">
+<button class="game" data-game="code">🔐<br><strong>Crack the Code</strong><br><span class="small">Logic puzzle • 5 attempts</span></button>
+<button class="game" data-game="where">🌍<br><strong>Where Am I?</strong><br><span class="small">Three clues • choose the place</span></button>
+<button class="game" data-game="bingo">🎱<br><strong>Free Bingo</strong><br><span class="small">90-ball card • call your numbers</span></button>
+<button class="game" data-game="wish">🎁<br><strong>Big Wish</strong><br><span class="small">Submit and vote on wishes</span></button>
+</div>
+<div id="gameArea"></div>
+</div>
 </section>
 
 <section id="pot" class="hidden">
-  <div class="box">
-    <h2>💗 Community Pot</h2>
-    <p>Community wishes and future prizes live here.</p>
-    <p class="status">Payments and paid entries are not enabled in this build.</p>
-  </div>
+<div class="box">
+<h2>💗 Community Pot</h2>
+<p>The community pot can be used for bigger wishes and community prizes when you are ready to connect the rules and payment system.</p>
+<div class="status"><b>Prototype mode</b><br>Payments and paid entries are not active. Nothing on this page takes money.</div>
+</div>
 </section>
 
 <section id="chat" class="hidden">
-  <div class="box">
-    <h2>💬 Live Community Chat</h2>
-    <div id="chatLog" class="chat"></div>
-    <input id="chatInput" placeholder="Write a message…">
-    <button class="primary" id="send">SEND</button>
-  </div>
+<div class="box">
+<h2>💬 Live Community Chat</h2>
+<div id="chatLog" class="chat"></div>
+<input id="chatInput" maxlength="300" placeholder="Write a message…">
+<button class="primary" id="send">SEND</button>
+</div>
 </section>
 </main>
 
@@ -113,176 +114,91 @@ input,textarea{width:100%;box-sizing:border-box;background:#09080c;color:#fff;bo
 const SUPABASE_URL="https://gjqsewkoiwmhvvycmpid.supabase.co";
 const SUPABASE_KEY="sb_publishable_glvNQ9RP7bEQGMTwxrxMTQ_xUTbOGSX";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-let user=null,name='Guest',pts=0,played=0;
-
+let user=null,name='Guest',pts=Number(localStorage.wuPts||0),played=Number(localStorage.wuPlayed||0);
 const $=id=>document.getElementById(id);
+$('points').textContent=pts;$('played').textContent=played;
 
 async function auth(){
-  try{
-    const r=await sb.auth.getSession();
-    user=r.data.session?.user||null;
-    if(!user){
-      const x=await sb.auth.signInAnonymously({data:{display_name:'Guest'}});
-      user=x.data.user||null;
-    }
-    $('authStatus').textContent=user?'Connected to community services 💗':'Connection unavailable';
-    if(user) loadChat();
-  }catch(e){
-    $('authStatus').textContent='Connection unavailable';
-  }
+try{
+const r=await sb.auth.getSession(); user=r.data.session?.user||null;
+if(!user){const x=await sb.auth.signInAnonymously({data:{display_name:'Guest'}});user=x.data.user||null}
+$('authStatus').textContent=user?'Connected to community services 💗':'Connection unavailable';
+if(user)loadChat();
+}catch(e){$('authStatus').textContent='Connection unavailable'}
 }
 auth();
 
-document.querySelectorAll('nav button').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
-    $(b.dataset.p).classList.remove('hidden');
-    if(b.dataset.p==='chat' && user) loadChat();
-  });
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));$(b.dataset.p).classList.remove('hidden');
+if(b.dataset.p==='chat'&&user)loadChat();
 });
 
-$('join').addEventListener('click',()=>{
-  name=$('playerName').value.trim()||'Guest';
-  $('welcome').textContent='Welcome, '+name+'! 💗';
-});
+$('join').onclick=()=>{name=$('playerName').value.trim()||'Guest';localStorage.wuName=name;$('welcome').textContent='Welcome, '+name+'! 💗'};
+if(localStorage.wuName){$('playerName').value=localStorage.wuName;name=localStorage.wuName}
 
-$('start').addEventListener('click',()=>{
-  document.querySelector('[data-p="games"]').click();
-  openGame('challenge');
-});
+$('start').onclick=()=>{document.querySelector('[data-p="games"]').click();openGame('challenge')};
+document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>openGame(b.dataset.game));
 
-document.querySelectorAll('[data-game]').forEach(b=>{
-  b.addEventListener('click',()=>openGame(b.dataset.game));
-});
+function gamePlayed(){played++;localStorage.wuPlayed=played;$('played').textContent=played}
+function addPoint(n=1){pts+=n;localStorage.wuPts=pts;$('points').textContent=pts}
+function openGame(g){const a=$('gameArea');a.innerHTML='';if(g==='code')return code(a);if(g==='where')return whereGame(a);if(g==='bingo')return bingo(a);if(g==='wish')return wish(a);return challenge(a)}
 
-function gamePlayed(){
-  played++;
-  $('played').textContent=played;
-}
-
-function addPoint(){
-  pts++;
-  $('points').textContent=pts;
-}
-
-function openGame(g){
-  const a=$('gameArea');
-  a.innerHTML='';
-  if(g==='code')return code(a);
-  if(g==='where')return whereGame(a);
-  if(g==='bingo')return bingo(a);
-  if(g==='wish')return wish(a);
-  a.innerHTML='<div class="box"><h2>🧠 Quick Challenge</h2><p>What is 7 × 8?</p><button class="answer" id="a56">56</button> <button class="answer" id="a54">54</button><div id="quickResult" class="status"></div></div>';
-  $('a56').onclick=()=>{gamePlayed();addPoint();$('quickResult').textContent='Correct! 🎉'};
-  $('a54').onclick=()=>{gamePlayed();$('quickResult').textContent='Not quite!'};
+function challenge(a){
+const qs=[
+['Which month has Halloween?',['October','June','March'],0],
+['What is the capital of England?',['London','Cardiff','Edinburgh'],0],
+['How many days are in a week?',['5','7','10'],1],
+['Which animal is known as a Frenchie?',['French Bulldog','Tiger','Penguin'],0],
+['What colour is the main Wishlist Unleashed theme?',['Pink','Green','Orange'],0]
+];let i=0,score=0;
+function render(){let q=qs[i];a.innerHTML='<div class="box"><h2>🔥 Wishlist Challenge #1</h2><span class="badge">Question '+(i+1)+' of '+qs.length+'</span><div class="quiz-progress"><i style="width:'+((i)/qs.length*100)+'%"></i></div><h3>'+q[0]+'</h3>'+q[1].map((x,j)=>'<button class="answer" data-q="'+j+'">'+x+'</button>').join('')+'<div id="quizMsg" class="status"></div></div>';a.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{a.querySelectorAll('[data-q]').forEach(x=>x.disabled=true);if(Number(b.dataset.q)===q[2]){score++;$('quizMsg').textContent='🎉 Correct!'}else $('quizMsg').textContent='Not quite!';setTimeout(()=>{i++;i<qs.length?render():finish()},650)})}
+function finish(){gamePlayed();if(score>=3)addPoint(score>=5?3:1);a.innerHTML='<div class="box center"><h2>🏆 Challenge complete!</h2><div class="num pink">'+score+'/5</div><p>You earned '+(score>=5?3:score>=3?1:0)+' point(s).</p><button class="primary" id="again">PLAY AGAIN</button></div>';$('again').onclick=()=>challenge(a)}
+render()
 }
 
 function code(a){
-  const answer=Math.floor(100+Math.random()*900);
-  let tries=5;
-  a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>Guess the secret 3-digit code. You have five attempts.</p><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits"><button class="primary" id="checkCode">CHECK</button><div id="codeResult" class="status">Attempts left: 5</div></div>';
-  $('checkCode').onclick=()=>{
-    if(tries<=0)return;
-    tries--;
-    const v=Number($('guess').value);
-    if(v===answer){
-      addPoint();gamePlayed();
-      $('codeResult').textContent='🎉 Cracked! +1 point';
-      $('checkCode').disabled=true;
-    }else{
-      $('codeResult').textContent=tries?'Not quite — '+tries+' attempts left.':'❌ No attempts left.';
-      if(!tries)$('checkCode').disabled=true;
-    }
-  };
+let answer=String(Math.floor(100+Math.random()*900)),tries=5;
+a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>Find the secret 3-digit code. You get five attempts.</p><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits"><button class="primary" id="checkCode">CHECK CODE</button><div id="codeResult" class="status">Attempts left: 5</div><p class="small">Hint: after each wrong guess, you will be told how many digits are in the correct place.</p></div>';
+$('checkCode').onclick=()=>{let v=$('guess').value.trim();if(!/^\\d{3}$/.test(v)){$('codeResult').textContent='Enter exactly 3 digits.';return}tries--;let exact=[0,1,2].filter(i=>v[i]===answer[i]).length;if(v===answer){gamePlayed();addPoint(2);$('codeResult').textContent='🎉 CRACKED! +2 points';$('checkCode').disabled=true}else if(!tries){gamePlayed();$('codeResult').textContent='❌ Out of attempts. The code was '+answer+'.';$('checkCode').disabled=true}else $('codeResult').textContent=exact+' digit(s) in the correct position. '+tries+' attempt(s) left.'}
 }
 
 function whereGame(a){
-  const rounds=[
-    {clues:['I am famous for Big Ben.','The River Thames runs through me.','I am the capital of England.'],answers:['London','Paris','Dublin']},
-    {clues:['I have the Eiffel Tower.','I am the capital of France.','The River Seine runs through me.'],answers:['Rome','Paris','London']},
-    {clues:['I am famous for the Colosseum.','I am the capital of Italy.','My city centre has ancient Roman ruins.'],answers:['Rome','Madrid','Athens']}
-  ];
-  const r=rounds[Math.floor(Math.random()*rounds.length)];
-  a.innerHTML='<div class="box"><h2>🌍 Where Am I?</h2>'+r.clues.map((c,i)=>'<div class="clue"><b>Clue '+(i+1)+'</b><br>'+c+'</div>').join('')+'<p>Choose your answer:</p>'+r.answers.map(x=>'<button class="answer" data-answer="'+x+'">'+x+'</button>').join(' ')+'<div id="whereResult" class="status"></div></div>';
-  a.querySelectorAll('[data-answer]').forEach(btn=>btn.onclick=()=>{
-    gamePlayed();
-    if(btn.dataset.answer===r.answers[0]){
-      addPoint();$('whereResult').textContent='🎉 Correct! +1 point';
-    }else $('whereResult').textContent='Not quite — try another game!';
-    a.querySelectorAll('[data-answer]').forEach(x=>x.disabled=true);
-  });
+const rounds=[
+{city:'London',clues:['I am famous for Big Ben.','The River Thames runs through me.','I am the capital of England.'],opts:['London','Paris','Dublin']},
+{city:'Paris',clues:['I have the Eiffel Tower.','I am the capital of France.','The River Seine runs through me.'],opts:['Rome','Paris','London']},
+{city:'Rome',clues:['I am famous for the Colosseum.','I am the capital of Italy.','Ancient Roman ruins are everywhere.'],opts:['Rome','Madrid','Athens']},
+{city:'Sydney',clues:['I am famous for a sail-shaped opera house.','I am on Australia’s east coast.','The Harbour Bridge is here.'],opts:['Sydney','Auckland','Perth']}
+];const r=rounds[Math.floor(Math.random()*rounds.length)];
+a.innerHTML='<div class="box"><h2>🌍 Where Am I?</h2>'+r.clues.map((c,i)=>'<div class="clue"><b>Clue '+(i+1)+'</b><br>'+c+'</div>').join('')+'<p><b>Choose your answer:</b></p>'+r.opts.map(x=>'<button class="answer" data-answer="'+x+'">'+x+'</button>').join('')+'<div id="whereResult" class="status"></div></div>';
+a.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{a.querySelectorAll('[data-answer]').forEach(x=>x.disabled=true);gamePlayed();if(b.dataset.answer===r.city){addPoint();$('whereResult').textContent='🎉 Correct! '+r.city+' — +1 point'}else $('whereResult').textContent='❌ Not quite. The answer was '+r.city+'.'})
 }
 
+function makeBingoCard(){
+const card=Array.from({length:3},()=>Array(9).fill(null));
+for(let row=0;row<3;row++){let cols=[0,1,2,3,4,5,6,7,8].sort(()=>Math.random()-.5).slice(0,5).sort((a,b)=>a-b);cols.forEach(col=>{let min=col*10+1,max=col===8?90:(col+1)*10;card[row][col]=Math.floor(Math.random()*(max-min+1))+min})}
+for(let c=0;c<9;c++){let vals=[];for(let r=0;r<3;r++)if(card[r][c])vals.push(card[r][c]);vals.sort((a,b)=>a-b);let k=0;for(let r=0;r<3;r++)if(card[r][c])card[r][c]=vals[k++]}
+return card
+}
 function bingo(a){
-  let remaining=Array.from({length:90},(_,i)=>i+1);
-  let called=new Set();
-  let card=[];
-  while(card.length<15){
-    const n=1+Math.floor(Math.random()*90);
-    if(!card.includes(n))card.push(n);
-  }
-  a.innerHTML='<div class="box"><h2>🎱 Free 90-Ball Bingo</h2><div class="num pink" id="bingoCall">—</div><button class="primary" id="callNext">CALL NEXT BALL</button><p class="small">Your card</p><div class="bingo-grid">'+card.map(n=>'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>').join('')+'</div><p class="small">Called numbers</p><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div><div id="bingoMsg" class="status">Tap CALL NEXT BALL to start.</div></div>';
-  $('callNext').onclick=()=>{
-    if(!remaining.length){$('bingoMsg').textContent='All 90 numbers have been called.';return;}
-    const i=Math.floor(Math.random()*remaining.length);
-    const n=remaining.splice(i,1)[0];
-    called.add(n);
-    $('bingoCall').textContent=n;
-    $('called'+n).classList.add('on');
-    const cell=a.querySelector('[data-card="'+n+'"]');
-    if(cell)cell.classList.add('mark');
-    $('bingoMsg').textContent='Number '+n+' called!';
-    if(card.every(x=>called.has(x))){
-      addPoint();gamePlayed();
-      $('bingoMsg').textContent='🎉 BINGO! You completed your card — +1 point';
-      $('callNext').disabled=true;
-    }
-  };
+let remaining=Array.from({length:90},(_,i)=>i+1),called=new Set(),card=makeBingoCard(),won=false;
+a.innerHTML='<div class="box center"><h2>🎱 Free 90-Ball Bingo</h2><p>Tap the button to call the next number. Marked numbers light up on your card.</p><div class="num pink" id="bingoCall">—</div><button class="primary" id="callNext">CALL NEXT BALL</button><div class="bingo-card">'+card.flat().map((n,i)=>n?'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>':'<div class="bingo-cell empty"></div>').join('')+'</div><div id="bingoMsg" class="status">Good luck! 🍀</div><p class="small">Called numbers</p><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div></div>';
+$('callNext').onclick=()=>{if(!remaining.length)return;let n=remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];called.add(n);$('bingoCall').textContent=n;$('called'+n).classList.add('on');a.querySelectorAll('[data-card="'+n+'"]').forEach(x=>x.classList.add('mark'));$('bingoMsg').textContent='Number '+n+' called!';if(!won&&card.flat().filter(Boolean).every(x=>called.has(x))){won=true;gamePlayed();addPoint(3);$('bingoMsg').textContent='🎉 BINGO! Full card! +3 points';$('callNext').disabled=true}}
 }
 
 function wish(a){
-  const wishes=[
-    'A family day out',
-    'A surprise wishlist gift',
-    'A cinema night',
-    'A garden makeover',
-    'A special meal'
-  ];
-  a.innerHTML='<div class="box"><h2>🎁 Big Wish</h2><p>Choose the community wish you would love to see picked.</p>'+wishes.map((w,i)=>'<div class="wish-item"><span>'+w+'</span><button data-wish="'+i+'">VOTE</button></div>').join('')+'<div id="wishResult" class="status">Your vote is for fun in this prototype.</div></div>';
-  a.querySelectorAll('[data-wish]').forEach(btn=>btn.onclick=()=>{
-    a.querySelectorAll('[data-wish]').forEach(x=>x.disabled=true);
-    gamePlayed();$('wishResult').textContent='💗 Vote recorded for “'+wishes[Number(btn.dataset.wish)]+'”';
-  });
+let wishes=JSON.parse(localStorage.wuWishes||'[]');if(!wishes.length)wishes=['A family day out','A surprise wishlist gift','A cinema night','A garden makeover','A special meal'].map((text,i)=>({text,votes:0,id:i}));
+function save(){localStorage.wuWishes=JSON.stringify(wishes)}
+function render(){a.innerHTML='<div class="box"><h2>🎁 Big Wish</h2><p>Add a wish, then let the community vote for their favourite.</p><textarea id="wishText" maxlength="120" placeholder="What would be your BIG wish?"></textarea><button class="primary" id="addWish">ADD WISH</button><div id="wishList">'+wishes.map((w,i)=>'<div class="wish-item"><span><b>'+esc(w.text)+'</b><br><span class="small">'+w.votes+' vote(s)</span></span><button data-wish="'+i+'">VOTE 💗</button></div>').join('')+'</div><div id="wishResult" class="status">Votes are stored on this device in prototype mode.</div></div>';a.querySelector('#addWish').onclick=()=>{let t=$('wishText').value.trim();if(!t)return;$('wishText').value='';wishes.push({text:t,votes:0,id:Date.now()});save();render();$('wishResult').textContent='Wish added! 💗'};a.querySelectorAll('[data-wish]').forEach(b=>b.onclick=()=>{wishes[Number(b.dataset.wish)].votes++;save();gamePlayed();b.disabled=true;render();$('wishResult').textContent='💗 Vote recorded!'});}
+render()
 }
 
 async function loadChat(){
-  try{
-    const r=await sb.from('chat_messages').select('player_id,message,created_at').order('created_at',{ascending:true}).limit(50);
-    $('chatLog').innerHTML=(r.data||[]).map(m=>'<div class="msg">'+esc(m.message)+'</div>').join('');
-    $('chatLog').scrollTop=$('chatLog').scrollHeight;
-  }catch(e){}
+try{const r=await sb.from('chat_messages').select('player_id,message,created_at').order('created_at',{ascending:true}).limit(50);$('chatLog').innerHTML=(r.data||[]).map(m=>'<div class="msg">'+esc(m.message)+'</div>').join('');$('chatLog').scrollTop=$('chatLog').scrollHeight}catch(e){}
 }
-
-$('send').onclick=async()=>{
-  const t=$('chatInput').value.trim();
-  if(!t||!user)return;
-  const r=await sb.from('chat_messages').insert({player_id:user.id,message:name+': '+t});
-  if(!r.error){
-    $('chatInput').value='';
-    loadChat();
-  }else alert(r.error.message);
-};
-
-$('chatInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter')$('send').click();
-});
-
-function esc(x){
-  return String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-}
+$('send').onclick=async()=>{const t=$('chatInput').value.trim();if(!t||!user)return;const r=await sb.from('chat_messages').insert({player_id:user.id,message:name+': '+t});if(!r.error){$('chatInput').value='';loadChat()}else alert(r.error.message)};
+$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click()});
+function esc(x){return String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 </script>
 </body>
 </html>
