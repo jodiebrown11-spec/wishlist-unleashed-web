@@ -6,346 +6,267 @@
 <title>Wishlist Unleashed • Community Games</title>
 <style>
 *{box-sizing:border-box}
-:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff}
-body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 35%);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
-main{max-width:1050px;margin:auto;padding:14px}
-.box{background:rgba(18,16,22,.96);border:1px solid #302a34;border-radius:20px;padding:18px;margin:10px 0;box-shadow:0 8px 30px rgba(0,0,0,.18)}
-.hero{padding:25px;background:linear-gradient(135deg,#121016,#171019)}
-.eyebrow{color:#ff5bb5;letter-spacing:4px;font-size:12px;font-weight:900}
-h1{margin:6px 0;font-size:clamp(31px,6vw,52px)}h2{margin-top:0}.pink{color:var(--pink)}.tag{font-size:clamp(18px,3vw,25px);font-weight:900}
-.small{font-size:13px;opacity:.72}
-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;position:sticky;top:0;z-index:5;padding:5px 0;background:#08070a}
-button{background:#17141b;color:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-weight:850;cursor:pointer;touch-action:manipulation}
-button.primary,.tab.active{background:var(--pink);border-color:var(--pink);color:#16000d}
-button:active{transform:scale(.98)}button:disabled{opacity:.5;cursor:not-allowed}
-input,textarea,select{width:100%;background:#09080c;color:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0;font:inherit}
-textarea{min-height:100px;resize:vertical}
-.status{margin-top:10px;padding:11px;border-radius:10px;background:var(--panel2);border:1px solid #2b2630}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.game{min-height:120px;text-align:left}.game strong{font-size:18px}
-.hidden{display:none!important}.num{font-size:48px;font-weight:900;text-align:center}
-.chat{height:280px;overflow:auto;background:#09080c;border-radius:10px;padding:10px}
-.msg{padding:9px;margin:5px 0;background:#17141b;border-radius:9px;word-break:break-word}
-.answer{margin:4px 4px 4px 0}
-.clue{padding:11px;border-left:3px solid var(--pink);background:var(--panel2);border-radius:8px;margin:8px 0}
-.wish-item{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--panel2);border-radius:10px;padding:11px;margin:7px 0}
-.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#321027;color:#ff7ac2;font-size:12px;font-weight:800}
-.quiz-progress{height:8px;background:#242027;border-radius:99px;overflow:hidden;margin:12px 0}.quiz-progress>i{display:block;height:100%;background:var(--pink);width:0}
-.bingo-card{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-top:12px}
-.bingo-cell{min-height:48px;padding:9px 2px;text-align:center;background:#19161d;border-radius:7px;font-weight:900;display:flex;align-items:center;justify-content:center}
-.bingo-cell.empty{opacity:.15}.bingo-cell.mark{background:var(--pink);color:#16000d}
-.called-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:10px}
-.called{padding:6px 2px;text-align:center;background:#19161d;border-radius:6px;font-size:12px}.called.on{background:var(--pink);color:#16000d}
-.wheel{width:min(270px,70vw);height:min(270px,70vw);border-radius:50%;margin:14px auto;background:conic-gradient(#ff1591 0 45deg,#241b27 45deg 90deg,#ff1591 90deg 135deg,#241b27 135deg 180deg,#ff1591 180deg 225deg,#241b27 225deg 270deg,#ff1591 270deg 315deg,#241b27 315deg 360deg);display:grid;place-items:center;border:8px solid #302a34;box-shadow:0 0 0 5px #09080c,0 10px 40px #000}
-.wheel span{width:120px;height:120px;border-radius:50%;background:#121016;display:grid;place-items:center;font-size:28px;font-weight:900}
-.center{text-align:center}.location-image{width:100%;max-width:620px;height:210px;margin:14px auto;border:1px solid #39323c;border-radius:18px;overflow:hidden;background:#0b0a0f}.location-image svg{width:100%;height:100%;display:block}.clue-title{font-size:22px;font-weight:900;margin:8px 0}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
-@media(max-width:650px){main{padding:9px}.grid{grid-template-columns:1fr}.bingo-card{gap:3px}.bingo-cell{min-height:40px;font-size:13px}.called-grid{grid-template-columns:repeat(9,1fr)}nav{gap:5px}nav button{padding:12px 5px;font-size:13px}}
+:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff;--muted:#bcb6bf;--good:#55e08b;--bad:#ff647c}
+body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 38%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1080px;margin:auto;padding:18px}
+.box{background:rgba(18,16,22,.96);border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:16px}
+.hero{padding:28px 24px}
+.eyebrow{color:#ffb5dc;letter-spacing:5px;font-size:12px;font-weight:900}
+h1{font-size:clamp(34px,6vw,58px);margin:8px 0}.pink{color:var(--pink)}h2{margin:0 0 10px;font-size:30px}h3{margin:0 0 8px}
+.sub{font-size:18px;color:#ddd}.small{color:var(--muted);font-size:14px}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0;position:sticky;top:0;z-index:5}
+button{border:1px solid var(--line);background:#17151b;color:#fff;border-radius:13px;padding:13px 16px;font-weight:800;font-size:15px;cursor:pointer}
+button.primary,button.active{background:var(--pink);border-color:var(--pink);color:#16000d}
+button:disabled{opacity:.45}
+input{width:100%;background:#09080c;border:1px solid var(--line);border-radius:12px;color:#fff;padding:14px;font-size:16px;outline:none}
+input:focus{border-color:var(--pink)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.gamepick{min-height:94px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px}
+.gamepick span{font-size:28px}.gamepick b{font-size:15px}
+.choicegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.choice{min-height:54px}
+.choice.correct{background:var(--good);color:#06140c;border-color:var(--good)}
+.choice.wrong{background:var(--bad);border-color:var(--bad)}
+.feedback{margin-top:12px;font-weight:800}
+.game{display:none}.game.show{display:block}
+.imageclue{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#08070a;margin:14px 0}
+.imageclue svg{display:block;width:100%;height:auto}
+.questioncount{color:var(--pink);font-weight:900}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bingo-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.called{font-size:58px;font-weight:950;color:var(--pink);min-width:130px;text-align:center}
+.ball{display:inline-flex;width:42px;height:42px;border-radius:50%;align-items:center;justify-content:center;border:1px solid var(--line);margin:4px;font-weight:900}
+.ball.called{background:var(--pink);color:#16000d}
+.board{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:430px;margin-top:16px}
+.cell{aspect-ratio:1;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;background:#17151b;font-weight:900}
+.cell.free{background:#30262f;color:#ffb5dc}.cell.marked{background:var(--pink);color:#16000d}
+.chatlog{height:260px;overflow:auto;background:#08070a;border:1px solid var(--line);border-radius:14px;padding:10px}
+.msg{padding:9px 11px;background:#19171e;border-radius:10px;margin-bottom:7px}.msg b{color:var(--pink)}
+.notice{padding:13px;border:1px solid var(--line);border-radius:13px;margin-top:12px}
+@media(max-width:700px){main{padding:10px}.grid{grid-template-columns:repeat(2,1fr)}nav{grid-template-columns:repeat(2,1fr)}.choicegrid{grid-template-columns:1fr}h1{font-size:38px}}
 </style>
 </head>
 <body>
 <main>
-<header class="box hero">
+<section class="box hero">
 <div class="eyebrow">WISHLIST UNLEASHED</div>
-<h1>COMMUNITY GAMES</h1>
-<div class="tag pink">We Play. We Slay. We Stay.</div>
-<div class="small">DIFFERENT MINDS • DIFFERENT HEARTS • ONE FAMILY</div>
-</header>
+<h1>COMMUNITY <span class="pink">GAMES</span></h1>
+<div class="pink" style="font-size:24px;font-weight:900">We Play. We Slay. We Stay.</div>
+<div class="sub">DIFFERENT MINDS • DIFFERENT HEARTS • ONE FAMILY</div>
+</section>
 
 <nav>
-<button class="tab active" data-p="home">🏠 Home</button>
-<button class="tab" data-p="games">🎮 Games</button>
-<button class="tab" data-p="pot">💗 Pot</button>
-<button class="tab" data-p="chat">💬 Chat</button>
+<button class="active" data-tab="home">🏠 Home</button>
+<button data-tab="games">🎮 Games</button>
+<button data-tab="pot">💗 Pot</button>
+<button data-tab="chat">💬 Chat</button>
 </nav>
 
-<section id="home">
+<section id="home" class="tab">
 <div class="box">
 <h2>💗 Live Player Room</h2>
-<p id="authStatus">Connecting…</p>
-<input id="playerName" maxlength="40" placeholder="Your display name">
-<button class="primary" id="join">JOIN</button>
-<div id="welcome"></div>
+<p class="small">Enter your display name to join.</p>
+<div class="row"><input id="playerName" placeholder="Your display name"><button class="primary" id="joinBtn">JOIN</button></div>
+<div id="joined" class="notice" style="display:none"></div>
 </div>
 <div class="box">
-<h2>🔥 Wishlist Challenge #1</h2>
-<p>Five quick questions. Get them right and build your score.</p>
-<button class="primary" id="start">PLAY</button>
-</div>
+<h2>🔥 Today's Games</h2>
+<p>Pick a game below. Everything is playable directly in this link.</p>
 <div class="grid">
-<div class="box"><div class="num pink" id="points">0</div><div class="small">POINTS</div></div>
-<div class="box"><div class="num" id="played">0</div><div class="small">GAMES COMPLETED</div></div>
+<button class="gamepick" data-game="code"><span>🔐</span><b>Crack the Code</b></button>
+<button class="gamepick" data-game="where"><span>🌍</span><b>Where Am I?</b></button>
+<button class="gamepick" data-game="bingo"><span>🎱</span><b>Auto Bingo</b></button>
+<button class="gamepick" data-game="bigwish"><span>🎁</span><b>Big Wish</b></button>
+</div>
 </div>
 </section>
 
-<section id="games" class="hidden">
+<section id="games" class="tab" style="display:none">
 <div class="box">
 <h2>🎮 Game Lobby</h2>
-<p class="small">Choose a game. Your points stay on this device while you play.</p>
 <div class="grid">
-<button class="game" data-game="code">🔐<br><strong>Crack the Code</strong><br><span class="small">Daily code • 5 attempts • streak</span></button>
-<button class="game" data-game="where">🌍<br><strong>Where Am I?</strong><br><span class="small">Clues get harder • 3 rounds</span></button>
-<button class="game" data-game="bingo">🎱<br><strong>Free Bingo</strong><br><span class="small">90-ball caller • 3 ways to win</span></button>
-<button class="game" data-game="wish">🎁<br><strong>Big Wish</strong><br><span class="small">Submit • vote • leaderboard</span></button>
+<button class="gamepick" data-game="code"><span>🔐</span><b>Crack the Code</b></button>
+<button class="gamepick" data-game="where"><span>🌍</span><b>Where Am I?</b></button>
+<button class="gamepick" data-game="bingo"><span>🎱</span><b>Auto Bingo</b></button>
+<button class="gamepick" data-game="bigwish"><span>🎁</span><b>Big Wish</b></button>
 </div>
-<div id="gameArea"></div>
+</div>
+
+<div id="code" class="box game show">
+<h2>🔐 Crack the Code</h2><p>Guess the secret 3-digit code. <b>5 attempts maximum.</b></p>
+<input id="codeInput" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits">
+<button class="primary" id="codeCheck" style="margin-top:10px">CHECK</button>
+<div id="codeFeedback" class="feedback"></div>
+</div>
+
+<div id="where" class="box game">
+<h2>🌍 Where Am I?</h2>
+<div class="questioncount" id="whereCount"></div>
+<div id="whereImage" class="imageclue"></div>
+<h3 id="whereClue"></h3>
+<div id="whereChoices" class="choicegrid"></div>
+<div id="whereFeedback" class="feedback"></div>
+<button id="whereNext" class="primary" style="margin-top:12px;display:none">NEXT CLUE</button>
+</div>
+
+<div id="bingo" class="box game">
+<h2>🎱 Free Bingo — Auto Caller</h2>
+<p>The caller automatically announces a new number every <b>5 seconds</b>. You can also call the next number manually.</p>
+<div class="bingo-controls">
+<div class="called" id="calledNumber">—</div>
+<div><button class="primary" id="startBingo">START AUTO CALLER</button><button id="nextBingo">NEXT NUMBER</button><button id="stopBingo">STOP</button></div>
+</div>
+<div class="small" id="bingoStatus">Ready to play.</div>
+<div id="calledBalls" style="margin-top:10px"></div>
+<div class="board" id="bingoBoard"></div>
+</div>
+
+<div id="bigwish" class="box game">
+<h2>🎁 Big Wish</h2>
+<p>Submit a wish for the Community Pot. Keep it within the group's rules and agreed prize limit.</p>
+<input id="wishName" placeholder="Your name">
+<input id="wishText" placeholder="What is your Big Wish?" style="margin-top:10px">
+<button class="primary" id="wishSubmit" style="margin-top:10px">SUBMIT WISH</button>
+<div id="wishFeedback" class="feedback"></div>
+<div class="notice"><b>Community Pot</b><br><span class="small">Monthly Big Wish • one wish up to £100, subject to group rules and available funds.</span></div>
 </div>
 </section>
 
-<section id="pot" class="hidden">
-<div class="box">
-<h2>💗 Community Pot</h2>
-<p>The community pot can be used for bigger wishes and community prizes when you are ready to connect the rules and payment system.</p>
-<div class="status"><b>Prototype mode</b><br>Payments and paid entries are not active. Nothing on this page takes money.</div>
-</div>
+<section id="pot" class="tab" style="display:none">
+<div class="box"><h2>💗 Community Pot</h2><p>The community pot gives back through bigger wishes and community prizes.</p>
+<div class="notice"><h3>Monthly Big Wish</h3>Target: one wish up to <b>£100</b>, subject to the group's rules and available funds.</div>
+<div class="notice">Paid games and payment processing are <b>not</b> active in this prototype.</div></div>
 </section>
 
-<section id="chat" class="hidden">
-<div class="box">
-<h2>💬 Live Community Chat</h2>
-<div id="chatLog" class="chat"></div>
-<input id="chatInput" maxlength="300" placeholder="Write a message…">
-<button class="primary" id="send">SEND</button>
+<section id="chat" class="tab" style="display:none">
+<div class="box"><h2>💬 Community Chat</h2>
+<div id="chatlog" class="chatlog"></div>
+<div class="row" style="margin-top:10px"><input id="chatInput" placeholder="Write a message..."><button class="primary" id="chatSend">SEND</button></div>
+<p class="small">Chat is saved in this browser so it remains after a refresh.</p>
 </div>
 </section>
-<div class="small center" style="padding:12px 0 24px">Wishlist Unleashed • Community Games</div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL="https://gjqsewkoiwmhvvycmpid.supabase.co";
-const SUPABASE_KEY="sb_publishable_glvNQ9RP7bEQGMTwxrxMTQ_xUTbOGSX";
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let user=null,name='Guest',pts=Number(localStorage.wuPts||0),played=Number(localStorage.wuPlayed||0);
 const $=id=>document.getElementById(id);
-$('points').textContent=pts;$('played').textContent=played;
-
-async function auth(){
-try{
-const r=await sb.auth.getSession(); user=r.data.session?.user||null;
-if(!user){const x=await sb.auth.signInAnonymously({data:{display_name:'Guest'}});user=x.data.user||null}
-$('authStatus').textContent=user?'Connected to community services 💗':'Connection unavailable';
-if(user){loadChat(); try{sb.channel('community-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_messages'},()=>loadChat()).subscribe()}catch(e){}}
-}catch(e){$('authStatus').textContent='Connection unavailable'}
-}
-auth();
-
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
-document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));$(b.dataset.p).classList.remove('hidden');
-if(b.dataset.p==='chat'&&user)loadChat();
+document.querySelectorAll('nav button').forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ document.querySelectorAll('.tab').forEach(t=>t.style.display='none');
+ $(btn.dataset.tab).style.display='block';
+});
+document.querySelectorAll('[data-game]').forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll('.game').forEach(g=>g.classList.remove('show'));
+ $(btn.dataset.game).classList.add('show');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ document.querySelector('[data-tab="games"]').classList.add('active');
+ document.querySelectorAll('.tab').forEach(t=>t.style.display='none');
+ $('games').style.display='block';
+ window.scrollTo({top:0,behavior:'smooth'});
 });
 
-$('join').onclick=()=>{name=$('playerName').value.trim()||'Guest';localStorage.wuName=name;$('welcome').textContent='Welcome, '+name+'! 💗'};
-if(localStorage.wuName){$('playerName').value=localStorage.wuName;name=localStorage.wuName}
-
-$('start').onclick=()=>{document.querySelector('[data-p="games"]').click();openGame('challenge')};
-document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>openGame(b.dataset.game));
-
-function gamePlayed(){played++;localStorage.wuPlayed=played;$('played').textContent=played}
-function addPoint(n=1){pts+=n;localStorage.wuPts=pts;$('points').textContent=pts}
-function openGame(g){const a=$('gameArea');a.innerHTML='';if(g==='code')return code(a);if(g==='where')return whereGame(a);if(g==='bingo')return bingo(a);if(g==='wish')return wish(a);return challenge(a)}
-
-function challenge(a){
-const qs=[
-['Which planet is known as the Red Planet?',['Mars','Venus','Jupiter','Mercury'],0],
-['How many sides does a hexagon have?',['Six','Five','Seven','Eight'],0],
-['Which ocean is the largest?',['Pacific Ocean','Atlantic Ocean','Indian Ocean','Arctic Ocean'],0],
-['What is the capital of Scotland?',['Edinburgh','Glasgow','Aberdeen','Dundee'],0],
-['Which gas do plants mainly absorb from the air for photosynthesis?',['Carbon dioxide','Oxygen','Nitrogen','Hydrogen'],0],
-['How many minutes are in two hours?',['120','100','90','150'],0],
-['Which animal is the largest living land animal?',['African elephant','Giraffe','Hippopotamus','Rhinoceros'],0],
-['What is 9 × 7?',['63','56','72','49'],0],
-['Which season comes after spring in the UK?',['Summer','Autumn','Winter','Spring'],0],
-['Which colour is made by mixing blue and yellow paint?',['Green','Purple','Orange','Pink'],0]
-];
-let i=0,score=0;
-function render(){
-let q=qs[i];
-a.innerHTML='<div class="box"><h2>🔥 Wishlist Challenge #1</h2><span class="badge">Question '+(i+1)+' of '+qs.length+'</span><div class="quiz-progress"><i style="width:'+((i)/qs.length*100)+'%"></i></div><h3>'+q[0]+'</h3>'+q[1].map((x,j)=>'<button class="answer" data-q="'+j+'">'+x+'</button>').join('')+'<div id="quizMsg" class="status"></div></div>';
-a.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{
-a.querySelectorAll('[data-q]').forEach(x=>x.disabled=true);
-if(Number(b.dataset.q)===q[2]){score++;$('quizMsg').textContent='🎉 Correct!'}else $('quizMsg').textContent='Not quite!';
-setTimeout(()=>{i++;i<qs.length?render():finish()},650)
-})
-}
-function finish(){
-gamePlayed();
-const earned=score>=9?5:score>=7?3:score>=5?1:0;
-if(earned)addPoint(earned);
-a.innerHTML='<div class="box center"><h2>🏆 Challenge complete!</h2><div class="num pink">'+score+'/10</div><p>You earned '+earned+' point(s).</p><button class="primary" id="again">PLAY AGAIN</button></div>';
-$('again').onclick=()=>challenge(a)
-}
-render()
-}
-function code(a){
-let answer=String(Math.floor(100+Math.random()*900)),tries=5,finished=false;
-a.innerHTML='<div class="box"><h2>🔐 Crack the Code</h2><p>Find the secret 3-digit code. You get five attempts.</p><input id="guess" inputmode="numeric" maxlength="3" placeholder="Enter 3 digits"><button class="primary" id="checkCode">CHECK CODE</button><div id="codeResult" class="status">Attempts left: 5</div></div>';
-$('checkCode').onclick=()=>{
-if(finished)return;
-let v=$('guess').value.trim();
-if(!/^\d{3}$/.test(v)){$('codeResult').textContent='Enter exactly 3 digits.';return}
-tries=Math.max(0,tries-1);
-let exact=[0,1,2].filter(i=>v[i]===answer[i]).length;
-if(v===answer){finished=true;gamePlayed();addPoint(2);$('codeResult').textContent='🎉 CRACKED! +2 points';$('checkCode').disabled=true;$('guess').disabled=true}
-else if(tries===0){finished=true;gamePlayed();$('codeResult').textContent='❌ Out of attempts. The code was '+answer+'.';$('checkCode').disabled=true;$('guess').disabled=true}
-else $('codeResult').textContent=exact+' digit(s) in the correct position. '+tries+' attempt(s) left.'
-}
-}
-function whereGame(a){
-const rounds=[
- {city:'London',country:'United Kingdom',theme:'London skyline',clues:[
-  ['BIG BEN','A famous clock tower stands beside the River Thames.','clock'],
-  ['RED BUS','Double-decker buses are one of my most recognisable sights.','bus'],
-  ['ROYAL PALACE','A famous royal residence has a changing of the guard.','crown']
- ]},
- {city:'Paris',country:'France',theme:'Paris landmarks',clues:[
-  ['EIFFEL TOWER','An iron landmark rises high above my city.','tower'],
-  ['RIVER SEINE','A famous river winds through my heart.','river'],
-  ['FRENCH CAPITAL','I am the capital city of France.','flag-fr']
- ]},
- {city:'Rome',country:'Italy',theme:'Ancient Rome',clues:[
-  ['COLOSSEUM','An enormous ancient amphitheatre is one of my biggest attractions.','colosseum'],
-  ['ROMAN EMPIRE','Ancient Roman history is everywhere around me.','shield'],
-  ['ITALIAN CAPITAL','I am the capital city of Italy.','flag-it']
- ]},
- {city:'New York',country:'USA',theme:'New York City',clues:[
-  ['STATUE OF LIBERTY','A giant statue welcomes visitors across my harbour.','liberty'],
-  ['YELLOW CABS','My streets are famous for yellow taxis.','taxi'],
-  ['MANHATTAN','A famous island forms the centre of my skyline.','skyline']
- ]},
- {city:'Sydney',country:'Australia',theme:'Sydney Harbour',clues:[
-  ['OPERA HOUSE','My harbour has a world-famous sail-like building.','opera'],
-  ['HARBOUR BRIDGE','A huge steel bridge crosses my harbour.','bridge'],
-  ['AUSTRALIA','I am one of Australia’s best-known cities.','flag-au']
- ]},
- {city:'Dubai',country:'United Arab Emirates',theme:'Dubai skyline',clues:[
-  ['BURJ KHALIFA','A world-famous skyscraper towers above my skyline.','burj'],
-  ['DESERT','Golden desert landscapes surround my city.','desert'],
-  ['UAE','I am a major city in the United Arab Emirates.','flag-ae']
- ]},
- {city:'Tokyo',country:'Japan',theme:'Tokyo',clues:[
-  ['SHIBUYA','A famous crossing fills with pedestrians and bright signs.','crossing'],
-  ['MOUNT FUJI','Japan’s iconic mountain can be seen from the region.','fuji'],
-  ['JAPAN','I am the capital city of Japan.','flag-jp']
- ]},
- {city:'Barcelona',country:'Spain',theme:'Barcelona',clues:[
-  ['SAGRADA FAMILIA','A spectacular basilica dominates my skyline.','church'],
-  ['GAUDI','My architecture is strongly associated with Antoni Gaudí.','mosaic'],
-  ['SPAIN','I am a major city in Spain.','flag-es']
- ]},
- {city:'Cairo',country:'Egypt',theme:'Cairo and the Nile',clues:[
-  ['PYRAMIDS','Ancient pyramids stand close to my city.','pyramid'],
-  ['NILE','The River Nile runs through me.','nile'],
-  ['EGYPT','I am the capital city of Egypt.','flag-eg']
- ]},
- {city:'Athens',country:'Greece',theme:'Ancient Athens',clues:[
-  ['ACROPOLIS','A famous ancient hilltop site overlooks me.','acropolis'],
-  ['PARTHENON','A celebrated ancient temple stands above my city.','temple'],
-  ['GREECE','I am the capital city of Greece.','flag-gr']
- ]}
-];
-
-function visual(type){
-const bg='#15121a', pink='#ff1591', white='#fff', gold='#ffd166', blue='#4aa3ff', green='#4bd37b', red='#ef476f';
-const common=`<rect width="620" height="210" rx="18" fill="${bg}"/><circle cx="520" cy="45" r="28" fill="#241b27"/><circle cx="520" cy="45" r="12" fill="${gold}"/>`;
-const map={
-clock:`<rect x="0" y="166" width="620" height="44" fill="#211c25"/><rect x="260" y="48" width="70" height="118" rx="5" fill="#d8c9a8"/><polygon points="252,48 338,48 325,30 265,30" fill="#d8c9a8"/><circle cx="295" cy="72" r="20" fill="#fff"/><line x1="295" y1="72" x2="295" y2="60" stroke="#222" stroke-width="4"/><line x1="295" y1="72" x2="306" y2="78" stroke="#222" stroke-width="4"/><text x="295" y="194" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">BIG BEN</text>`,
-bus:`<rect x="170" y="64" width="280" height="92" rx="16" fill="#d71920"/><rect x="190" y="80" width="240" height="36" rx="6" fill="#bfe6ff"/><rect x="205" y="84" width="45" height="28" fill="#1d2530"/><rect x="260" y="84" width="45" height="28" fill="#1d2530"/><rect x="315" y="84" width="45" height="28" fill="#1d2530"/><rect x="370" y="84" width="45" height="28" fill="#1d2530"/><circle cx="225" cy="160" r="18" fill="#222"/><circle cx="395" cy="160" r="18" fill="#222"/><text x="310" y="49" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">LONDON BUS</text>`,
-crown:`<path d="M205 65 L235 105 L270 55 L310 105 L350 55 L385 105 L415 65 L400 145 L220 145 Z" fill="${gold}"/><circle cx="235" cy="105" r="7" fill="${pink}"/><circle cx="310" cy="105" r="7" fill="${pink}"/><circle cx="385" cy="105" r="7" fill="${pink}"/><text x="310" y="184" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">ROYAL LONDON</text>`,
-tower:`<polygon points="300,25 345,25 380,175 265,175" fill="#b9c2cc"/><line x1="322" y1="35" x2="300" y2="175" stroke="#555" stroke-width="5"/><line x1="330" y1="35" x2="350" y2="175" stroke="#555" stroke-width="5"/><rect x="285" y="170" width="75" height="18" fill="#8c96a1"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">PARIS</text>`,
-river:`<path d="M0 150 C120 95 190 185 310 125 S500 100 620 150 L620 210 L0 210 Z" fill="${blue}"/><path d="M0 154 C120 99 190 189 310 129 S500 104 620 154" fill="none" stroke="#a8ddff" stroke-width="5"/><rect x="240" y="105" width="150" height="12" rx="6" fill="#888"/><rect x="265" y="85" width="12" height="32" fill="#888"/><rect x="350" y="85" width="12" height="32" fill="#888"/><text x="310" y="52" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">RIVER SEINE</text>`,
-'flag-fr':`<rect x="220" y="50" width="60" height="110" fill="#1f4eaa"/><rect x="280" y="50" width="60" height="110" fill="#fff"/><rect x="340" y="50" width="60" height="110" fill="#ed2939"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">FRANCE</text>`,
-colosseum:`<ellipse cx="310" cy="118" rx="150" ry="62" fill="#b58c65"/><ellipse cx="310" cy="118" rx="105" ry="37" fill="${bg}"/><path d="M165 118 Q310 180 455 118" fill="none" stroke="#806043" stroke-width="12"/><g fill="${bg}"><circle cx="205" cy="110" r="13"/><circle cx="250" cy="125" r="13"/><circle cx="295" cy="130" r="13"/><circle cx="340" cy="130" r="13"/><circle cx="385" cy="125" r="13"/></g><text x="310" y="192" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">COLOSSEUM</text>`,
-shield:`<path d="M310 35 L405 65 L390 125 Q365 170 310 185 Q255 170 230 125 L215 65 Z" fill="#b58c65"/><path d="M310 55 L385 78 L372 120 Q350 151 310 165 Q270 151 248 120 L235 78 Z" fill="#7d5a3a"/><text x="310" y="115" text-anchor="middle" fill="${gold}" font-size="55" font-weight="900">SPQR</text>`,
-'flag-it':`<rect x="220" y="50" width="60" height="110" fill="#159447"/><rect x="280" y="50" width="60" height="110" fill="#fff"/><rect x="340" y="50" width="60" height="110" fill="#ce2b37"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">ITALY</text>`,
-liberty:`<rect x="290" y="95" width="40" height="78" fill="#79a89a"/><path d="M275 95 L345 95 L330 45 L310 28 L290 45 Z" fill="#79a89a"/><circle cx="310" cy="25" r="8" fill="${gold}"/><line x1="345" y1="48" x2="385" y2="25" stroke="#79a89a" stroke-width="7"/><text x="310" y="198" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">NEW YORK HARBOUR</text>`,
-taxi:`<path d="M200 125 L220 82 L400 82 L430 125 Z" fill="${gold}"/><rect x="185" y="118" width="270" height="38" rx="10" fill="${gold}"/><rect x="245" y="90" width="55" height="28" fill="#1d2530"/><rect x="310" y="90" width="55" height="28" fill="#1d2530"/><circle cx="235" cy="158" r="18" fill="#222"/><circle cx="405" cy="158" r="18" fill="#222"/><text x="310" y="52" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">YELLOW CAB</text>`,
-skyline:`<rect x="150" y="100" width="70" height="80" fill="#3b3150"/><rect x="230" y="70" width="75" height="110" fill="#513b68"/><rect x="315" y="35" width="55" height="145" fill="#6a4a86"/><rect x="380" y="90" width="90" height="90" fill="#44365b"/><path d="M0 180 L620 180" stroke="${pink}" stroke-width="5"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">MANHATTAN SKYLINE</text>`,
-opera:`<path d="M160 155 Q210 60 260 155 Q310 50 360 155 Q410 70 460 155 Z" fill="#f0eee8"/><path d="M150 155 Q210 175 270 155 Q330 175 390 155 Q450 175 470 155" fill="none" stroke="#bbb" stroke-width="6"/><text x="310" y="48" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">SYDNEY OPERA HOUSE</text>`,
-bridge:`<path d="M90 155 Q310 35 530 155" fill="none" stroke="#bfc5cc" stroke-width="12"/><path d="M120 155 L120 90 M500 155 L500 90" stroke="#bfc5cc" stroke-width="12"/><line x1="120" y1="105" x2="500" y2="105" stroke="#bfc5cc" stroke-width="7"/><text x="310" y="195" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">HARBOUR BRIDGE</text>`,
-'flag-au':`<rect x="220" y="50" width="180" height="110" rx="8" fill="#123f9b"/><polygon points="310,58 318,78 340,78 323,91 330,112 310,99 290,112 297,91 280,78 302,78" fill="#fff"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">AUSTRALIA</text>`,
-burj:`<path d="M290 180 L300 65 L310 25 L320 65 L340 180 Z" fill="#a7d5e8"/><path d="M305 65 L305 180 M315 55 L315 180" stroke="#fff" stroke-width="3"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">BURJ KHALIFA</text>`,
-desert:`<path d="M0 170 Q120 100 240 170 T480 170 T620 170 L620 210 L0 210 Z" fill="#c98c4a"/><path d="M0 155 Q130 85 250 155 T500 155 T620 155" fill="none" stroke="${gold}" stroke-width="8"/><path d="M325 125 Q345 100 365 125 L355 160 L335 160 Z" fill="#7c5a35"/><text x="310" y="48" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">DUBAI DESERT</text>`,
-'flag-ae':`<rect x="220" y="50" width="35" height="110" fill="#ef3340"/><rect x="255" y="50" width="145" height="37" fill="#159447"/><rect x="255" y="87" width="145" height="36" fill="#fff"/><rect x="255" y="123" width="145" height="37" fill="#111"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">UAE</text>`,
-crossing:`<rect y="125" width="620" height="85" fill="#151515"/><g fill="#fff">${Array.from({length:9},(_,i)=>`<rect x="${85+i*55}" y="135" width="28" height="70"/>`).join('')}</g><circle cx="310" cy="70" r="25" fill="${pink}"/><text x="310" y="76" text-anchor="middle" fill="#fff" font-size="20" font-weight="900">TOKYO</text>`,
-fuji:`<polygon points="170,175 310,35 450,175" fill="#55707d"/><polygon points="265,80 310,35 355,80 310,70" fill="#fff"/><rect y="175" width="620" height="35" fill="#173d2c"/><text x="310" y="200" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">MOUNT FUJI</text>`,
-'flag-jp':`<rect x="220" y="50" width="180" height="110" fill="#fff"/><circle cx="310" cy="105" r="34" fill="#bc002d"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">JAPAN</text>`,
-church:`<path d="M220 175 L220 95 L270 95 L310 50 L350 95 L400 95 L400 175 Z" fill="#d8c7b2"/><polygon points="310,35 290,62 330,62" fill="${pink}"/><circle cx="310" cy="110" r="18" fill="#7b5b91"/><text x="310" y="202" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">SAGRADA FAMILIA</text>`,
-mosaic:`<rect x="215" y="45" width="190" height="130" rx="25" fill="#4a3158"/><circle cx="250" cy="80" r="22" fill="#f1b24a"/><circle cx="300" cy="70" r="18" fill="#55b7a5"/><circle cx="355" cy="95" r="26" fill="${pink}"/><circle cx="270" cy="130" r="24" fill="#4aa3ff"/><circle cx="340" cy="140" r="20" fill="#7bdc63"/><text x="310" y="200" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">GAUDÍ STYLE</text>`,
-'flag-es':`<rect x="210" y="55" width="200" height="100" fill="#aa151b"/><rect x="210" y="82" width="200" height="46" fill="#f1bf00"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">SPAIN</text>`,
-pyramid:`<polygon points="310,35 170,175 450,175" fill="#d9b27a"/><polygon points="310,35 310,175 450,175" fill="#a77b4f"/><path d="M220 175 L400 175" stroke="#806043" stroke-width="8"/><text x="310" y="202" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">PYRAMIDS</text>`,
-nile:`<path d="M0 155 C100 105 200 190 310 135 S500 95 620 150 L620 210 L0 210 Z" fill="${blue}"/><path d="M0 165 C110 115 205 200 310 145 S500 105 620 160" fill="none" stroke="#bfe8ff" stroke-width="5"/><path d="M120 150 Q135 115 150 150 M470 150 Q485 115 500 150" stroke="${green}" stroke-width="10" fill="none"/><text x="310" y="52" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">RIVER NILE</text>`,
-'flag-eg':`<rect x="210" y="55" width="200" height="34" fill="#ce1126"/><rect x="210" y="89" width="200" height="32" fill="#fff"/><rect x="210" y="121" width="200" height="34" fill="#000"/><circle cx="310" cy="105" r="12" fill="${gold}"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">EGYPT</text>`,
-acropolis:`<rect x="200" y="155" width="220" height="20" fill="#b58c65"/><rect x="220" y="95" width="180" height="60" fill="#d4b48b"/><g fill="#8e6b4b">${[235,270,305,340,375].map(x=>`<rect x="${x}" y="95" width="12" height="60"/>`).join('')}</g><polygon points="205,95 310,55 415,95" fill="#d8c7a2"/><text x="310" y="200" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">ACROPOLIS</text>`,
-temple:`<polygon points="210,80 310,45 410,80" fill="#d8c7a2"/><g fill="#b58c65">${[230,270,310,350,390].map(x=>`<rect x="${x}" y="80" width="14" height="90"/>`).join('')}</g><rect x="205" y="170" width="210" height="12" fill="#d8c7a2"/><text x="310" y="205" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">PARTHENON</text>`,
-'flag-gr':`<rect x="210" y="55" width="200" height="100" fill="#0d5eaf"/><g stroke="#fff" stroke-width="10">${[70,90,110,130,150].map(y=>`<line x1="210" y1="${y}" x2="410" y2="${y}"/>`).join('')}</g><rect x="210" y="55" width="80" height="50" fill="#0d5eaf"/><text x="310" y="190" text-anchor="middle" fill="${white}" font-size="20" font-weight="800">GREECE</text>`
+let player=localStorage.getItem('wu_player')||'';
+$('joinBtn').onclick=()=>{
+ const n=$('playerName').value.trim();
+ if(!n)return;
+ player=n;localStorage.setItem('wu_player',n);
+ $('joined').style.display='block';$('joined').textContent='✅ Joined as '+n;
 };
-return `<div class="location-image"><svg viewBox="0 0 620 210" role="img" aria-label="Visual clue">${common}${map[type]||`<text x="310" y="110" text-anchor="middle" fill="${white}" font-size="28">VISUAL CLUE</text>`}</svg></div>`;
-}
+if(player){$('playerName').value=player;$('joined').style.display='block';$('joined').textContent='✅ Joined as '+player}
 
-let round=rounds[Math.floor(Math.random()*rounds.length)],clue=0,score=0,finished=false;
+/* Crack the Code — fixed attempts, never negative */
+const secret='427'; let attempts=0; let codeOver=false;
+$('codeCheck').onclick=()=>{
+ if(codeOver)return;
+ const guess=$('codeInput').value.replace(/\D/g,'').slice(0,3);
+ if(guess.length!==3){$('codeFeedback').textContent='Enter exactly 3 digits.';return}
+ attempts++;
+ if(guess===secret){
+  $('codeFeedback').textContent='🎉 CORRECT! You cracked the code!';
+  codeOver=true;$('codeCheck').disabled=true;$('codeInput').disabled=true;return;
+ }
+ const left=5-attempts;
+ if(left<=0){$('codeFeedback').textContent='❌ No attempts left. The code was '+secret+'.';codeOver=true;$('codeCheck').disabled=true;$('codeInput').disabled=true}
+ else $('codeFeedback').textContent='❌ Try again. Attempts left: '+left;
+};
 
-function render(){
-const c=round.clues[clue];
-const options=rounds.filter(x=>x!==round).sort(()=>Math.random()-.5).slice(0,3).concat([round]).sort(()=>Math.random()-.5);
-a.innerHTML='<div class="box center"><h2>🌍 Where Am I?</h2><span class="badge">'+round.theme+' • Clue '+(clue+1)+' of 3</span>'+
-visual(c[2])+'<div class="clue-title">'+c[0]+'</div><p>'+c[1]+'</p>'+
-'<div class="status">Look at the visual clue, then choose the city.</div><div class="grid">'+
-options.map(x=>'<button class="answer" data-city="'+x.city+'">'+x.city+'<br><span class="small">'+x.country+'</span></button>').join('')+
-'</div><div id="whereResult" class="status"></div></div>';
+/* Where Am I — 6 questions, each with an illustrated image clue */
+const whereQs=[
+ {city:'London',clue:'I am famous for Big Ben and the River Thames.',answers:['London','Paris','Rome','New York'],art:'london'},
+ {city:'Paris',clue:'I am home to the Eiffel Tower and the River Seine.',answers:['Madrid','Paris','Dublin','Vienna'],art:'paris'},
+ {city:'Rome',clue:'I have the Colosseum and ancient Roman ruins.',answers:['Rome','Athens','Lisbon','Berlin'],art:'rome'},
+ {city:'New York',clue:'I have Times Square and the Statue of Liberty nearby.',answers:['Toronto','Chicago','New York','Boston'],art:'ny'},
+ {city:'Sydney',clue:'My harbour is famous for a giant sail-shaped Opera House.',answers:['Sydney','Auckland','Perth','Melbourne'],art:'sydney'},
+ {city:'Dubai',clue:'I am known for the Burj Khalifa, the world's tallest building.',answers:['Doha','Dubai','Cairo','Abu Dhabi'],art:'dubai'}
+];
+let wi=0;
+function svgArt(type){
+ const common=`<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#171225"/><stop offset="1" stop-color="#3b0b2d"/></linearGradient></defs><rect width="900" height="360" fill="url(#g)"/><circle cx="740" cy="75" r="48" fill="#ffd86b" opacity=".9"/><path d="M0 285 Q150 245 300 285 T600 280 T900 285 V360 H0Z" fill="#08070a"/>`;
+ const arts={
+ london:`<g fill="none" stroke="#ff1591" stroke-width="10"><path d="M150 285V135h105v150M145 135l58-50 58 50M205 85V45M203 45h45"/><path d="M610 285V100h18v185M603 100h32M612 80h14M600 65h38"/></g><text x="45" y="55" fill="white" font-size="30" font-weight="800">BIG BEN • LONDON</text>`,
+ paris:`<path d="M390 285 L450 70 L510 285 M415 190h70 M425 150h50 M440 110h20" fill="none" stroke="#ff1591" stroke-width="12"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">EIFFEL TOWER • PARIS</text>`,
+ rome:`<ellipse cx="450" cy="220" rx="220" ry="90" fill="none" stroke="#ff1591" stroke-width="18"/><path d="M250 220v65M320 190v95M390 185v100M460 185v100M530 190v95M600 220v65" stroke="#ff1591" stroke-width="12"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">COLOSSEUM • ROME</text>`,
+ ny:`<g stroke="#ff1591" stroke-width="12"><path d="M180 285V120h65v165M275 285V80h75v205M370 285V145h55v140M445 285V105h80v180"/></g><path d="M650 285v-80l-35-35h70l-35 35M650 170v-45M630 125h40" stroke="#ff1591" stroke-width="10" fill="none"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">NEW YORK CITY</text>`,
+ sydney:`<path d="M180 285h540" stroke="#ff1591" stroke-width="12"/><path d="M300 280 Q350 100 410 280 Q470 95 530 280 Q580 135 630 280" fill="none" stroke="#ff1591" stroke-width="14"/><path d="M260 285v-35M640 285v-35" stroke="#ff1591" stroke-width="10"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">SYDNEY OPERA HOUSE</text>`,
+ dubai:`<path d="M450 285V55h30l28 230M478 75h22M450 105h35M450 140h50M450 180h65M450 220h80" stroke="#ff1591" stroke-width="10" fill="none"/><text x="45" y="55" fill="white" font-size="30" font-weight="800">BURJ KHALIFA • DUBAI</text>`
+ };
+ return common+arts[type]+'</svg>';
+}
+function renderWhere(){
+ const q=whereQs[wi];$('whereCount').textContent=`CLUE ${wi+1} OF ${whereQs.length}`;
+ $('whereImage').innerHTML=svgArt(q.art);$('whereClue').textContent=q.clue;
+ $('whereFeedback').textContent='';$('whereNext').style.display='none';
+ $('whereChoices').innerHTML='';
+ q.answers.forEach(a=>{const b=document.createElement('button');b.className='choice';b.textContent=a;b.onclick=()=>{
+   document.querySelectorAll('#whereChoices button').forEach(x=>x.disabled=true);
+   if(a===q.city){b.classList.add('correct');$('whereFeedback').textContent='🎉 Correct!';}
+   else {b.classList.add('wrong');$('whereFeedback').textContent='❌ Not quite — it was '+q.city+'.';}
+   if(wi<whereQs.length-1)$('whereNext').style.display='inline-block';else $('whereFeedback').textContent+=' 🏆 You completed all 6 clues!';
+ };$('whereChoices').appendChild(b)});
+}
+$('whereNext').onclick=()=>{wi++;renderWhere()};renderWhere();
 
-a.querySelectorAll('[data-city]').forEach(btn=>btn.onclick=()=>{
-if(finished)return;
-a.querySelectorAll('[data-city]').forEach(x=>x.disabled=true);
-if(btn.dataset.city===round.city){score++;$('whereResult').textContent='🎉 Correct! That clue points to '+round.city+'.'}
-else $('whereResult').textContent='❌ Not quite. The answer is '+round.city+'.';
-setTimeout(()=>{clue++;clue<3?render():finish()},850)
-})
+/* Auto Bingo — 1 to 90, no repeats, 5-second automatic caller */
+let called=[],timer=null;
+const nums=Array.from({length:90},(_,i)=>i+1);
+function renderBingo(){
+ $('calledBalls').innerHTML=called.map(n=>`<span class="ball called">${n}</span>`).join('');
+ $('bingoStatus').textContent=called.length?`${called.length} of 90 numbers called.`:'Ready to play.';
 }
+function nextNumber(){
+ if(called.length>=90){clearInterval(timer);timer=null;$('bingoStatus').textContent='🎉 All 90 numbers have been called!';return}
+ const remaining=nums.filter(n=>!called.includes(n));
+ const n=remaining[Math.floor(Math.random()*remaining.length)];
+ called.push(n);$('calledNumber').textContent=n;renderBingo();
+}
+$('nextBingo').onclick=nextNumber;
+$('startBingo').onclick=()=>{
+ if(timer)return;
+ nextNumber();
+ timer=setInterval(nextNumber,5000);
+ $('bingoStatus').textContent='🔔 AUTO CALLER RUNNING — next number in 5 seconds.';
+};
+$('stopBingo').onclick=()=>{clearInterval(timer);timer=null;$('bingoStatus').textContent='⏸️ Auto caller stopped.'};
+const bingoBoard=Array.from({length:25},(_,i)=>i===12?'FREE':Math.floor(Math.random()*90)+1);
+$('bingoBoard').innerHTML=bingoBoard.map((n,i)=>`<div class="cell ${n==='FREE'?'free':''}" data-i="${i}">${n}</div>`).join('');
+document.querySelectorAll('.cell').forEach(c=>c.onclick=()=>c.classList.toggle('marked'));
+renderBingo();
 
-function finish(){
-finished=true;gamePlayed();
-const earned=score===3?3:score>=2?1:0;
-if(earned)addPoint(earned);
-a.innerHTML='<div class="box center"><h2>🌍 Journey complete!</h2><div class="num pink">'+score+'/3</div><p>You completed all 3 visual clues for <b>'+round.city+'</b>.</p><p>You earned '+earned+' point(s).</p><button class="primary" id="whereAgain">NEW LOCATION</button></div>';
-$('whereAgain').onclick=()=>whereGame(a)
-}
-render()
-}
-function makeBingoCard(){
-const card=Array.from({length:3},()=>Array(9).fill(null));
-for(let row=0;row<3;row++){let cols=[0,1,2,3,4,5,6,7,8].sort(()=>Math.random()-.5).slice(0,5).sort((a,b)=>a-b);cols.forEach(col=>{let min=col*10+1,max=col===8?90:(col+1)*10;card[row][col]=Math.floor(Math.random()*(max-min+1))+min})}
-for(let c=0;c<9;c++){let vals=[];for(let r=0;r<3;r++)if(card[r][c])vals.push(card[r][c]);vals.sort((a,b)=>a-b);let k=0;for(let r=0;r<3;r++)if(card[r][c])card[r][c]=vals[k++]}
-return card
-}
-function bingo(a){
-let remaining=Array.from({length:90},(_,i)=>i+1),called=new Set(),card=makeBingoCard(),won=false,timer=null,started=false;
-a.innerHTML='<div class="box center"><h2>🎱 Free 90-Ball Bingo</h2><p>Start the caller and numbers will be called automatically every 3 seconds.</p><div class="num pink" id="bingoCall">—</div><div class="row"><button class="primary" id="startBingo">START BINGO</button><button id="pauseBingo" disabled>PAUSE</button></div><div class="bingo-card">'+card.flat().map(n=>n?'<div class="bingo-cell" data-card="'+n+'">'+n+'</div>':'<div class="bingo-cell empty"></div>').join('')+'</div><div id="bingoMsg" class="status">Ready to play. 🍀</div><p class="small">Called numbers</p><div class="called-grid">'+remaining.map(n=>'<div class="called" id="called'+n+'">'+n+'</div>').join('')+'</div></div>';
-function stop(){if(timer){clearInterval(timer);timer=null}}
-function callBall(){
-if(won||!remaining.length){stop();return}
-const n=remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];
-called.add(n);$('bingoCall').textContent=n;$('called'+n).classList.add('on');
-a.querySelectorAll('[data-card="'+n+'"]').forEach(x=>x.classList.add('mark'));
-$('bingoMsg').textContent='Number '+n+' called — check your card!';
-if(card.flat().filter(Boolean).every(x=>called.has(x))){won=true;gamePlayed();addPoint(3);stop();$('bingoMsg').textContent='🎉 BINGO! Full card! +3 points'}
-}
-function start(){if(won||!remaining.length)return;started=true;$('startBingo').disabled=true;$('pauseBingo').disabled=false;callBall();if(!won)timer=setInterval(callBall,3000)}
-function pause(){if(!started||won)return;stop();started=false;$('startBingo').disabled=false;$('pauseBingo').disabled=true;$('bingoMsg').textContent='Paused — press START BINGO to continue.'}
-$('startBingo').onclick=start;$('pauseBingo').onclick=pause;
-}
-function wish(a){
- let wishes=JSON.parse(localStorage.wuWishes||'[]');if(!wishes.length)wishes=['A family day out','A surprise wishlist gift','A cinema night','A garden makeover','A special meal'].map((text,i)=>({text,votes:0,id:i}));
- function save(){localStorage.wuWishes=JSON.stringify(wishes)}
- function render(){wishes.sort((x,y)=>y.votes-x.votes);a.innerHTML='<div class="box"><h2>🎁 Big Wish</h2><p>Submit a wish and let the community choose their favourites.</p><textarea id="wishText" maxlength="120" placeholder="What would be your BIG wish?"></textarea><button class="primary" id="addWish">ADD WISH</button><div id="wishList">'+wishes.map((w,i)=>'<div class="wish-item"><span><b>#'+(i+1)+' '+esc(w.text)+'</b><br><span class="small">'+w.votes+' vote(s)</span></span><button data-wish="'+w.id+'">VOTE 💗</button></div>').join('')+'</div><div id="wishResult" class="status">Top wishes rise to the top.</div></div>';a.querySelector('#addWish').onclick=()=>{let t=$('wishText').value.trim();if(!t)return;wishes.push({text:t,votes:0,id:Date.now()});save();render()};a.querySelectorAll('[data-wish]').forEach(b=>b.onclick=()=>{let w=wishes.find(x=>String(x.id)===b.dataset.wish);let voted=JSON.parse(localStorage.wuVoted||'[]');if(voted.includes(w.id)){b.disabled=true;return}w.votes++;voted.push(w.id);localStorage.wuVoted=JSON.stringify(voted);save();gamePlayed();render()})}
- render()
-}
-async function loadChat(){
-try{const r=await sb.from('chat_messages').select('player_id,message,created_at').order('created_at',{ascending:true}).limit(50);$('chatLog').innerHTML=(r.data||[]).map(m=>'<div class="msg">'+esc(m.message)+'</div>').join('');$('chatLog').scrollTop=$('chatLog').scrollHeight}catch(e){}
-}
-$('send').onclick=async()=>{const t=$('chatInput').value.trim();if(!t||!user)return;const r=await sb.from('chat_messages').insert({player_id:user.id,message:name+': '+t});if(!r.error){$('chatInput').value='';loadChat()}else alert(r.error.message)};
-$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click()});
-function esc(x){return String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+/* Big Wish */
+$('wishSubmit').onclick=()=>{
+ const n=$('wishName').value.trim(),w=$('wishText').value.trim();
+ if(!n||!w){$('wishFeedback').textContent='Please enter your name and wish.';return}
+ $('wishFeedback').textContent='🎁 Wish submitted for review. Good luck!';
+ $('wishName').value='';$('wishText').value='';
+};
+
+/* Chat */
+const chatKey='wu_chat';
+let chats=JSON.parse(localStorage.getItem(chatKey)||'null')||[{name:'Wishlist Unleashed',text:'Welcome! 💗'}];
+function renderChat(){$('chatlog').innerHTML=chats.map(m=>`<div class="msg"><b>${escapeHtml(m.name)}:</b> ${escapeHtml(m.text)}</div>`).join('');$('chatlog').scrollTop=$('chatlog').scrollHeight}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function sendChat(){const text=$('chatInput').value.trim();if(!text)return;chats.push({name:player||'Guest',text});localStorage.setItem(chatKey,JSON.stringify(chats));$('chatInput').value='';renderChat()}
+$('chatSend').onclick=sendChat;$('chatInput').onkeydown=e=>{if(e.key==='Enter')sendChat()};renderChat();
 </script>
 </body>
 </html>
