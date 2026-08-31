@@ -6,7 +6,12 @@
 <title>Wishlist Unleashed • Daily Competition</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff;--muted:#b9b3bd;--gold:#ffd45b;--green:#5cff9d;--red:#ff6b7a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 38%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1180px;margin:auto;padding:14px}.hero,.panel,.game{background:rgba(18,16,22,.96);border:1px solid var(--line);border-radius:22px;padding:22px;margin-bottom:14px}.hero{background:linear-gradient(135deg,#121016,#171019);}.eyebrow{color:#ffb5d8;letter-spacing:5px;font-weight:900;font-size:12px}.hero h1{font-size:clamp(34px,7vw,70px);margin:8px 0}.pink{color:var(--pink)}.tag{font-size:18px;font-weight:800;color:var(--pink)}.sub{color:var(--muted)}nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:sticky;top:0;z-index:10;margin:10px 0}button{background:#17141b;color:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-weight:800;font-size:15px;cursor:pointer}button:hover{border-color:var(--pink)}button.primary,nav button.active{background:var(--pink);color:#16000d;border-color:var(--pink)}button:disabled{opacity:.45;cursor:not-allowed}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.game-card{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:18px}.game-card h3{margin:6px 0}.icon{font-size:34px}.pill{display:inline-block;padding:7px 11px;border:1px solid var(--line);border-radius:999px;margin:3px;color:#fff}.scoreline{display:flex;flex-wrap:wrap;gap:5px}.leader-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;padding:13px;border-bottom:1px solid #29242c}.leader-row.winner{border:1px solid var(--gold);border-radius:13px;background:#24121f}.leader-points{color:var(--pink);font-weight:900}.small{font-size:12px;color:var(--muted)}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.answers button.correct{border-color:var(--green);background:#0d2a1b}.answers button.wrong{border-color:var(--red);background:#2b1017}.timer{font-size:42px;font-weight:950;text-align:center;color:var(--gold);margin:10px}.status{min-height:32px;margin-top:14px;font-weight:800}.clue{padding:12px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#151219}.clue.locked{opacity:.25;filter:blur(1px)}.photo{width:100%;max-height:420px;object-fit:cover;border-radius:18px;border:1px solid var(--line);margin:12px 0;background:#09080b}.callbox{text-align:center;border:1px solid var(--line);border-radius:18px;padding:22px;background:#0c0a0f}.big{font-size:76px;font-weight:950;color:var(--gold)}.calltext{font-size:22px;font-weight:900}.wheel{min-height:220px;display:grid;place-items:center;text-align:center}.result{font-size:28px;font-weight:950;color:#ff9bd0}.progress{height:9px;background:#29242c;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--pink);width:0}.winnerbox{border:1px solid var(--gold);background:#23151f;border-radius:18px;padding:18px}.notice{border-left:4px solid var(--pink);padding:12px 14px;background:#19121a;border-radius:8px}.photo-credit{font-size:11px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}.answers{grid-template-columns:1fr}nav{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){main{padding:9px}.hero,.panel,.game{padding:15px}.grid{grid-template-columns:1fr}}
+:root{--pink:#ff1591;--bg:#08070a;--panel:#121016;--panel2:#19161d;--line:#39323c;--text:#fff;--muted:#b9b3bd;--gold:#ffd45b;--green:#5cff9d;--red:#ff6b7a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 100%,#26091d 0,#08070a 38%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1180px;margin:auto;padding:14px}.hero,.panel,.game{background:rgba(18,16,22,.96);border:1px solid var(--line);border-radius:22px;padding:22px;margin-bottom:14px}.hero{background:linear-gradient(135deg,#121016,#171019);}.eyebrow{color:#ffb5d8;letter-spacing:5px;font-weight:900;font-size:12px}.hero h1{font-size:clamp(34px,7vw,70px);margin:8px 0}.pink{color:var(--pink)}.tag{font-size:18px;font-weight:800;color:var(--pink)}.sub{color:var(--muted)}nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:sticky;top:0;z-index:10;margin:10px 0}button{background:#17141b;color:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-weight:800;font-size:15px;cursor:pointer}button:hover{border-color:var(--pink)}button.primary,nav button.active{background:var(--pink);color:#16000d;border-color:var(--pink)}button:disabled{opacity:.45;cursor:not-allowed}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.game-card{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:18px}.game-card h3{margin:6px 0}.icon{font-size:34px}.pill{display:inline-block;padding:7px 11px;border:1px solid var(--line);border-radius:999px;margin:3px;color:#fff}.scoreline{display:flex;flex-wrap:wrap;gap:5px}.leader-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;padding:13px;border-bottom:1px solid #29242c}.leader-row.winner{border:1px solid var(--gold);border-radius:13px;background:#24121f}.leader-points{color:var(--pink);font-weight:900}.small{font-size:12px;color:var(--muted)}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.answers button.correct{border-color:var(--green);background:#0d2a1b}.answers button.wrong{border-color:var(--red);background:#2b1017}.timer{font-size:42px;font-weight:950;text-align:center;color:var(--gold);margin:10px}.status{min-height:32px;margin-top:14px;font-weight:800}.clue{padding:12px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#151219}.clue.locked{opacity:.25;filter:blur(1px)}.photo{width:100%;max-height:420px;object-fit:cover;border-radius:18px;border:1px solid var(--line);margin:12px 0;background:#09080b}.callbox{text-align:center;border:1px solid var(--line);border-radius:18px;padding:22px;background:#0c0a0f}.big{font-size:76px;font-weight:950;color:var(--gold)}.calltext{font-size:22px;font-weight:900}.wheel{min-height:220px;display:grid;place-items:center;text-align:center}.result{font-size:28px;font-weight:950;color:#ff9bd0}.progress{height:9px;background:#29242c;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--pink);width:0}.winnerbox{border:1px solid var(--gold);background:#23151f;border-radius:18px;padding:18px}.notice{border-left:4px solid var(--pink);padding:12px 14px;background:#19121a;border-radius:8px}.photo-credit{font-size:11px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}.answers{grid-template-columns:1fr}nav{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){main{padding:9px}.hero,.panel,.game{padding:15px}.grid{grid-template-columns:1fr}}
+
+.bank-hero{position:relative;overflow:hidden;text-align:center;padding:30px 18px 26px;margin-bottom:16px;border:1px solid #6d2851;border-radius:26px;background:radial-gradient(circle at 50% 0%,rgba(255,0,132,.25),transparent 42%),linear-gradient(145deg,#180c16,#0b090d);box-shadow:0 0 35px rgba(255,0,132,.12)}
+.bank-glow{font-size:58px;filter:drop-shadow(0 0 18px rgba(255,0,132,.7));animation:wishPulse 2.4s ease-in-out infinite}
+.bank-title{font-size:clamp(34px,8vw,60px);font-weight:1000;line-height:.95;margin:10px 0 8px}.bank-subtitle{font-size:17px;font-weight:800;color:#ffd1e8;margin:0 auto;max-width:700px}.bank-upload{display:grid;gap:10px;margin-top:16px}.bank-file{padding:14px;border:1px dashed #ff4fb0;border-radius:16px;background:#110c12;color:#fff;width:100%}.bank-preview{display:none;max-width:260px;max-height:300px;object-fit:cover;border-radius:20px;border:2px solid #ff1591;margin:8px auto;box-shadow:0 0 28px rgba(255,20,147,.18)}.bank-preview.show{display:block}.bank-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.bank-member{overflow:hidden;background:var(--panel2);border:1px solid var(--line);border-radius:18px}.bank-member img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#09080b}.bank-member-name{padding:11px;text-align:center;font-weight:900}.bank-empty{text-align:center;padding:25px;color:var(--muted)}
+@media(max-width:800px){.bank-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:520px){.bank-grid{grid-template-columns:repeat(2,1fr)}}
 
 .wish-hero{position:relative;overflow:hidden;text-align:center;padding:30px 18px 26px;margin-bottom:16px;border:1px solid #6d2851;border-radius:26px;background:radial-gradient(circle at 50% 0%,rgba(255,0,132,.25),transparent 42%),linear-gradient(145deg,#180c16,#0b090d);box-shadow:0 0 35px rgba(255,0,132,.12)}
 .wish-glow{font-size:64px;filter:drop-shadow(0 0 18px rgba(255,0,132,.7));animation:wishPulse 2.4s ease-in-out infinite}
@@ -28,7 +33,7 @@
 <style id='wu-completed-style'>.wu-done{opacity:.58!important;filter:saturate(.55)}.wu-done::after{content:'✓ DONE TODAY';float:right;background:#ff1493;color:#fff;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:900}</style><style id='daily-game-status'>.wu-completed-today{opacity:.55;position:relative}.wu-completed-today::after{content:'✓ COMPLETED TODAY';display:block;margin-top:6px;color:#ff7abb;font-size:10px;font-weight:1000}</style></head>
 <body><main>
 <section class="hero"><div class="eyebrow">WISHLIST UNLEASHED</div><h1>DAILY <span class="pink">COMPETITION</span></h1><div class="tag">We Play. We Slay. We Stay.</div><div class="sub">Different minds • Different hearts • One family</div></section>
-<nav><button data-page="home" class="active">🏠 Home</button><button data-page="games">🎮 Games</button><button data-page="wish">💗 Make a Wish</button><button data-page="winner">🏆 Winner</button><button data-page="chat">💬 Chat</button></nav>
+<nav><button data-page="home" class="active">🏠 Home</button><button data-page="games">🎮 Games</button><button data-page="wish">💗 Make a Wish</button><button data-page="bank">📸 The Bank</button><button data-page="winner">🏆 Winner</button><button data-page="chat">💬 Chat</button></nav>
 <section id="home" class="panel page"><h2>💗 Today's Competition</h2><p>Play the skill games, build your score and finish the day at the top.</p><div class="winnerbox"><b>🏆 DAILY PRIZE: £5 GIFT</b><p class="sub">Highest verified daily skill score wins. Competition resets automatically each day.</p></div><div class="scoreline"><span class="pill">📅 <b id="dayLabel"></b></span><span class="pill">🏆 My Score: <b id="myScore">0</b></span><span class="pill">🎮 Games: <b id="myGames">0</b></span></div><div style="margin-top:14px"><input id="nameInput" placeholder="Display name" style="width:70%;max-width:600px;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d0b10;color:white"><button class="primary" onclick="saveName()">SAVE NAME</button></div><h3>🏆 Today's Leaderboard</h3><div id="leaderboard"></div><div id="syncStatus" class="small">Connecting to live leaderboard…</div></section>
 <section id="games" class="panel page hidden"><h2>🎮 Game Lobby</h2><p class="sub">Every day gets a fresh challenge set. No duplicate questions inside the day's competition.</p><div class="grid">
 <div class="game-card"><div class="icon">🧠</div><h3>Brain Buster</h3><p>10 hard timed questions. Speed matters.</p><button class="primary" data-game="quiz" onclick="openGame('quiz')">PLAY</button></div>
@@ -71,6 +76,28 @@
   </div>
 </section>
 
+<section id="bank" class="panel page hidden">
+  <div class="bank-hero">
+    <div class="bank-glow">📸</div>
+    <div class="bank-title">THE <span class="pink">BANK</span></div>
+    <p class="bank-subtitle">💗 Add one selfie so everyone can put a face to the name. Your selfie appears in the members' Bank.</p>
+  </div>
+  <div class="game-card" style="margin-bottom:14px">
+    <h3 style="margin-top:0">📸 YOUR SELFIE</h3>
+    <p class="sub">One selfie per member. If you upload another later, it replaces your previous selfie.</p>
+    <div class="bank-upload">
+      <input id="bankPhoto" class="bank-file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/*" capture="user">
+      <img id="bankPreview" class="bank-preview" alt="Your selfie preview">
+      <button id="bankUploadBtn" class="primary" onclick="saveBankSelfie()">ADD MY SELFIE TO THE BANK</button>
+      <div id="bankStatus" class="status"></div>
+    </div>
+  </div>
+  <div class="game-card">
+    <h3 style="margin-top:0">💗 MEMBERS' BANK</h3>
+    <p class="sub">One selfie from each member.</p>
+    <div id="bankGrid" class="bank-grid"><div class="bank-empty">Loading the Bank…</div></div>
+  </div>
+</section>
 <section id="winner" class="panel page hidden"><h2>🏆 Winner History</h2><p class="sub">Daily winners will appear here once the competition is live.</p><div id="winnerHistory"><div class="game-card">No completed days yet.</div></div></section>
 <section id="chat" class="panel page hidden"><h2>💬 Community Chat</h2><div id="chatbox" class="game-card" style="height:320px;overflow:auto"><div><b>Wishlist Unleashed:</b> Welcome! 💗</div></div><div style="display:flex;gap:8px;margin-top:10px"><input id="chatInput" placeholder="Write a message…" style="flex:1;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d0b10;color:white"><button class="primary" onclick="sendChat()">SEND</button></div></section>
 
@@ -137,7 +164,7 @@ let whoDeck=[],whoI=0,whoClue=0,whoPts=0,whoAnswered=false;
 function whoNew(){whoDeck=dailyPick(whoBank,5,'who');whoI=0;whoClue=0;whoPts=0;whoAnswered=false;whoRender()}
 function whoRender(){if(whoI>=whoDeck.length){award(whoPts,'who');$('whoStatus').textContent=`🏆 COMPLETE — ${whoPts} points`;$('whoAnswers').innerHTML='';$('whoNext').disabled=true;return}let d=whoDeck[whoI];$('whoRound').textContent=whoI+1;$('whoClue').textContent=whoClue+1;$('whoScore').textContent=whoPts;$('whoClues').innerHTML=d[1].map((c,i)=>`<div class="clue ${i>whoClue?'locked':''}">${i<=whoClue?c:'Clue locked — reveal it'}</div>`).join('');$('whoAnswers').innerHTML=d[2].map((x,i)=>`<button onclick="whoAnswer(${i})">${esc(x)}</button>`).join('');$('whoStatus').textContent='';$('whoNext').disabled=whoClue>=5;whoAnswered=false}
 function whoReveal(){if(whoAnswered)return;if(whoClue<5){whoClue++;whoRender()}}
-function whoAnswer(i){if(whoAnswered)return;whoAnswered=true;let d=whoDeck[whoI];let ok=d[2][i]===d[0];let gain=ok?[100,80,60,40,20,10][whoClue]:0;if(ok){whoPts+=gain;$('whoStatus').textContent=`🎯 Correct! +${gain} points (${6-whoClue} clues left)`}else{$('whoStatus').textContent='❌ Wrong — this round is lost'};setTimeout(()=>{whoI++;whoClue=0;whoRender()},700)}
+function whoAnswer(i){if(whoAnswered)return;whoAnswered=true;let d=whoDeck[whoI];let ok=d[2][i]===d[0];let gain=ok?[100,80,60,40,20,10][whoClue]:0;if(ok){whoPts+=gain;$('whoStatus').textContent=`🎯 Correct! +${gain} points (${6-whoClue} clues left)`;setTimeout(()=>{whoI++;whoClue=0;whoAnswered=false;whoRender()},700)}else if(whoClue<5){$('whoStatus').textContent='❌ Wrong — the next clue is unlocked!';setTimeout(()=>{whoClue++;whoAnswered=false;whoRender()},500)}else{$('whoStatus').textContent='❌ Wrong on the final clue — round lost';setTimeout(()=>{whoI++;whoClue=0;whoAnswered=false;whoRender()},700)}}
 
 const whereBank=[
 ['Paris','https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1400&q=85',['My famous iron landmark was built for a world fair in 1889.','A river divides much of my historic centre.','A palace-turned-museum here holds the Mona Lisa.','Notre-Dame stands on an island in my river.','My cafés and boulevards are world famous.','I am the capital of France.'],['Paris','Brussels','Milan','Lyon']],
@@ -166,15 +193,110 @@ function whereNew(){if(whereFinished)return;if(!whereDeck.length){whereDeck=dail
 function whereRender(){if(whereFinished)return;if(!whereDeck.length){whereFinished=true;award(wherePts,'where');$('whereStatus').textContent=`🏆 COMPLETE — ${wherePts} points`;$('whereAnswers').innerHTML='';return}let d=whereDeck[0];$('whereRound').textContent=whereI+1;$('whereClue').textContent=whereClue+1;$('whereScore').textContent=wherePts;$('wherePhoto').src=d[1]+(d[1].includes('?')?'&':'?')+'day='+today;$('whereClues').innerHTML=d[2].map((c,i)=>`<div class="clue ${i>whereClue?'locked':''}">${i<=whereClue?c:'Clue locked — reveal it'}</div>`).join('');$('whereAnswers').innerHTML=d[3].map(x=>`<button onclick="whereAnswer('${x.replace(/'/g,"\'")}')">${esc(x)}</button>`).join('');$('whereStatus').textContent='';whereAnswered=false}
 function whereAnswer(x){if(whereAnswered||whereFinished||!whereDeck.length)return;whereAnswered=true;let d=whereDeck[0],ok=x===d[0];if(ok){let gain=[100,80,60,40,20,10][whereClue];wherePts+=gain;$('whereStatus').textContent=`📍 Correct! +${gain} points`}else{$('whereStatus').textContent='❌ Wrong — another clue unlocked'};if(ok||whereClue>=5){setTimeout(()=>{if(whereFinished)return;whereDeck.shift();whereI++;if(!whereDeck.length){whereFinished=true;award(wherePts,'where');$('whereStatus').textContent=`🏆 COMPLETE — ${wherePts} points`;$('whereAnswers').innerHTML='';return}whereClue=0;whereAnswered=false;whereRender()},700)}else{setTimeout(()=>{if(whereFinished)return;whereClue++;whereAnswered=false;whereRender()},400)}}
 
-const wheelBank=[
-['GEOGRAPHY','Which country contains the ancient city of Petra?',['Jordan','Egypt','Lebanon','Syria'],0],['HISTORY','Which treaty ended the First World War with Germany?',['Treaty of Versailles','Treaty of Rome','Treaty of Paris','Treaty of Vienna'],0],['SCIENCE','Which particle has a negative electric charge?',['Electron','Proton','Neutron','Photon'],0],['MOVIES','Which film features the character Tyler Durden?',['Fight Club','Heat','Memento','Se7en'],0],['MUSIC','Which band released the album Rumours?',['Fleetwood Mac','ABBA','Queen','The Eagles'],0],['SPORT','In tennis, what score follows 30?',['40','45','50','Love'],0],['WORDPLAY','Which word is an anagram of LISTEN?',['SILENT','LITTLE','LINES','STEEL'],0],['HARD MODE','Which element has the symbol Sb?',['Antimony','Samarium','Strontium','Silicon'],0],['GEOGRAPHY','Which capital city lies on the River Danube?',['Budapest','Madrid','Lisbon','Dublin'],0],['HISTORY','Which civilisation built Machu Picchu?',['Inca','Maya','Aztec','Olmec'],0],['SCIENCE','What is the approximate speed of light in vacuum?',['300,000 km/s','30,000 km/s','3,000 km/s','3,000,000 km/s'],0],['MOVIES','Who directed The Grand Budapest Hotel?',['Wes Anderson','Christopher Nolan','Denis Villeneuve','Guy Ritchie'],0],['MUSIC','Which singer released the album Back to Black?',['Amy Winehouse','Adele','Duffy','Sade'],0],['SPORT','How many players are on court for one volleyball team at a time?',['6','5','7','8'],0],['WORDPLAY','Which word means both a type of tree and a type of computer?',['Apple','Palm','Java','Dell'],0],['HARD MODE','Which Roman numeral represents 944?',['CMXLIV','DCCCCXLIV','CMIL','XMXLIV'],0]
-];
-let wheelUsed=[],wheelTimer=null,wheelLocked=false,wheelRaw=null;
-function wheelReset(){clearInterval(wheelTimer);wheelUsed=[];wheelLocked=false;$('wheelResult').textContent='SPIN!';$('wheelIcon').textContent='🎡';$('wheelChallenge').classList.add('hidden');$('wheelStatus').textContent='';$('wheelSpinBtn').disabled=false}
-function spinWheel(){
-if(wheelLocked)return;wheelLocked=true;$('wheelSpinBtn').disabled=true;let available=wheelBank.map((_,i)=>i).filter(i=>!wheelUsed.includes(i));if(!available.length){wheelUsed=[];available=wheelBank.map((_,i)=>i)}let chosen=available[seed(today+'wheel'+wheelUsed.length)%available.length];wheelUsed.push(chosen);let t=0,spin=setInterval(()=>{let c=wheelBank[Math.floor(Math.random()*wheelBank.length)];$('wheelIcon').textContent='🎯';$('wheelResult').textContent=c[0];if(++t>16){clearInterval(spin);wheelRaw=wheelBank[chosen];showWheelChallenge()}},70)}
-function showWheelChallenge(){let d=wheelRaw,opts=shuffle(d[2].map((x,i)=>({x,ok:i===d[3]})),today+'wheelanswer'+wheelUsed.length);$('wheelResult').textContent=d[0];$('wheelChallenge').classList.remove('hidden');$('wheelChallenge').innerHTML=`<h3>🎯 ${d[0]} CHALLENGE</h3><p>${d[1]}</p><div class="answers">${opts.map((o,i)=>`<button onclick="wheelAnswer(${i})">${esc(o.x)}</button>`).join('')}</div><div class="timer" id="wheelTimer">10</div>`;let left=10;clearInterval(wheelTimer);wheelTimer=setInterval(()=>{left--;$('wheelTimer').textContent=left;if(left<=0){clearInterval(wheelTimer);wheelLocked=false;$('wheelStatus').textContent='⏰ Time — 0 points';$('wheelSpinBtn').disabled=false}},1000);wheelRaw._opts=opts}
-function wheelAnswer(i){if(!wheelLocked)return;clearInterval(wheelTimer);let o=wheelRaw._opts[i],left=Number($('wheelTimer').textContent)||0;if(o?.ok){let pts=40+left*4;award(pts,'wheel');$('wheelStatus').textContent=`🎉 Correct! +${pts} points`}else{$('wheelStatus').textContent='❌ Wrong — 0 points'}wheelLocked=false;$('wheelSpinBtn').disabled=false}
+const wheelBank={
+GEOGRAPHY:[
+['Which country has the city of Kraków?',['Poland','Hungary','Croatia','Romania'],0],
+['Which river flows through Budapest?',['Danube','Rhine','Seine','Po'],0],
+['Which country is home to the ancient city of Petra?',['Jordan','Egypt','Lebanon','Syria'],0],
+['Which capital city is closest to the Equator?',['Quito','Madrid','Rome','Athens'],0],
+['Which sea lies between Europe and Africa?',['Mediterranean Sea','Baltic Sea','Black Sea','North Sea'],0],
+['Which country contains the Atacama Desert?',['Chile','Peru','Mexico','Argentina'],0],
+['Which city is split by the Bosphorus?',['Istanbul','Athens','Bucharest','Sofia'],0],
+['Which country has the largest land area?',['Russia','Canada','China','Brazil'],0],
+['Which mountain range separates France and Spain?',['Pyrenees','Alps','Carpathians','Apennines'],0],
+['Which African country has a coastline on both the Atlantic and Indian Oceans?',['South Africa','Morocco','Ghana','Tanzania'],0]
+],
+HISTORY:[
+['Which English king signed Magna Carta in 1215?',['John','Henry VIII','Richard III','Edward I'],0],
+['Which ancient civilisation built the Colosseum?',['Romans','Greeks','Persians','Phoenicians'],0],
+['In which year did the Berlin Wall fall?',['1989','1987','1991','1993'],0],
+['Who was the first woman to win a Nobel Prize?',['Marie Curie','Ada Lovelace','Florence Nightingale','Emmy Noether'],0],
+['Which ship sank on its maiden voyage in 1912?',['Titanic','Lusitania','Bismarck','Endeavour'],0],
+['Which empire was ruled by Suleiman the Magnificent?',['Ottoman Empire','Roman Empire','Mughal Empire','Byzantine Empire'],0],
+['Which battle in 1066 led to Norman rule of England?',['Hastings','Agincourt','Waterloo','Bosworth'],0],
+['Who was the Egyptian queen associated with Julius Caesar and Mark Antony?',['Cleopatra','Nefertiti','Hatshepsut','Boudica'],0],
+['Which city was buried by Mount Vesuvius in AD 79?',['Pompeii','Sparta','Carthage','Ephesus'],0],
+['Which US president issued the Emancipation Proclamation?',['Abraham Lincoln','George Washington','Thomas Jefferson','Ulysses S. Grant'],0]
+],
+SCIENCE:[
+['What is the chemical symbol for gold?',['Au','Ag','Gd','Go'],0],
+['Which planet has the Great Red Spot?',['Jupiter','Saturn','Mars','Neptune'],0],
+['What gas do plants absorb during photosynthesis?',['Carbon dioxide','Oxygen','Nitrogen','Hydrogen'],0],
+['What is the hardest natural substance?',['Diamond','Quartz','Granite','Graphite'],0],
+['Which organ pumps blood around the human body?',['Heart','Liver','Lung','Kidney'],0],
+['What is the closest star to Earth?',['The Sun','Sirius','Proxima Centauri','Betelgeuse'],0],
+['How many bones are in the typical adult human body?',['206','196','216','226'],0],
+['Which force keeps planets in orbit around the Sun?',['Gravity','Magnetism','Friction','Pressure'],0],
+['What is H2O more commonly known as?',['Water','Hydrogen peroxide','Oxygen','Salt'],0],
+['Which blood cells help fight infection?',['White blood cells','Red blood cells','Platelets','Plasma cells'],0]
+],
+'MOVIES & TV':[
+['Which film features the character Jack Sparrow?',['Pirates of the Caribbean','The Mummy','Indiana Jones','The Goonies'],0],
+['Which TV series is set around the fictional town of Hawkins?',['Stranger Things','The Crown','Sherlock','Downton Abbey'],0],
+['Who played Hermione Granger in the Harry Potter films?',['Emma Watson','Keira Knightley','Emily Blunt','Saoirse Ronan'],0],
+['Which film won the Best Picture Oscar for 1998?',['Shakespeare in Love','Titanic','Saving Private Ryan','Elizabeth'],0],
+['Which actor played the title role in Forrest Gump?',['Tom Hanks','Robin Williams','Matt Damon','Kevin Costner'],0],
+['What is the name of the coffee shop in Friends?',['Central Perk','Java House','Monica’s Café','The Bean'],0],
+['Which film features the fictional hotel called the Overlook?',['The Shining','The Exorcist','Psycho','Misery'],0],
+['Which British series follows the Shelby family?',['Peaky Blinders','Broadchurch','Line of Duty','Bodyguard'],0],
+['Who directed Jaws?',['Steven Spielberg','James Cameron','Ridley Scott','Tim Burton'],0],
+['Which film features the quote-worthy character Hannibal Lecter?',['The Silence of the Lambs','Goodfellas','Heat','Seven'],0]
+],
+MUSIC:[
+['Which band released the album Rumours?',['Fleetwood Mac','ABBA','Queen','The Eagles'],0],
+['Who released the album Back to Black?',['Amy Winehouse','Adele','Duffy','Sade'],0],
+['Which singer is known for the album 21?',['Adele','Rihanna','Beyoncé','Pink'],0],
+['Which band had a hit with Bohemian Rhapsody?',['Queen','The Beatles','Bon Jovi','U2'],0],
+['Who wrote and recorded Purple Rain?',['Prince','David Bowie','George Michael','Elton John'],0],
+['Which group released Dancing Queen?',['ABBA','Bananarama','The Supremes','Blondie'],0],
+['Which singer was nicknamed the King of Pop?',['Michael Jackson','Elvis Presley','Prince','Frank Sinatra'],0],
+['Which band released Wonderwall?',['Oasis','Blur','Pulp','Suede'],0],
+['Who sang the theme song for the James Bond film Skyfall?',['Adele','Sam Smith','Dua Lipa','Shirley Bassey'],0],
+['Which instrument has 88 keys on a standard modern version?',['Piano','Violin','Clarinet','Trumpet'],0]
+],
+SPORT:[
+['How many players are on court for one volleyball team at a time?',['6','5','7','8'],0],
+['How many players start on the pitch for one football team?',['11','10','12','9'],0],
+['In tennis, what score follows 30?',['40','45','50','Love'],0],
+['How many points is a touchdown worth before any extra play in American football?',['6','5','7','3'],0],
+['Which sport uses a shuttlecock?',['Badminton','Squash','Hockey','Fencing'],0],
+['How many balls are on the table at the start of a standard game of snooker?',['22','21','20','24'],0],
+['Which country hosted the 2012 Summer Olympics?',['United Kingdom','France','China','Australia'],0],
+['In golf, what name is given to one stroke under par on a hole?',['Birdie','Eagle','Bogey','Albatross'],0],
+['Which sport awards the Davis Cup?',['Tennis','Golf','Cricket','Rugby'],0],
+['How long is a marathon?',['26.2 miles','24.2 miles','27.2 miles','25.2 miles'],0]
+],
+WORDPLAY:[
+['Which word is an anagram of LISTEN?',['SILENT','LITTLE','LINES','STEEL'],0],
+['Which word becomes shorter when you add two letters to it?',['Short','Small','Tiny','Brief'],0],
+['Which word can mean both a tree and a computer company?',['Apple','Palm','Dell','Java'],0],
+['What is the opposite of the word “scarce”?',['Abundant','Rare','Limited','Sparse'],0],
+['Which word contains all five vowels in order?',['Facetious','Education','Sequoia','Dialogue'],0],
+['What is a word with the opposite meaning called?',['Antonym','Synonym','Homonym','Acronym'],0],
+['Which of these is a palindrome?',['LEVEL','HOUSE','PLANT','MOUSE'],0],
+['What does the prefix “tri-” usually mean?',['Three','Two','Four','Half'],0],
+['Which word is closest in meaning to “meticulous”?',['Careful','Rapid','Noisy','Lucky'],0],
+['Which letter appears most often in the English word “queueing”?',['E','U','I','Q'],0]
+],
+'HARD MODE':[
+['Which element has the symbol Sb?',['Antimony','Samarium','Strontium','Silicon'],0],
+['Which Roman numeral represents 944?',['CMXLIV','DCCCCXLIV','CMIL','XMXLIV'],0],
+['What is the smallest prime number greater than 100?',['101','103','107','109'],0],
+['Which mathematician is associated with the incompleteness theorems?',['Kurt Gödel','Carl Gauss','Leonhard Euler','Emmy Noether'],0],
+['Which moon has a thick nitrogen-rich atmosphere?',['Titan','Europa','Io','Triton'],0],
+['What is the SI unit of luminous intensity?',['Candela','Lux','Lumen','Tesla'],0],
+['Which philosopher wrote Critique of Pure Reason?',['Immanuel Kant','Georg Hegel','John Locke','Baruch Spinoza'],0],
+['What is 17 cubed?',['4913','4931','4813','4993'],0],
+['Which ocean trench contains the deepest known point on Earth?',['Mariana Trench','Tonga Trench','Kermadec Trench','Java Trench'],0],
+['Which language family does Finnish belong to?',['Uralic','Romance','Germanic','Slavic'],0]
+]
+};
+let wheelTimer=null,wheelLocked=false,wheelFinished=false,wheelQuestions=[],wheelQ=0,wheelScore=0,wheelCategory='';
+function wheelReset(){clearInterval(wheelTimer);wheelLocked=false;wheelFinished=false;wheelQuestions=[];wheelQ=0;wheelScore=0;wheelCategory='';$('wheelResult').textContent='SPIN!';$('wheelIcon').textContent='🎡';$('wheelChallenge').classList.add('hidden');$('wheelStatus').textContent='';$('wheelSpinBtn').disabled=false}
+function finishWheel(){clearInterval(wheelTimer);wheelLocked=false;wheelFinished=true;$('wheelSpinBtn').disabled=true;$('wheelChallenge').classList.add('hidden');$('wheelStatus').textContent=`🏆 WHEEL COMPLETE — ${wheelScore}/1000 points`;award(wheelScore,'wheel')}
+function nextWheelQuestion(){if(wheelQ>=wheelQuestions.length){finishWheel();return}let d=wheelQuestions[wheelQ];let opts=shuffle(d[1].map((x,i)=>({x,ok:i===d[2]})),today+'wheel'+wheelCategory+wheelQ);$('wheelChallenge').classList.remove('hidden');$('wheelChallenge').innerHTML=`<h3>🎯 ${esc(wheelCategory)} — QUESTION ${wheelQ+1}/5</h3><p>${esc(d[0])}</p><div class="answers">${opts.map((o,i)=>`<button onclick="wheelAnswer(${i})">${esc(o.x)}</button>`).join('')}</div><div class="timer" id="wheelTimer">10</div><div class="small">100 pts · 150 pts · 200 pts · 250 pts · 300 pts</div>`;wheelQuestions[wheelQ]._opts=opts;let left=10;clearInterval(wheelTimer);wheelTimer=setInterval(()=>{left--;$('wheelTimer').textContent=left;if(left<=0){clearInterval(wheelTimer);wheelLocked=false;$('wheelStatus').textContent='⏰ Time — 0 points';wheelQ++;setTimeout(nextWheelQuestion,450)}},1000);wheelLocked=true}
+function spinWheel(){if(wheelLocked||wheelFinished)return;wheelLocked=true;$('wheelSpinBtn').disabled=true;let cats=Object.keys(wheelBank);wheelCategory=cats[seed(today+'wheelcat')%cats.length];let bank=wheelBank[wheelCategory];wheelQuestions=dailyPick(bank,5,'wheel-'+wheelCategory);let t=0,spin=setInterval(()=>{let c=cats[Math.floor(Math.random()*cats.length)];$('wheelIcon').textContent='🎯';$('wheelResult').textContent=c;if(++t>16){clearInterval(spin);$('wheelIcon').textContent='🎯';$('wheelResult').textContent=wheelCategory;wheelQ=0;wheelScore=0;setTimeout(()=>{wheelLocked=false;nextWheelQuestion()},250)}},70)}
+function wheelAnswer(i){if(!wheelLocked||wheelFinished)return;clearInterval(wheelTimer);let d=wheelQuestions[wheelQ],o=d._opts[i],left=Number($('wheelTimer').textContent)||0;let pts=[100,150,200,250,300][wheelQ];wheelLocked=false;if(o?.ok){wheelScore+=pts;$('wheelStatus').textContent=`🎉 Correct! +${pts} points`}else{$('wheelStatus').textContent=`❌ Wrong — 0 points`};wheelQ++;setTimeout(nextWheelQuestion,450)}
 
 const boxBank=[
 ['BRONZE',35,12,'If 7x + 5 = 40, what is x?',['5','6','7','8'],1],['BRONZE',35,12,'Which number is missing: 2, 6, 12, 20, 30, ?',['36','40','42','44'],2],['SILVER',70,15,'A £80 item is reduced by 15%. What is the new price?',['£64','£68','£70','£72'],1],['SILVER',70,15,'A train travels 180 miles in 3 hours. What is its average speed?',['50 mph','55 mph','60 mph','65 mph'],2],['GOLD',120,18,'A number is doubled then increased by 9 to give 53. What was the number?',['20','21','22','23'],1],['GOLD',120,18,'A clock loses 4 minutes every hour. How many minutes slow after 9 hours?',['32','36','40','44'],1],['GOLD',120,18,'What is the next prime after 97?',['99','101','103','107'],1],['GOLD',120,18,'If 3/5 of a number is 48, what is the number?',['72','80','90','96'],1]
@@ -232,7 +354,15 @@ let chatChannel;
 function subscribeChat(){if(chatChannel)supa.removeChannel(chatChannel);chatChannel=supa.channel('community-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_messages',filter:'game_id=is.null'},payload=>appendChatMessage(payload.new)).subscribe()}
 async function sendChat(){let v=$('chatInput').value.trim();if(!v)return;let name=(playerName||'Guest').slice(0,40);try{const {data,error}=await supa.from('chat_messages').insert({display_name:name,message:v,player_id:null,game_id:null}).select('id,display_name,message,created_at').single();if(error)throw error;$('chatInput').value='';appendChatMessage(data)}catch(e){$('chatInput').value=v;alert('Message could not be sent. Please try again.')}}
 
+let bankChannel;
+function bankPublicUrl(path){return SUPA_URL+'/storage/v1/object/public/bank-selfies/'+encodeURIComponent(path).replace(/%2F/g,'/');}
+function renderBank(data){const grid=$('bankGrid');if(!grid)return;if(!data||!data.length){grid.innerHTML='<div class="bank-empty" style="grid-column:1/-1">No selfies yet — be the first to join the Bank! 💗</div>';return}grid.innerHTML=data.map(r=>`<div class="bank-member"><img src="${esc(r.photo_url)}" alt="${esc(r.display_name||'Member')}'s selfie" loading="lazy"><div class="bank-member-name">${esc(r.display_name||'Member')}</div></div>`).join('')}
+async function loadBank(){try{const {data,error}=await supa.from('bank_selfies').select('player_key,display_name,photo_url,updated_at').order('display_name',{ascending:true});if(error)throw error;renderBank(data||[])}catch(e){console.error(e);$('bankGrid').innerHTML='<div class="bank-empty" style="grid-column:1/-1">The Bank is temporarily unavailable. Please try again.</div>'}}
+$('bankPhoto').addEventListener('change',()=>{const f=$('bankPhoto').files?.[0];const img=$('bankPreview');if(!f){img.classList.remove('show');return}if(!f.type.startsWith('image/')){alert('Please choose an image.');$('bankPhoto').value='';img.classList.remove('show');return}if(f.size>5*1024*1024){alert('Please choose a selfie under 5MB.');$('bankPhoto').value='';img.classList.remove('show');return}img.src=URL.createObjectURL(f);img.classList.add('show')});
+async function saveBankSelfie(){const f=$('bankPhoto').files?.[0];if(!f){alert('Please choose one selfie first.');return}if(!playerName){alert('Please save your display name on Home first.');showPage('home');return}const btn=$('bankUploadBtn'),status=$('bankStatus');btn.disabled=true;status.textContent='Uploading your selfie…';try{const ext=(f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';const path=playerKey+'.'+ext;const {error:upErr}=await supa.storage.from('bank-selfies').upload(path,f,{upsert:true,contentType:f.type||'image/jpeg',cacheControl:'3600'});if(upErr)throw upErr;const url=bankPublicUrl(path)+'?v='+Date.now();const {error:dbErr}=await supa.from('bank_selfies').upsert({player_key:playerKey,display_name:playerName,photo_path:path,photo_url:url,updated_at:new Date().toISOString()},{onConflict:'player_key'});if(dbErr)throw dbErr;status.textContent='💗 Your selfie is now in The Bank!';$('bankPhoto').value='';await loadBank()}catch(e){console.error(e);status.textContent='';alert('Your selfie could not be saved. Please try again.')}finally{btn.disabled=false}}
+
 syncScore();loadLeaderboard();loadWinnerHistory();loadChat();
+loadBank();
 refreshGameLobby();setInterval(()=>{if(DAY_KEY()!==today) location.reload()},60000);
 
 function wuFixWhereImages(){
