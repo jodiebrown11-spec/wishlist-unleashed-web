@@ -25,7 +25,7 @@
 @keyframes wishPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 
 </style>
-</head>
+<style id='wu-completed-style'>.wu-done{opacity:.58!important;filter:saturate(.55)}.wu-done::after{content:'✓ DONE TODAY';float:right;background:#ff1493;color:#fff;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:900}</style><style id='daily-game-status'>.wu-completed-today{opacity:.55;position:relative}.wu-completed-today::after{content:'✓ COMPLETED TODAY';display:block;margin-top:6px;color:#ff7abb;font-size:10px;font-weight:1000}</style></head>
 <body><main>
 <section class="hero"><div class="eyebrow">WISHLIST UNLEASHED</div><h1>DAILY <span class="pink">COMPETITION</span></h1><div class="tag">We Play. We Slay. We Stay.</div><div class="sub">Different minds • Different hearts • One family</div></section>
 <nav><button data-page="home" class="active">🏠 Home</button><button data-page="games">🎮 Games</button><button data-page="wish">💗 Make a Wish</button><button data-page="winner">🏆 Winner</button><button data-page="chat">💬 Chat</button></nav>
@@ -84,6 +84,28 @@
 <section id="bingo" class="game hidden"><button onclick="backGames()">← Games</button><h2>🎱 90-Ball Bingo</h2><p class="sub">Automatic caller • fast mode • no repeats • no leaderboard points</p><div class="callbox"><div id="bingoNumber" class="big">—</div><div id="bingoCall" class="calltext">Ready?</div><div id="bingoTimer" class="small">OFF</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="bingoStart()">▶ START</button><button onclick="bingoPause()">⏸ PAUSE</button><button onclick="bingoNext()">NEXT</button><button onclick="bingoNew()">↻ NEW GAME</button></div><div style="margin-top:10px"><button onclick="setBingoSpeed(1200)">⚡ FAST</button> <button onclick="setBingoSpeed(1800)">NORMAL</button></div><h3>Called Numbers</h3><div id="bingoBoard" class="bingo-board"></div><h3>Your Ticket</h3><div id="ticket" class="ticket"></div></section>
 </main>
 <script>
+const WU_DAY=()=>new Date().toLocaleDateString('en-GB',{year:'numeric',month:'2-digit',day:'2-digit'});
+function wuMemberId(){
+  let id=localStorage.getItem('wuMemberId');
+  if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'_'+Math.random());localStorage.setItem('wuMemberId',id)}
+  return id;
+}
+function wuAttemptKey(game){return 'wu_attempt_'+wuMemberId()+'_'+WU_DAY()+'_'+game}
+function wuHasPlayed(game){return localStorage.getItem(wuAttemptKey(game))==='1'}
+function wuStartGame(game){
+  if(wuHasPlayed(game)){alert('🏆 You have already played this game today. Come back tomorrow!');return false}
+  localStorage.setItem(wuAttemptKey(game),'1');
+  return true;
+}
+function wuMarkPlayed(game){localStorage.setItem(wuAttemptKey(game),'1')}
+
+
+
+
+function wuCompletedGames(){try{return JSON.parse(localStorage.getItem(wuCompletedKey())||'[]')}catch(e){return[]}}
+
+
+
 const SUPA_URL='https://gjqsewkoiwmhvvycmpid.supabase.co';
 const SUPA_KEY='sb_publishable_glvNQ9RP7bEQGMTwxrxMTQ_xUTbOGSX';
 const supa=window.supabase.createClient(SUPA_URL,SUPA_KEY);
@@ -152,7 +174,8 @@ const wheelBank=[
 ];
 let wheelUsed=[],wheelTimer=null,wheelLocked=false,wheelRaw=null;
 function wheelReset(){clearInterval(wheelTimer);wheelUsed=[];wheelLocked=false;$('wheelResult').textContent='SPIN!';$('wheelIcon').textContent='🎡';$('wheelChallenge').classList.add('hidden');$('wheelStatus').textContent='';$('wheelSpinBtn').disabled=false}
-function spinWheel(){if(wheelLocked)return;wheelLocked=true;$('wheelSpinBtn').disabled=true;let available=wheelBank.map((_,i)=>i).filter(i=>!wheelUsed.includes(i));if(!available.length){wheelUsed=[];available=wheelBank.map((_,i)=>i)}let chosen=available[seed(today+'wheel'+wheelUsed.length)%available.length];wheelUsed.push(chosen);let t=0,spin=setInterval(()=>{let c=wheelBank[Math.floor(Math.random()*wheelBank.length)];$('wheelIcon').textContent='🎯';$('wheelResult').textContent=c[0];if(++t>16){clearInterval(spin);wheelRaw=wheelBank[chosen];showWheelChallenge()}},70)}
+function spinWheel(){
+if(!wuStartGame('wheel'))return;if(wheelLocked)return;wheelLocked=true;$('wheelSpinBtn').disabled=true;let available=wheelBank.map((_,i)=>i).filter(i=>!wheelUsed.includes(i));if(!available.length){wheelUsed=[];available=wheelBank.map((_,i)=>i)}let chosen=available[seed(today+'wheel'+wheelUsed.length)%available.length];wheelUsed.push(chosen);let t=0,spin=setInterval(()=>{let c=wheelBank[Math.floor(Math.random()*wheelBank.length)];$('wheelIcon').textContent='🎯';$('wheelResult').textContent=c[0];if(++t>16){clearInterval(spin);wheelRaw=wheelBank[chosen];showWheelChallenge()}},70)}
 function showWheelChallenge(){let d=wheelRaw,opts=shuffle(d[2].map((x,i)=>({x,ok:i===d[3]})),today+'wheelanswer'+wheelUsed.length);$('wheelResult').textContent=d[0];$('wheelChallenge').classList.remove('hidden');$('wheelChallenge').innerHTML=`<h3>🎯 ${d[0]} CHALLENGE</h3><p>${d[1]}</p><div class="answers">${opts.map((o,i)=>`<button onclick="wheelAnswer(${i})">${esc(o.x)}</button>`).join('')}</div><div class="timer" id="wheelTimer">10</div>`;let left=10;clearInterval(wheelTimer);wheelTimer=setInterval(()=>{left--;$('wheelTimer').textContent=left;if(left<=0){clearInterval(wheelTimer);wheelLocked=false;$('wheelStatus').textContent='⏰ Time — 0 points';$('wheelSpinBtn').disabled=false}},1000);wheelRaw._opts=opts}
 function wheelAnswer(i){if(!wheelLocked)return;clearInterval(wheelTimer);let o=wheelRaw._opts[i],left=Number($('wheelTimer').textContent)||0;if(o?.ok){let pts=40+left*4;award(pts,'wheel');$('wheelStatus').textContent=`🎉 Correct! +${pts} points`}else{$('wheelStatus').textContent='❌ Wrong — 0 points'}wheelLocked=false;$('wheelSpinBtn').disabled=false}
 
@@ -191,4 +214,29 @@ async function sendChat(){let v=$('chatInput').value.trim();if(!v)return;let nam
 
 syncScore();loadLeaderboard();loadWinnerHistory();loadChat();
 setInterval(()=>{if(DAY_KEY()!==today) location.reload()},60000);
-</script></body></html>
+
+function wuFixWhereImages(){
+  document.querySelectorAll('img').forEach((img,i)=>{
+    if((img.alt||'').toLowerCase().includes('where') || (img.src||'').toLowerCase().includes('where')){
+      img.addEventListener('error',()=>{
+        img.style.display='none';
+        const box=img.parentElement;
+        if(box && !box.querySelector('.wu-img-fallback')){
+          const f=document.createElement('div');f.className='wu-img-fallback';
+          f.textContent='📍 Image unavailable — use the clues to identify the location.';
+          f.style.cssText='padding:28px;text-align:center;border:1px dashed #ff1493;border-radius:14px;color:#ffb5d8;font-weight:800';
+          box.appendChild(f);
+        }
+      },{once:true});
+    }
+  });
+}
+setTimeout(wuFixWhereImages,500);
+</script>
+<script>
+function wuDailySeed(){
+  const d=new Date();
+  return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+}
+</script>
+</body></html>
