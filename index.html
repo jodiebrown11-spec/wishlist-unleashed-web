@@ -31,13 +31,12 @@
 <nav><button data-page="home" class="active">🏠 Home</button><button data-page="games">🎮 Games</button><button data-page="wish">💗 Make a Wish</button><button data-page="winner">🏆 Winner</button><button data-page="chat">💬 Chat</button></nav>
 <section id="home" class="panel page"><h2>💗 Today's Competition</h2><p>Play the skill games, build your score and finish the day at the top.</p><div class="winnerbox"><b>🏆 DAILY PRIZE: £5 GIFT</b><p class="sub">Highest verified daily skill score wins. Competition resets automatically each day.</p></div><div class="scoreline"><span class="pill">📅 <b id="dayLabel"></b></span><span class="pill">🏆 My Score: <b id="myScore">0</b></span><span class="pill">🎮 Games: <b id="myGames">0</b></span></div><div style="margin-top:14px"><input id="nameInput" placeholder="Display name" style="width:70%;max-width:600px;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d0b10;color:white"><button class="primary" onclick="saveName()">SAVE NAME</button></div><h3>🏆 Today's Leaderboard</h3><div id="leaderboard"></div><div id="syncStatus" class="small">Connecting to live leaderboard…</div></section>
 <section id="games" class="panel page hidden"><h2>🎮 Game Lobby</h2><p class="sub">Every day gets a fresh challenge set. No duplicate questions inside the day's competition.</p><div class="grid">
-<div class="game-card"><div class="icon">🧠</div><h3>Brain Buster</h3><p>10 hard timed questions. Speed matters.</p><button class="primary" onclick="openGame('quiz')">PLAY</button></div>
-<div class="game-card"><div class="icon">🕵️</div><h3>Who Am I?</h3><p>Identify the person using as few clues as possible.</p><button class="primary" onclick="openGame('who')">PLAY</button></div>
-<div class="game-card"><div class="icon">🌍</div><h3>Where Am I?</h3><p>Real travel photos and increasingly revealing clues.</p><button class="primary" onclick="openGame('where')">PLAY</button></div>
-<div class="game-card"><div class="icon">🎡</div><h3>Mystery Wheel</h3><p>Spin a category, then beat a timed challenge.</p><button class="primary" onclick="openGame('wheel')">PLAY</button></div>
-<div class="game-card"><div class="icon">🔐</div><h3>Lock Challenge</h3><p>Three difficulty levels. Solve the lock before time runs out.</p><button class="primary" onclick="openGame('box')">PLAY</button></div>
-<div class="game-card"><div class="icon">⚡</div><h3>60-Second Challenge</h3><p>Rapid-fire hard questions. Chase a huge score.</p><button class="primary" onclick="openGame('sixty')">PLAY</button></div>
-<div class="game-card"><div class="icon">🎱</div><h3>90-Ball Bingo</h3><p>Fast automatic UK caller. Fun only — no skill points.</p><button class="primary" onclick="openGame('bingo')">PLAY</button></div>
+<div class="game-card"><div class="icon">🧠</div><h3>Brain Buster</h3><p>10 hard timed questions. Speed matters.</p><button class="primary" data-game="quiz" onclick="openGame('quiz')">PLAY</button></div>
+<div class="game-card"><div class="icon">🕵️</div><h3>Who Am I?</h3><p>Identify the person using as few clues as possible.</p><button class="primary" data-game="who" onclick="openGame('who')">PLAY</button></div>
+<div class="game-card"><div class="icon">🌍</div><h3>Where Am I?</h3><p>Real travel photos and increasingly revealing clues.</p><button class="primary" data-game="where" onclick="openGame('where')">PLAY</button></div>
+<div class="game-card"><div class="icon">🎡</div><h3>Mystery Wheel</h3><p>Spin a category, then beat a timed challenge.</p><button class="primary" data-game="wheel" onclick="openGame('wheel')">PLAY</button></div>
+<div class="game-card"><div class="icon">🔐</div><h3>Lock Challenge</h3><p>Three difficulty levels. Solve the lock before time runs out.</p><button class="primary" data-game="box" onclick="openGame('box')">PLAY</button></div>
+<div class="game-card"><div class="icon">⚡</div><h3>60-Second Challenge</h3><p>Rapid-fire hard questions. Chase a huge score.</p><button class="primary" data-game="sixty" onclick="openGame('sixty')">PLAY</button></div>
 </div></section>
 
 <section id="wish" class="panel page hidden">
@@ -81,28 +80,9 @@
 <section id="wheel" class="game hidden"><button onclick="backGames()">← Games</button><h2>🎡 Mystery Wheel</h2><div class="callbox wheel"><div><div id="wheelIcon" class="big">🎡</div><div id="wheelResult" class="result">SPIN!</div></div></div><button id="wheelSpinBtn" class="primary" style="width:100%;margin-top:12px" onclick="spinWheel()">SPIN THE WHEEL</button><div id="wheelChallenge" class="game-card hidden" style="margin-top:12px"></div><div id="wheelStatus" class="status"></div></section>
 <section id="box" class="game hidden"><button onclick="backGames()">← Games</button><h2>🔐 Lock Challenge</h2><p class="sub">Pick your difficulty. The harder the lock, the more it pays.</p><div id="boxes" class="grid"></div><div id="boxStatus" class="status"></div></section>
 <section id="sixty" class="game hidden"><button onclick="backGames()">← Games</button><h2>⚡ 60-Second Challenge</h2><div class="timer" id="sixtyTimer">60</div><div class="scoreline"><span class="pill">CORRECT <b id="sixtyScore">0</b></span><span class="pill">BONUS <b id="sixtyBonus">0</b></span></div><h3 id="sixtyQuestion">Press START</h3><div id="sixtyAnswers" class="answers"></div><button class="primary" id="sixtyStart" onclick="sixtyStart()">START</button><div id="sixtyStatus" class="status"></div></section>
-<section id="bingo" class="game hidden"><button onclick="backGames()">← Games</button><h2>🎱 90-Ball Bingo</h2><p class="sub">Automatic caller • fast mode • no repeats • no leaderboard points</p><div class="callbox"><div id="bingoNumber" class="big">—</div><div id="bingoCall" class="calltext">Ready?</div><div id="bingoTimer" class="small">OFF</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="bingoStart()">▶ START</button><button onclick="bingoPause()">⏸ PAUSE</button><button onclick="bingoNext()">NEXT</button><button onclick="bingoNew()">↻ NEW GAME</button></div><div style="margin-top:10px"><button onclick="setBingoSpeed(1200)">⚡ FAST</button> <button onclick="setBingoSpeed(1800)">NORMAL</button></div><h3>Called Numbers</h3><div id="bingoBoard" class="bingo-board"></div><h3>Your Ticket</h3><div id="ticket" class="ticket"></div></section>
+
 </main>
 <script>
-const WU_DAY=()=>new Date().toLocaleDateString('en-GB',{year:'numeric',month:'2-digit',day:'2-digit'});
-function wuMemberId(){
-  let id=localStorage.getItem('wuMemberId');
-  if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'_'+Math.random());localStorage.setItem('wuMemberId',id)}
-  return id;
-}
-function wuAttemptKey(game){return 'wu_attempt_'+wuMemberId()+'_'+WU_DAY()+'_'+game}
-function wuHasPlayed(game){return localStorage.getItem(wuAttemptKey(game))==='1'}
-function wuStartGame(game){
-  if(wuHasPlayed(game)){alert('🏆 You have already played this game today. Come back tomorrow!');return false}
-  localStorage.setItem(wuAttemptKey(game),'1');
-  return true;
-}
-function wuMarkPlayed(game){localStorage.setItem(wuAttemptKey(game),'1')}
-
-
-
-
-function wuCompletedGames(){try{return JSON.parse(localStorage.getItem(wuCompletedKey())||'[]')}catch(e){return[]}}
 
 
 
@@ -113,6 +93,11 @@ const $=id=>document.getElementById(id);
 const DAY_KEY=()=>{const d=new Date();return d.toISOString().slice(0,10)};
 const today=DAY_KEY();$('dayLabel').textContent=today;
 let playerKey=localStorage.wuPlayerKey||(crypto.randomUUID?crypto.randomUUID():'p-'+Date.now()+'-'+Math.random());localStorage.wuPlayerKey=playerKey;
+function wuAttemptKey(game){return 'wu_play_'+playerKey+'_'+today+'_'+game}
+function wuHasPlayed(game){return localStorage.getItem(wuAttemptKey(game))==='1'}
+function wuStartGame(game){if(wuHasPlayed(game)){alert('🏆 You have already played this game today. Come back tomorrow!');return false}localStorage.setItem(wuAttemptKey(game),'1');refreshGameLobby();return true}
+function refreshGameLobby(){document.querySelectorAll('[data-game]').forEach(btn=>{const game=btn.dataset.game;const done=wuHasPlayed(game);btn.disabled=done;btn.textContent=done?'✓ COMPLETED TODAY':'PLAY';btn.classList.toggle('wu-done',done)})}
+
 let playerName=localStorage.wuName||'';$('nameInput').value=playerName;
 let myScore=Number(localStorage.wuScore||0),myGames=Number(localStorage.wuGames||0),scoreLocked={};
 if(localStorage.wuScoreDate!==today){myScore=0;myGames=0;localStorage.wuScore='0';localStorage.wuGames='0';localStorage.wuScoreDate=today}
@@ -128,7 +113,7 @@ function award(points,gameKey){if(scoreLocked[gameKey])return false;scoreLocked[
 function playCount(gameKey){if(scoreLocked[gameKey])return false;scoreLocked[gameKey]=true;myGames++;$('myGames').textContent=myGames;syncScore();return true}
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
-function openGame(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));document.querySelectorAll('.game').forEach(g=>g.classList.add('hidden'));$(id).classList.remove('hidden');if(id==='quiz')quizNew();if(id==='who')whoNew();if(id==='where')whereNew();if(id==='box')boxNew();if(id==='wheel')wheelReset();if(id==='sixty')sixtyReset();if(id==='bingo')bingoNew()}
+function openGame(id){if(!wuStartGame(id))return;document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));document.querySelectorAll('.game').forEach(g=>g.classList.add('hidden'));$(id).classList.remove('hidden');if(id==='quiz')quizNew();if(id==='who')whoNew();if(id==='where')whereNew();if(id==='box')boxNew();if(id==='wheel')wheelReset();if(id==='sixty')sixtyReset()}
 function backGames(){document.querySelectorAll('.game').forEach(g=>g.classList.add('hidden'));showPage('games')}
 
 const quizBank=[
@@ -157,7 +142,7 @@ function whoAnswer(i){if(whoAnswered)return;whoAnswered=true;let d=whoDeck[whoI]
 const whereBank=[
 ['Paris','https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1400&q=85',['My famous iron landmark was built for a world fair in 1889.','A river divides much of my historic centre.','A palace-turned-museum here holds the Mona Lisa.','Notre-Dame stands on an island in my river.','My cafés and boulevards are world famous.','I am the capital of France.'],['Paris','Brussels','Milan','Lyon']],
 ['New York','https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1400&q=85',['My skyline rises beside one of the world’s famous rivers and bays.','Central Park sits in my most famous island borough.','A green statue welcomes visitors in my harbour.','Broadway theatres are found in my Midtown area.','I am nicknamed the Big Apple.','I am a major US city.'],['New York','Chicago','Boston','Toronto']],
-['Sydney','https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d5?auto=format&fit=crop&w=1400&q=85',['My most recognisable building has roof shells like sails.','A huge natural harbour shapes my city.','My Harbour Bridge is a famous steel arch.','Bondi is one of my best-known beaches.','I am on Australia’s east coast.','I am the capital of New South Wales.'],['Sydney','Auckland','Melbourne','Perth']],
+['Sydney','https://images.unsplash.com/photo-1556089309-389321ee92d9?auto=format&fit=crop&w=1400&q=85',['My most recognisable building has roof shells like sails.','A huge natural harbour shapes my city.','My Harbour Bridge is a famous steel arch.','Bondi is one of my best-known beaches.','I am on Australia’s east coast.','I am the capital of New South Wales.'],['Sydney','Auckland','Melbourne','Perth']],
 ['Rome','https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1400&q=85',['An ancient amphitheatre here once hosted huge crowds.','A tiny independent country lies inside my urban area.','The Tiber runs through me.','Trevi Fountain is a famous landmark.','I was central to a huge ancient empire.','I am the capital of Italy.'],['Rome','Athens','Naples','Florence']],
 ['Cape Town','https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1400&q=85',['A flat-topped mountain dominates my skyline.','I sit beside both mountain and ocean landscapes.','Robben Island lies offshore.','The Cape of Good Hope is nearby.','I am one of South Africa’s capital cities.','My city begins with Cape.'],['Cape Town','Durban','Nairobi','Maputo']],
 ['Tokyo','https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1400&q=85',['I am one of the world’s largest metropolitan areas.','A famous crossing is surrounded by giant screens and crowds.','Mount Fuji is visible from some viewpoints outside my centre.','The Shibuya district is internationally famous.','I am on Honshu.','I am the capital of Japan.'],['Tokyo','Seoul','Osaka','Kyoto']],
@@ -166,7 +151,7 @@ const whereBank=[
 ];
 let whereDeck=[],whereI=0,whereClue=0,wherePts=0,whereAnswered=false;
 function whereNew(){if(!whereDeck.length){whereDeck=dailyPick(whereBank,5,'where')}whereI=5-whereDeck.length;whereClue=0;whereAnswered=false;whereRender()}
-function whereRender(){if(!whereDeck.length){award(wherePts,'where');$('whereStatus').textContent=`🏆 COMPLETE — ${wherePts} points`;return}let d=whereDeck[0];$('whereRound').textContent=(5-whereDeck.length)+1;$('whereClue').textContent=whereClue+1;$('whereScore').textContent=wherePts;$('wherePhoto').src=d[1];$('whereClues').innerHTML=d[2].map((c,i)=>`<div class="clue ${i>whereClue?'locked':''}">${i<=whereClue?c:'Clue locked — reveal it'}</div>`).join('');$('whereAnswers').innerHTML=d[3].map(x=>`<button onclick="whereAnswer('${x.replace(/'/g,"\\'")}')">${esc(x)}</button>`).join('');$('whereStatus').textContent='';whereAnswered=false}
+function whereRender(){if(!whereDeck.length){award(wherePts,'where');$('whereStatus').textContent=`🏆 COMPLETE — ${wherePts} points`;return}let d=whereDeck[0];$('whereRound').textContent=(5-whereDeck.length)+1;$('whereClue').textContent=whereClue+1;$('whereScore').textContent=wherePts;$('wherePhoto').src=d[1]+(d[1].includes('?')?'&':'?')+'day='+today;$('whereClues').innerHTML=d[2].map((c,i)=>`<div class="clue ${i>whereClue?'locked':''}">${i<=whereClue?c:'Clue locked — reveal it'}</div>`).join('');$('whereAnswers').innerHTML=d[3].map(x=>`<button onclick="whereAnswer('${x.replace(/'/g,"\\'")}')">${esc(x)}</button>`).join('');$('whereStatus').textContent='';whereAnswered=false}
 function whereAnswer(x){if(whereAnswered)return;whereAnswered=true;let d=whereDeck[0],ok=x===d[0];if(ok){let gain=[100,80,60,40,20,10][whereClue];wherePts+=gain;$('whereStatus').textContent=`📍 Correct! +${gain} points`}else{$('whereStatus').textContent='❌ Wrong — another clue unlocked'};if(ok||whereClue>=5){setTimeout(()=>{whereDeck.shift();whereNew()},700)}else{setTimeout(()=>{whereClue++;whereAnswered=false;whereRender()},400)}}
 
 const wheelBank=[
@@ -175,7 +160,7 @@ const wheelBank=[
 let wheelUsed=[],wheelTimer=null,wheelLocked=false,wheelRaw=null;
 function wheelReset(){clearInterval(wheelTimer);wheelUsed=[];wheelLocked=false;$('wheelResult').textContent='SPIN!';$('wheelIcon').textContent='🎡';$('wheelChallenge').classList.add('hidden');$('wheelStatus').textContent='';$('wheelSpinBtn').disabled=false}
 function spinWheel(){
-if(!wuStartGame('wheel'))return;if(wheelLocked)return;wheelLocked=true;$('wheelSpinBtn').disabled=true;let available=wheelBank.map((_,i)=>i).filter(i=>!wheelUsed.includes(i));if(!available.length){wheelUsed=[];available=wheelBank.map((_,i)=>i)}let chosen=available[seed(today+'wheel'+wheelUsed.length)%available.length];wheelUsed.push(chosen);let t=0,spin=setInterval(()=>{let c=wheelBank[Math.floor(Math.random()*wheelBank.length)];$('wheelIcon').textContent='🎯';$('wheelResult').textContent=c[0];if(++t>16){clearInterval(spin);wheelRaw=wheelBank[chosen];showWheelChallenge()}},70)}
+if(wheelLocked)return;wheelLocked=true;$('wheelSpinBtn').disabled=true;let available=wheelBank.map((_,i)=>i).filter(i=>!wheelUsed.includes(i));if(!available.length){wheelUsed=[];available=wheelBank.map((_,i)=>i)}let chosen=available[seed(today+'wheel'+wheelUsed.length)%available.length];wheelUsed.push(chosen);let t=0,spin=setInterval(()=>{let c=wheelBank[Math.floor(Math.random()*wheelBank.length)];$('wheelIcon').textContent='🎯';$('wheelResult').textContent=c[0];if(++t>16){clearInterval(spin);wheelRaw=wheelBank[chosen];showWheelChallenge()}},70)}
 function showWheelChallenge(){let d=wheelRaw,opts=shuffle(d[2].map((x,i)=>({x,ok:i===d[3]})),today+'wheelanswer'+wheelUsed.length);$('wheelResult').textContent=d[0];$('wheelChallenge').classList.remove('hidden');$('wheelChallenge').innerHTML=`<h3>🎯 ${d[0]} CHALLENGE</h3><p>${d[1]}</p><div class="answers">${opts.map((o,i)=>`<button onclick="wheelAnswer(${i})">${esc(o.x)}</button>`).join('')}</div><div class="timer" id="wheelTimer">10</div>`;let left=10;clearInterval(wheelTimer);wheelTimer=setInterval(()=>{left--;$('wheelTimer').textContent=left;if(left<=0){clearInterval(wheelTimer);wheelLocked=false;$('wheelStatus').textContent='⏰ Time — 0 points';$('wheelSpinBtn').disabled=false}},1000);wheelRaw._opts=opts}
 function wheelAnswer(i){if(!wheelLocked)return;clearInterval(wheelTimer);let o=wheelRaw._opts[i],left=Number($('wheelTimer').textContent)||0;if(o?.ok){let pts=40+left*4;award(pts,'wheel');$('wheelStatus').textContent=`🎉 Correct! +${pts} points`}else{$('wheelStatus').textContent='❌ Wrong — 0 points'}wheelLocked=false;$('wheelSpinBtn').disabled=false}
 
@@ -196,13 +181,6 @@ function siRender(){if(siI>=siDeck.length){siFinish();return}let raw=siDeck[siI]
 function siAnswer(i){if(siAnswered)return;siAnswered=true;let o=siDeck._opts[i];if(o?.ok){siCorrect++;let speed=Math.max(0,Math.round(5-(Date.now()-siStartTime)/1000/2));siBonus+=speed}siI++;$('sixtyScore').textContent=siCorrect;$('sixtyBonus').textContent=siBonus;setTimeout(siRender,120)}
 function siFinish(){if(!siDeck.length)return;clearInterval(siTimer);let pts=siCorrect*12+siBonus;award(pts,'sixty');$('sixtyQuestion').textContent='🏆 TIME!';$('sixtyAnswers').innerHTML='';$('sixtyStatus').textContent=`Final score: ${pts} points (${siCorrect} correct + ${siBonus} speed bonus)`;$('sixtyStart').disabled=false;siDeck=[]}
 
-let balls=[],called=[],bingoTimer=null,bingoDelay=1200,ticket=[];
-const bingoCalls={1:'Kelly’s eye',2:'Two little ducks',3:'Cup of tea',4:'Knock at the door',5:'Man alive',6:'Half a dozen',7:'Lucky seven',8:'Garden gate',9:'Doctor’s orders',10:'Number ten',11:'Legs eleven',12:'One dozen',13:'Unlucky for some',14:'Valentine’s Day',15:'Young and keen',16:'Sweet sixteen',17:'Dancing queen',18:'Coming of age',19:'Goodbye teens',20:'One score',22:'Two little ducks',33:'Dirty knees',44:'Droopy drawers',55:'Snakes alive',66:'Clickety click',77:'Sunset strip',88:'Two fat ladies',90:'Top of the shop'};
-function bingoNew(){clearInterval(bingoTimer);balls=Array.from({length:90},(_,i)=>i+1);called=[];ticket=[];for(let r=0;r<3;r++){let row=[];while(row.length<5){let n=1+Math.floor(Math.random()*90);if(!row.includes(n))row.push(n)}ticket.push(row.sort((a,b)=>a-b))}$('bingoNumber').textContent='—';$('bingoCall').textContent='Ready?';$('bingoTimer').textContent='OFF';bingoRender();ticketRender()}
-function bingoRender(){$('bingoBoard').innerHTML=Array.from({length:90},(_,i)=>{let n=i+1;return`<div class="ball ${called.includes(n)?'called':''} ${called.at(-1)===n?'latest':''}">${n}</div>`}).join('')}
-function bingoNext(){if(!balls.length){clearInterval(bingoTimer);$('bingoCall').textContent='🏆 ALL 90 CALLED';return}let n=balls.splice(Math.floor(Math.random()*balls.length),1)[0];called.push(n);$('bingoNumber').textContent=n;$('bingoCall').textContent=bingoCalls[n]||`Number ${n}`;$('bingoTimer').textContent='ON';bingoRender();let t=document.querySelector('#t'+n);if(t)t.classList.add('hit')}
-function bingoStart(){clearInterval(bingoTimer);bingoNext();bingoTimer=setInterval(bingoNext,bingoDelay)}function bingoPause(){clearInterval(bingoTimer);$('bingoTimer').textContent='PAUSED'}function setBingoSpeed(ms){bingoDelay=ms;if(bingoTimer)bingoStart()}
-function ticketRender(){$('ticket').innerHTML=ticket.flat().map(n=>`<span id="t${n}">${n}</span>`).join('')}
 
 async function loadWinnerHistory(){try{const start=new Date();start.setDate(start.getDate()-14);const {data,error}=await supa.from('daily_scores').select('competition_date,display_name,points').gte('competition_date',start.toISOString().slice(0,10)).order('competition_date',{ascending:false}).order('points',{ascending:false});if(error)throw error;const seen=new Set(),rows=[];for(const r of (data||[])){if(!seen.has(r.competition_date)){seen.add(r.competition_date);rows.push(r)}}$('winnerHistory').innerHTML=rows.length?rows.map((r,i)=>`<div class=\"game-card\"><b>🏆 ${r.competition_date}</b><div style=\"font-size:20px;margin-top:7px\">${esc(r.display_name)}</div><div class=\"leader-points\">${r.points} pts • £5 gift</div></div>`).join(''):'<div class=\"game-card\">No completed days yet.</div>'}catch(e){$('winnerHistory').innerHTML='<div class=\"game-card\">Winner history will appear when the leaderboard is connected.</div>'}}
 function renderChatMessage(m){let d=document.createElement('div');d.style.padding='9px';let b=document.createElement('b');b.textContent=(m.display_name||'Guest')+': ';d.appendChild(b);d.appendChild(document.createTextNode(m.message||''));d.dataset.chatId=m.id;return d}
@@ -213,25 +191,19 @@ function subscribeChat(){if(chatChannel)supa.removeChannel(chatChannel);chatChan
 async function sendChat(){let v=$('chatInput').value.trim();if(!v)return;let name=(playerName||'Guest').slice(0,40);try{const {data,error}=await supa.from('chat_messages').insert({display_name:name,message:v,player_id:null,game_id:null}).select('id,display_name,message,created_at').single();if(error)throw error;$('chatInput').value='';appendChatMessage(data)}catch(e){$('chatInput').value=v;alert('Message could not be sent. Please try again.')}}
 
 syncScore();loadLeaderboard();loadWinnerHistory();loadChat();
-setInterval(()=>{if(DAY_KEY()!==today) location.reload()},60000);
+refreshGameLobby();setInterval(()=>{if(DAY_KEY()!==today) location.reload()},60000);
 
 function wuFixWhereImages(){
-  document.querySelectorAll('img').forEach((img,i)=>{
-    if((img.alt||'').toLowerCase().includes('where') || (img.src||'').toLowerCase().includes('where')){
-      img.addEventListener('error',()=>{
-        img.style.display='none';
-        const box=img.parentElement;
-        if(box && !box.querySelector('.wu-img-fallback')){
-          const f=document.createElement('div');f.className='wu-img-fallback';
-          f.textContent='📍 Image unavailable — use the clues to identify the location.';
-          f.style.cssText='padding:28px;text-align:center;border:1px dashed #ff1493;border-radius:14px;color:#ffb5d8;font-weight:800';
-          box.appendChild(f);
-        }
-      },{once:true});
-    }
-  });
+  const img=$('wherePhoto');
+  if(!img)return;
+  img.onerror=()=>{
+    if(img.dataset.retry==='1')return;
+    img.dataset.retry='1';
+    img.src='https://images.unsplash.com/photo-1538168407380-1d74b45cf8ad?auto=format&fit=crop&w=1400&q=85';
+  };
 }
-setTimeout(wuFixWhereImages,500);
+setTimeout(wuFixWhereImages,300);
+
 </script>
 <script>
 function wuDailySeed(){
